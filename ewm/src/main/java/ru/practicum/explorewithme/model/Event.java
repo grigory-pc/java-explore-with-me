@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import ru.practicum.explorewithme.admin.users.model.User;
-import ru.practicum.explorewithme.model.Category;
 import ru.practicum.explorewithme.dto.State;
 
 import javax.persistence.*;
