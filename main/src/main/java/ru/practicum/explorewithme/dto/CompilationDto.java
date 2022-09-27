@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,5 +21,5 @@ public class CompilationDto {
     @NotBlank
     private String pinned;
     private String title;
-    private List<EventFullDto> events;
+    private List<EventFullDto> events = new ArrayList<>();
 }
