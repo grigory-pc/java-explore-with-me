@@ -9,7 +9,7 @@ import java.util.List;
  * Маппер между объектами Category и CategoryDto
  */
 public interface CategoryMapper {
-    Category toCompilation(CategoryDto dto);
+    Category toCategory(CategoryDto dto);
 
     CategoryDto toDto(Category category);
 

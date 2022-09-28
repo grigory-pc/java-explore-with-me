@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class UpdateEventRequestDto {
     private long id;
     private String annotation;
-    private long category;
+    private long categoryId;
     private String description;
     private LocalDateTime eventDate;
     @NotNull

@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class ParticipationRequestDto {
     private long id;
     private LocalDateTime created;
-    private long event;
-    private long requester;
+    private long eventId;
+    private long requesterId;
     private String status;
 }

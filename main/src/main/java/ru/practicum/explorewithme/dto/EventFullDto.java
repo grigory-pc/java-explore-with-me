@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import ru.practicum.explorewithme.model.Category;
+import ru.practicum.explorewithme.model.User;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -19,13 +21,13 @@ import java.time.LocalDateTime;
 public class EventFullDto {
     private long id;
     private String annotation;
-    private CategoryDto categoryDto;
+    private Category category;
     private int confirmedRequests;
     private LocalDateTime createdOn;
     private String description;
     @NotNull
     private LocalDateTime eventDate;
-    private UserShortDto initiator;
+    private User initiator;
     @NotBlank
     private String paid;
     private int participantLimit;

@@ -1,7 +1,7 @@
 package ru.practicum.explorewithme;
 
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.exception.ValidationException;
+import ru.practicum.explorewithme.exception.ValidationException;
 
 @Service
 public class Validation {

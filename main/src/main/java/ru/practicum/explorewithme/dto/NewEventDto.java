@@ -20,7 +20,7 @@ public class NewEventDto {
     private long id;
     @NotBlank
     private String annotation;
-    private long category;
+    private long categoryId;
     @NotBlank
     private String description;
     @NotNull
