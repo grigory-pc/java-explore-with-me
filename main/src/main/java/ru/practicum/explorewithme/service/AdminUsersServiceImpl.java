@@ -20,7 +20,7 @@ public class AdminUsersServiceImpl implements AdminUsersService {
     private final UserRepository userRepository;
 
     @Override
-    public List<UserDto> getAllUsersByUserIdList(List<Long> userId, int from, int size) {
+    public List<UserDto> getUsersByIds(List<Long> userId, int from, int size) {
         return null;
     }
 
@@ -30,7 +30,7 @@ public class AdminUsersServiceImpl implements AdminUsersService {
     }
 
     @Override
-    public void deleteUserByUserId(long userId) {
+    public void deleteUserById(long userId) {
 
     }
 }

@@ -3,7 +3,6 @@ package ru.practicum.explorewithme.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.dto.AdminUpdateEventRequestDto;
-import ru.practicum.explorewithme.dto.CategoryDto;
 import ru.practicum.explorewithme.dto.EventFullDto;
 import ru.practicum.explorewithme.dto.State;
 import ru.practicum.explorewithme.service.AdminEventService;
@@ -59,7 +58,7 @@ public class AdminEventController {
     /**
      * Публикация события Администратором
      *
-     * @param eventId объекта подборки
+     * @param eventId объекта события
      */
     @PatchMapping("/{eventId}/publish")
     public EventFullDto publishEventByAdmin(@PathVariable long eventId) {
@@ -69,7 +68,7 @@ public class AdminEventController {
     /**
      * Отклонение публикации события Администратором
      *
-     * @param eventId объекта подборки
+     * @param eventId объекта события
      */
     @PatchMapping("/{eventId}/reject")
     public EventFullDto rejectEventByAdmin(@PathVariable long eventId) {

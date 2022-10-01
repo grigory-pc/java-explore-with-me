@@ -8,9 +8,9 @@ import java.util.List;
  * Интерфейс для сервиса пользователей для Администратора
  */
 public interface AdminUsersService {
-    List<UserDto> getAllUsersByUserIdList(List<Long> userId, int from, int size);
+    List<UserDto> getUsersByIds(List<Long> userId, int from, int size);
 
     UserDto addNewUser(UserDto userDto);
 
-    void deleteUserByUserId(long userId);
+    void deleteUserById(long userId);
 }
