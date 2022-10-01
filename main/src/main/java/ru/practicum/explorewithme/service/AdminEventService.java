@@ -16,5 +16,5 @@ public interface AdminEventService {
 
     AdminUpdateEventRequestDto updateEventByAdmin(AdminUpdateEventRequestDto adminUpdateEventRequestDto, long eventId);
 
-    EventFullDto updateStateOfEventByAdmin(long eventId);
+    EventFullDto updateStateOfEventByAdmin(long eventId, boolean publish);
 }

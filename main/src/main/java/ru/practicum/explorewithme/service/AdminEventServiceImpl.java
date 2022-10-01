@@ -35,7 +35,7 @@ public class AdminEventServiceImpl implements AdminEventService {
     }
 
     @Override
-    public EventFullDto updateStateOfEventByAdmin(long eventId) {
+    public EventFullDto updateStateOfEventByAdmin(long eventId, boolean publish) {
         return null;
     }
 }
