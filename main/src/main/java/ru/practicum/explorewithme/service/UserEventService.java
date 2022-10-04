@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserEventService {
     List<EventShortDto> getAllEventsByUserId(long userId, int from, int size);
 
-    UpdateEventRequestDto patchEventByUserId(UpdateEventRequestDto updateEventRequestDto, long userId);
+    UpdateEventRequestDto patchEventByUser(UpdateEventRequestDto updateEventRequestDto, long userId);
 
     NewEventDto addNewEventByUser(NewEventDto newEventDto, long userId);
 
@@ -20,5 +20,6 @@ public interface UserEventService {
 
     List<ParticipationRequestDto> getAllParticipationRequestByUserIdAndEventId(long userId, long eventId);
 
-    ParticipationRequestDto updateParticipationRequest(long userId, long eventId, long requestId);
+    ParticipationRequestDto confirmationParticipationRequest(long userId, long eventId, long requestId,
+                                                             boolean confirmation);
 }

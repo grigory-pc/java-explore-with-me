@@ -29,12 +29,12 @@ public class UserRequestServiceImpl implements UserRequestService {
     }
 
     @Override
-    public ParticipationRequestDto addNewEventRequest(long userId, long eventId) {
+    public ParticipationRequestDto addNewEventRequest(ParticipationRequestDto participationRequestDto, long userId) {
         return null;
     }
 
     @Override
-    public ParticipationRequestDto cancelEventRequest(long userId, long eventId) {
+    public ParticipationRequestDto cancelEventRequest(long reqId, long userId) {
         return null;
     }
 }

@@ -8,7 +8,6 @@ import ru.practicum.explorewithme.dto.EventFullDto;
 import ru.practicum.explorewithme.dto.EventShortDto;
 import ru.practicum.explorewithme.repository.EventRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -21,10 +20,11 @@ import java.util.List;
 public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
 
+
     @Override
-    public List<EventShortDto> searchEventByTextAndParameters(String text, List<Long> categoryId, String paid,
-                                                              LocalDateTime rangeStart, LocalDateTime rangeEnd,
-                                                              String onlyAvailable, String sort, int from, int size) {
+    public List<EventShortDto> getAllEventsByParameters(String text, List<Long> categoryId, String paid,
+                                                        String rangeStart, String rangeEnd, String onlyAvailable,
+                                                        String sort, int from, int size) {
         return null;
     }
 

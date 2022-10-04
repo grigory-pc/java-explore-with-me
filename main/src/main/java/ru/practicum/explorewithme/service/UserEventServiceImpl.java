@@ -29,7 +29,7 @@ public class UserEventServiceImpl implements UserEventService {
     }
 
     @Override
-    public UpdateEventRequestDto patchEventByUserId(UpdateEventRequestDto updateEventRequestDto, long userId) {
+    public UpdateEventRequestDto patchEventByUser(UpdateEventRequestDto updateEventRequestDto, long userId) {
         return null;
     }
 
@@ -54,7 +54,8 @@ public class UserEventServiceImpl implements UserEventService {
     }
 
     @Override
-    public ParticipationRequestDto updateParticipationRequest(long userId, long eventId, long requestId) {
+    public ParticipationRequestDto confirmationParticipationRequest(long userId, long eventId, long requestId,
+                                                              boolean confirmation) {
         return null;
     }
 }
