@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.dto.CategoryDto;
+import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.mapper.CategoryMapper;
 import ru.practicum.explorewithme.model.Category;
 import ru.practicum.explorewithme.repository.CategoryRepository;
@@ -28,7 +29,7 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     public CategoryDto updateCategory(CategoryDto categoryDto) {
         log.info("Получен запрос на обновление категории: " + categoryDto.getId());
 
-        Category categoryForUpdate = categoryRepository.findById(categoryDto.getId());
+        Category categoryForUpdate = getCategory(categoryDto.getId());
         categoryMapper.updateCategoryFromDto(categoryDto, categoryForUpdate);
         Category updatedCategory = categoryRepository.save(categoryForUpdate);
 
@@ -49,6 +50,15 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     public void deleteCategoryById(long categoryId) {
         log.info("Получен запрос на удаление категории id = " + categoryId);
 
+        getCategory(categoryId);
+
         categoryRepository.deleteById(categoryId);
+    }
+
+    private Category getCategory(long categoryId) {
+        if (categoryRepository.findById(categoryId) == null) {
+            throw new NotFoundException("категория не найдена");
+        }
+        return categoryRepository.findById(categoryId);
     }
 }
