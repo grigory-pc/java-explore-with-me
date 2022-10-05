@@ -5,6 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.dto.CompilationDto;
+import ru.practicum.explorewithme.mapper.CategoryMapper;
+import ru.practicum.explorewithme.mapper.CompilationMapper;
+import ru.practicum.explorewithme.model.Category;
+import ru.practicum.explorewithme.model.Compilation;
 import ru.practicum.explorewithme.repository.CompilationRepository;
 
 /**
@@ -16,16 +20,22 @@ import ru.practicum.explorewithme.repository.CompilationRepository;
 @Transactional(readOnly = true)
 public class AdminCompilationServiceImpl implements AdminCompilationService {
     private final CompilationRepository compilationRepository;
+    private final CompilationMapper compilationMapper;
 
     @Override
     public CompilationDto addNewCompilation(CompilationDto compilationDto) {
+        log.info("Получен запрос на добавление подборки:" + compilationDto.getTitle());
 
-        return null;
+        Compilation compilationForSave = compilationMapper.toCompilation(compilationDto);
+
+        return compilationMapper.toDto(compilationRepository.save(compilationForSave));
     }
 
     @Override
     public void deleteCompilationById(long compilationId) {
+        log.info("Получен запрос на удаление подборки id = " + compilationId);
 
+        compilationRepository.deleteById(compilationId);
     }
 
     @Override
