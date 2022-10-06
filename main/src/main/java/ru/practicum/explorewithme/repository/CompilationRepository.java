@@ -8,4 +8,5 @@ import ru.practicum.explorewithme.model.Compilation;
  * Интерфейс для хранения объектов подборок
  */
 public interface CompilationRepository extends JpaRepository<Compilation, Long>, CrudRepository<Compilation, Long> {
+    Compilation findById(long compId);
 }

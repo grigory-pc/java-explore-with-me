@@ -23,7 +23,7 @@ public interface EventMapper {
 
     List<EventShortDto> toShortDto(Iterable<Event> event);
 
-    List<EventFullDto> toDto(Iterable<Event> item);
+    List<EventFullDto> toFullDto(Iterable<Event> event);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEventFromDto(UpdateEventRequestDto updateEventRequestDto, @MappingTarget Event event);

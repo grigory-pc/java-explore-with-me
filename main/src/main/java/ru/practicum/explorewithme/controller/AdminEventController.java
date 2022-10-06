@@ -26,7 +26,6 @@ public class AdminEventController {
      * @param category   список категорий
      * @param rangeStart нижний диапазон даты поиска
      * @param rangeEnd   верхний диапазон даты поиска
-     * @param sort       сортировка
      * @param from       с какого id объекта начинать поиск
      * @param size       максимальное количество возвращаемых записей
      * @return список объектов событий
@@ -37,10 +36,9 @@ public class AdminEventController {
                                            @RequestParam List<Long> category,
                                            @RequestParam String rangeStart,
                                            @RequestParam String rangeEnd,
-                                           @RequestParam String sort,
                                            @RequestParam(defaultValue = "0") int from,
                                            @RequestParam(defaultValue = "10") int size) {
-        return adminEventService.getAllEventsByParameters(user, state, category, rangeStart, rangeEnd, sort, from, size);
+        return adminEventService.getAllEventsByParameters(user, state, category, rangeStart, rangeEnd, from, size);
     }
 
     /**

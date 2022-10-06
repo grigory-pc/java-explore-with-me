@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface AdminEventService {
     List<EventFullDto> getAllEventsByParameters(List<Long> userId, List<State> states, List<Long> categoryId,
-                                                String rangeStart, String rangeEnd, String sort, int from, int size);
+                                                String rangeStart, String rangeEnd, int from, int size);
 
     AdminUpdateEventRequestDto updateEventByAdmin(AdminUpdateEventRequestDto adminUpdateEventRequestDto, long eventId);
 

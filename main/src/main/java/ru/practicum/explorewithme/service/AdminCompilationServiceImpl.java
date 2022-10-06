@@ -41,12 +41,15 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
     public void deleteCompilationById(long compilationId) {
         log.info("Получен запрос на удаление подборки id = " + compilationId);
 
+        getCompilation(compilationId);
+
         compilationRepository.deleteById(compilationId);
     }
 
     @Override
     public void deleteEventByIdFromCompilation(long compilationId, long eventId) {
         log.info("Получен запрос на удаление события id: " + eventId + " в подборке id: " + compilationId);
+        getCompilation(compilationId);
 
         compilationEventRepository.deleteByIdIn(List.of(compilationId, eventId));
     }
@@ -60,22 +63,19 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
 
     @Override
     public void updatePinnedOfCompilation(long compilationId, boolean pinned) {
-
-//        Compilation compilationForSave = compilationRepository.findById(compilationId);
+        Compilation compilationForSave = getCompilation(compilationId);
 
         if (pinned) {
             compilationForSave.setPinned("true");
         } else {
             compilationForSave.setPinned("false");
         }
-
     }
 
     private Compilation getCompilation(long compilationId) {
         if (compilationRepository.findById(compilationId) == null) {
             throw new NotFoundException("подборка не найдена");
         }
-
         return compilationRepository.findById(compilationId);
     }
 }
