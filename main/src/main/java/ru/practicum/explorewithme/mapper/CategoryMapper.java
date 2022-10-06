@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.mapper;
 
 import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import ru.practicum.explorewithme.dto.CategoryDto;
@@ -13,6 +14,7 @@ import java.util.List;
 /**
  * Маппер между объектами Category и CategoryDto
  */
+@Mapper(componentModel = "spring")
 public interface CategoryMapper {
     Category toCategory(CategoryDto dto);
 
