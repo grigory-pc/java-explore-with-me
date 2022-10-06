@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.dto.CategoryDto;
 import ru.practicum.explorewithme.service.AdminCategoryService;
 
+import javax.validation.Valid;
+
 /**
  * Основной контроллер для работы Администратора с категориями
  */
@@ -20,7 +22,7 @@ public class AdminCategoryController {
      * @return возвращает обновленный объект категории
      */
     @PatchMapping
-    public CategoryDto updateCategory(@RequestBody CategoryDto categoryDto) {
+    public CategoryDto updateCategory(@Valid @RequestBody CategoryDto categoryDto) {
         return adminCategoryService.updateCategory(categoryDto);
     }
 
@@ -30,7 +32,7 @@ public class AdminCategoryController {
      * @return возвращает добавленный объект категории с id
      */
     @PostMapping
-    public CategoryDto addNewCategory(@RequestBody CategoryDto categoryDto) {
+    public CategoryDto addNewCategory(@Valid @RequestBody CategoryDto categoryDto) {
         return adminCategoryService.addNewCategory(categoryDto);
     }
 

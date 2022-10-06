@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.dto.CompilationDto;
 import ru.practicum.explorewithme.service.AdminCompilationService;
 
+import javax.validation.Valid;
+
 /**
  * Основной контроллер для работы Администратора с подборками
  */
@@ -20,7 +22,7 @@ public class AdminCompilationController {
      * @return возвращает добавленный объект подборки с id
      */
     @PostMapping
-    public CompilationDto addNewCompilation(@RequestBody CompilationDto compilationDto) {
+    public CompilationDto addNewCompilation(@Valid @RequestBody CompilationDto compilationDto) {
         return adminCompilationService.addNewCompilation(compilationDto);
     }
 

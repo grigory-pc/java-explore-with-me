@@ -1,10 +1,7 @@
 package ru.practicum.explorewithme.mapper;
 
 import org.mapstruct.*;
-import ru.practicum.explorewithme.dto.EventFullDto;
-import ru.practicum.explorewithme.dto.EventShortDto;
-import ru.practicum.explorewithme.dto.NewEventDto;
-import ru.practicum.explorewithme.dto.UpdateEventRequestDto;
+import ru.practicum.explorewithme.dto.*;
 import ru.practicum.explorewithme.model.Event;
 
 import java.util.List;
@@ -21,10 +18,15 @@ public interface EventMapper {
 
     EventShortDto toShortDto(Event event);
 
+    AdminUpdateEventRequestDto toDto(Event event);
+
     List<EventShortDto> toShortDto(Iterable<Event> event);
 
     List<EventFullDto> toFullDto(Iterable<Event> event);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEventFromDto(UpdateEventRequestDto updateEventRequestDto, @MappingTarget Event event);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void adminUpdateEventFromDto(AdminUpdateEventRequestDto adminUpdateEventRequestDto, @MappingTarget Event event);
 }
