@@ -20,9 +20,9 @@ import java.io.Serializable;
 @Table(name = "compilations_events")
 public class CompilationsEvents implements Serializable {
     @Id
-    @Column(name = "EVENTS_ID")
+    @Column(name = "events_id")
     private long eventsId;
     @Id
-    @Column(name = "COMPILATION_ID")
+    @Column(name = "compilation_id")
     private long compilationId;
 }

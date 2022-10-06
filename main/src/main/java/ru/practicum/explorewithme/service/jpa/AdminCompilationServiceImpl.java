@@ -30,6 +30,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
     private final CompilationMapper compilationMapper;
 
     @Override
+    @Transactional
     public CompilationDto addNewCompilation(CompilationDto compilationDto) {
         log.info("Получен запрос на добавление подборки:" + compilationDto.getTitle());
 
@@ -56,6 +57,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
     }
 
     @Override
+    @Transactional
     public void addEventIdToCompilation(long compilationId, long eventId) {
         log.info("Получен запрос на добавления события id: " + eventId + " в подборку id: " + compilationId);
 
@@ -63,6 +65,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
     }
 
     @Override
+    @Transactional
     public void updatePinnedOfCompilation(long compilationId, boolean pinned) {
         Compilation compilationForSave = getCompilation(compilationId);
 

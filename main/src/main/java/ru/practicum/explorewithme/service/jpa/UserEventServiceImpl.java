@@ -30,11 +30,13 @@ public class UserEventServiceImpl implements UserEventService {
     }
 
     @Override
+    @Transactional
     public UpdateEventRequestDto patchEventByUser(UpdateEventRequestDto updateEventRequestDto, long userId) {
         return null;
     }
 
     @Override
+    @Transactional
     public NewEventDto addNewEventByUser(NewEventDto newEventDto, long userId) {
         return null;
     }
@@ -45,16 +47,19 @@ public class UserEventServiceImpl implements UserEventService {
     }
 
     @Override
+    @Transactional
     public EventFullDto cancelEventByEventIdAndUserId(long userId, long eventId) {
         return null;
     }
 
     @Override
+    @Transactional
     public List<ParticipationRequestDto> getAllParticipationRequestByUserIdAndEventId(long userId, long eventId) {
         return null;
     }
 
     @Override
+    @Transactional
     public ParticipationRequestDto confirmationParticipationRequest(long userId, long eventId, long requestId,
                                                               boolean confirmation) {
         return null;

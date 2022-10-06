@@ -31,18 +31,23 @@ public class AdminEventServiceImpl implements AdminEventService {
     @Override
     public List<EventFullDto> getAllEventsByParameters(List<Long> userIdList, List<State> states, List<Long> categoryId,
                                                        String rangeStart, String rangeEnd, int from, int size) {
+        log.info("Получен запрос на получение списка событий");
+
         Pageable pageable = OffsetBasedPageRequest.of(from, size);
 
-        List<Event> getAllEvents = eventRepository
+        List<Event> allEvents = eventRepository
                 .findAllByInitiatorIdInAndStateInAndAndCategoryIdInAndEventDateIsAfterAndEventDateIsBefore(
                         userIdList, states, categoryId, rangeStart, rangeEnd, pageable);
 
-        return eventMapper.toFullDto(getAllEvents);
+        return eventMapper.toFullDto(allEvents);
     }
 
     @Override
+    @Transactional
     public AdminUpdateEventRequestDto updateEventByAdmin(AdminUpdateEventRequestDto adminUpdateEventRequestDto,
                                                          long eventId) {
+        log.info("Получен запрос от администратора на обновление события  " + adminUpdateEventRequestDto.getTitle());
+
         Event eventForUpdateByAdmin = getEvent(eventId);
         eventMapper.adminUpdateEventFromDto(adminUpdateEventRequestDto, eventForUpdateByAdmin);
         Event updatedEvent = eventRepository.save(eventForUpdateByAdmin);
@@ -51,7 +56,10 @@ public class AdminEventServiceImpl implements AdminEventService {
     }
 
     @Override
+    @Transactional
     public EventFullDto updateStateOfEventByAdmin(long eventId, boolean publish) {
+        log.info("Получен запрос от администратора на обновление статуса публикации для события: " + eventId);
+
         Event eventForUpdate = getEvent(eventId);
 
         if (publish) {

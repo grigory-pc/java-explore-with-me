@@ -36,8 +36,9 @@ public class UserRequestController {
      */
     @PostMapping
     public ParticipationRequestDto addNewRequestByUser(@RequestBody ParticipationRequestDto participationRequestDto,
-                                                       @PathVariable long userId) {
-        return userRequestService.addNewEventRequest(participationRequestDto, userId);
+                                                       @PathVariable long userId,
+                                                       @PathVariable long eventId) {
+        return userRequestService.addNewEventRequest(participationRequestDto, userId, eventId);
     }
 
     /**
