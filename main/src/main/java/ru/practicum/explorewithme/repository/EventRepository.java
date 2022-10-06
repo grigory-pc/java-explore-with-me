@@ -20,6 +20,6 @@ public interface EventRepository extends JpaRepository<Event, Long>, CrudReposit
             Pageable pageable);
 
 
-    List<Event> findAllByAnnotationContainsIgnoreCaseOrAnnotationContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfterAndEventDateIsBeforeAndCoAndConfirmedRequestsIsLessThanParticipantLimit(
-            String text, String textRepeat, List<Long> categoryId, String paid, String rangeStart, String rangeEnd, Pageable pageable);
+//    List<Event> findAllByAnnotationContainsIgnoreCaseOrAnnotationContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfterAndEventDateIsBeforeAndCoAndConfirmedRequestsIsLessThanParticipantLimit(
+//            String text, String textRepeat, List<Long> categoryId, String paid, String rangeStart, String rangeEnd, Pageable pageable);
 }

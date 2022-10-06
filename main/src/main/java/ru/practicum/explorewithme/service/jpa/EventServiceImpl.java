@@ -36,10 +36,11 @@ public class EventServiceImpl implements EventService {
 
         Pageable pageable = OffsetBasedPageRequest.of(from, size, Sort.by(Sort.Direction.ASC, sort));
 
-        List<Event> allEvents = eventRepository.findAllByAnnotationContainsIgnoreCaseOrAnnotationContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfterAndEventDateIsBeforeAndCoAndConfirmedRequestsIsLessThanParticipantLimit(
-                text, text, categoryIds, paid, rangeStart, rangeEnd, pageable);
-
-        return eventMapper.toShortDto(allEvents);
+//        List<Event> allEvents = eventRepository.findAllByAnnotationContainsIgnoreCaseOrAnnotationContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfterAndEventDateIsBeforeAndCoAndConfirmedRequestsIsLessThanParticipantLimit(
+//                text, text, categoryIds, paid, rangeStart, rangeEnd, pageable);
+//
+//        return eventMapper.toShortDto(allEvents);
+        return null;
     }
 
     @Override
