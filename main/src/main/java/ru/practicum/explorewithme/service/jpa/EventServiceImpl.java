@@ -54,7 +54,8 @@ public class EventServiceImpl implements EventService {
         return eventMapper.toFullDto(getEvent(id));
     }
 
-    private Event getEvent(long eventId) {
+    @Override
+    public Event getEvent(long eventId) {
         if (eventRepository.findById(eventId) == null) {
             throw new NotFoundException("событие не найдено");
         }

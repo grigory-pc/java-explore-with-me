@@ -14,6 +14,7 @@ import ru.practicum.explorewithme.model.CompilationsEvents;
 import ru.practicum.explorewithme.repository.CompilationEventRepository;
 import ru.practicum.explorewithme.repository.CompilationRepository;
 import ru.practicum.explorewithme.service.AdminCompilationService;
+import ru.practicum.explorewithme.service.CompilationService;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
     private final CompilationRepository compilationRepository;
     private final CompilationEventRepository compilationEventRepository;
     private final CompilationMapper compilationMapper;
+    private final CompilationService compilationService;
 
     @Override
     @Transactional
@@ -43,7 +45,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
     public void deleteCompilationById(long compilationId) {
         log.info("Получен запрос на удаление подборки id = " + compilationId);
 
-        getCompilation(compilationId);
+        compilationService.getCompilation(compilationId);
 
         compilationRepository.deleteById(compilationId);
     }
@@ -51,7 +53,8 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
     @Override
     public void deleteEventByIdFromCompilation(long compilationId, long eventId) {
         log.info("Получен запрос на удаление события id: " + eventId + " в подборке id: " + compilationId);
-        getCompilation(compilationId);
+
+        compilationService.getCompilation(compilationId);
 
         compilationEventRepository.deleteByIdIn(List.of(compilationId, eventId));
     }
@@ -67,19 +70,12 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
     @Override
     @Transactional
     public void updatePinnedOfCompilation(long compilationId, boolean pinned) {
-        Compilation compilationForSave = getCompilation(compilationId);
+        Compilation compilationForSave = compilationService.getCompilation(compilationId);
 
         if (pinned) {
             compilationForSave.setPinned("true");
         } else {
             compilationForSave.setPinned("false");
         }
-    }
-
-    private Compilation getCompilation(long compilationId) {
-        if (compilationRepository.findById(compilationId) == null) {
-            throw new NotFoundException("подборка не найдена");
-        }
-        return compilationRepository.findById(compilationId);
     }
 }

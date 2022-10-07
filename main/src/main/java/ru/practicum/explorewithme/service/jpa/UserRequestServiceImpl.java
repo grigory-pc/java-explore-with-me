@@ -11,7 +11,7 @@ import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.mapper.RequestMapper;
 import ru.practicum.explorewithme.model.Request;
 import ru.practicum.explorewithme.repository.RequestRepository;
-import ru.practicum.explorewithme.repository.UserRepository;
+import ru.practicum.explorewithme.service.AdminUserService;
 import ru.practicum.explorewithme.service.EventService;
 import ru.practicum.explorewithme.service.UserRequestService;
 
@@ -25,14 +25,16 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UserRequestServiceImpl implements UserRequestService {
-    private final UserRepository userRepository;
     private final RequestRepository requestRepository;
     private final RequestMapper requestMapper;
     private final EventService eventService;
+    private final AdminUserService adminUserService;
 
     @Override
     public List<ParticipationRequestDto> getAllRequestsByRequesterId(long userId) {
         log.info("Получен запрос на получение списка запросов");
+
+        adminUserService.getUser(userId);
 
         List<Request> allRequestsByRequesterId = requestRepository.findAllByRequesterId(userId);
 
@@ -44,6 +46,8 @@ public class UserRequestServiceImpl implements UserRequestService {
     public ParticipationRequestDto addNewEventRequest(ParticipationRequestDto participationRequestDto, long userId,
                                                       long eventId) {
         log.info("Получен запрос на добавление запроса от пользователя" + userId + " на участие в событии: " + eventId);
+
+        adminUserService.getUser(userId);
 
         EventFullDto event = eventService.getEventById(eventId);
 
@@ -62,9 +66,7 @@ public class UserRequestServiceImpl implements UserRequestService {
     public ParticipationRequestDto cancelEventRequest(long reqId, long userId) {
         log.info("Получен запрос на отмену запроса" + reqId + " от пользователя" + userId);
 
-        if (userRepository.findById(userId) == null) {
-            throw new NotFoundException("пользователь не найден");
-        }
+        adminUserService.getUser(userId);
 
         Request requestForCancel = getRequest(reqId);
         requestForCancel.setStatus(Status.PENDING);
@@ -73,7 +75,8 @@ public class UserRequestServiceImpl implements UserRequestService {
         return requestMapper.toDto(updateRequest);
     }
 
-    private Request getRequest(long requestId) {
+    @Override
+    public Request getRequest(long requestId) {
         if (requestRepository.findById(requestId) == null) {
             throw new NotFoundException("запрос не найден");
         }

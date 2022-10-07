@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.service;
 
 import ru.practicum.explorewithme.dto.CompilationDto;
+import ru.practicum.explorewithme.model.Compilation;
 
 import java.util.List;
 
@@ -11,4 +12,6 @@ public interface CompilationService {
     List<CompilationDto> getAllPinnedCompilations(String pinned, int from, int size);
 
     CompilationDto getCompilationById(long id);
+
+    Compilation getCompilation(long compilationId);
 }

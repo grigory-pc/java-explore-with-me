@@ -40,11 +40,11 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.toDto(getCategory(id));
     }
 
-    private Category getCategory(long categoryId) {
+    @Override
+    public Category getCategory(long categoryId) {
         if (categoryRepository.findById(categoryId) == null) {
             throw new NotFoundException("категория не найдена");
         }
         return categoryRepository.findById(categoryId);
     }
-
 }

@@ -11,7 +11,7 @@ import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.mapper.UserMapper;
 import ru.practicum.explorewithme.model.User;
 import ru.practicum.explorewithme.repository.UserRepository;
-import ru.practicum.explorewithme.service.AdminUsersService;
+import ru.practicum.explorewithme.service.AdminUserService;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class AdminUsersServiceImpl implements AdminUsersService {
+public class AdminUserServiceImpl implements AdminUserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
@@ -56,6 +56,7 @@ public class AdminUsersServiceImpl implements AdminUsersService {
         userRepository.deleteById(userId);
     }
 
+    @Override
     public User getUser(long userId) {
         if (userRepository.findById(userId) == null) {
             throw new NotFoundException("пользователь не найден");

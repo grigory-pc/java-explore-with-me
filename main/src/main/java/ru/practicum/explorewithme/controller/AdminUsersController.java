@@ -3,7 +3,7 @@ package ru.practicum.explorewithme.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.dto.UserDto;
-import ru.practicum.explorewithme.service.AdminUsersService;
+import ru.practicum.explorewithme.service.AdminUserService;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/admin/users")
 @RequiredArgsConstructor
 public class AdminUsersController {
-    private final AdminUsersService adminUsersService;
+    private final AdminUserService adminUserService;
 
     /**
      * Возвращает список событий, найденных по переданным параметрам поиска
@@ -28,7 +28,7 @@ public class AdminUsersController {
     public List<UserDto> getUsersByIds(@RequestParam List<Long> user,
                                        @RequestParam(defaultValue = "0") int from,
                                        @RequestParam(defaultValue = "10") int size) {
-        return adminUsersService.getUsersByIds(user, from, size);
+        return adminUserService.getUsersByIds(user, from, size);
     }
 
     /**
@@ -38,7 +38,7 @@ public class AdminUsersController {
      */
     @PostMapping
     public UserDto addNewUser(@RequestBody UserDto userDto) {
-        return adminUsersService.addNewUser(userDto);
+        return adminUserService.addNewUser(userDto);
     }
 
     /**
@@ -48,6 +48,6 @@ public class AdminUsersController {
      */
     @DeleteMapping("/{userId}")
     public void deleteUserById(@PathVariable long userId) {
-        adminUsersService.deleteUserById(userId);
+        adminUserService.deleteUserById(userId);
     }
 }

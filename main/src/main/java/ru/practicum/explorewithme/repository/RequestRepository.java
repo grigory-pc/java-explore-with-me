@@ -12,5 +12,7 @@ import java.util.List;
 public interface RequestRepository extends JpaRepository<Request, Long>, CrudRepository<Request, Long> {
     List<Request> findAllByRequesterId(long userId);
 
+    List<Request> findAllByEventId(long eventId);
+
     Request findById(long requestId);
 }

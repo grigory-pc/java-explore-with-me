@@ -15,6 +15,8 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Long>, CrudRepository<Event, Long> {
     Event findById(long eventId);
 
+    List<Event> findByInitiatorId(long userId, Pageable pageable);
+
     List<Event> findAllByInitiatorIdInAndStateInAndAndCategoryIdInAndEventDateIsAfterAndEventDateIsBefore(
             List<Long> userId, List<State> states, List<Long> categoryId, String rangeStart, String rangeEnd,
             Pageable pageable);

@@ -44,7 +44,8 @@ public class CompilationServiceImpl implements CompilationService {
         return compilationMapper.toDto(getCompilation(id));
     }
 
-    private Compilation getCompilation(long compilationId) {
+    @Override
+    public Compilation getCompilation(long compilationId) {
         if (compilationRepository.findById(compilationId) == null) {
             throw new NotFoundException("подборка не найдена");
         }

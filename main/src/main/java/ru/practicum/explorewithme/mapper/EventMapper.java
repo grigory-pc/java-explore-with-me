@@ -13,12 +13,15 @@ import java.util.List;
 public interface EventMapper {
 
     Event toEvent(NewEventDto dto);
+    NewEventDto toNewEvent(Event event);
 
     EventFullDto toFullDto(Event event);
 
     EventShortDto toShortDto(Event event);
 
-    AdminUpdateEventRequestDto toDto(Event event);
+    AdminUpdateEventRequestDto toDtoByAdmin(Event event);
+
+    UpdateEventRequestDto toDtoByUser(Event event);
 
     List<EventShortDto> toShortDto(Iterable<Event> event);
 

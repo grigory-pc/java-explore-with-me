@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.service;
 
 import ru.practicum.explorewithme.dto.ParticipationRequestDto;
+import ru.practicum.explorewithme.model.Request;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface UserRequestService {
                                                long eventId);
 
     ParticipationRequestDto cancelEventRequest(long reqId, long userId);
+
+    Request getRequest(long requestId);
 }

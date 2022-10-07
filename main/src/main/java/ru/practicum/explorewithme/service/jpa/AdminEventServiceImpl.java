@@ -9,11 +9,11 @@ import ru.practicum.explorewithme.OffsetBasedPageRequest;
 import ru.practicum.explorewithme.dto.AdminUpdateEventRequestDto;
 import ru.practicum.explorewithme.dto.EventFullDto;
 import ru.practicum.explorewithme.dto.State;
-import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.mapper.EventMapper;
 import ru.practicum.explorewithme.model.Event;
 import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.service.AdminEventService;
+import ru.practicum.explorewithme.service.EventService;
 
 import java.util.List;
 
@@ -27,6 +27,7 @@ import java.util.List;
 public class AdminEventServiceImpl implements AdminEventService {
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
+    private final EventService eventService;
 
     @Override
     public List<EventFullDto> getAllEventsByParameters(List<Long> userIdList, List<State> states, List<Long> categoryId,
@@ -48,11 +49,11 @@ public class AdminEventServiceImpl implements AdminEventService {
                                                          long eventId) {
         log.info("Получен запрос от администратора на обновление события  " + adminUpdateEventRequestDto.getTitle());
 
-        Event eventForUpdateByAdmin = getEvent(eventId);
+        Event eventForUpdateByAdmin = eventService.getEvent(eventId);
         eventMapper.adminUpdateEventFromDto(adminUpdateEventRequestDto, eventForUpdateByAdmin);
         Event updatedEvent = eventRepository.save(eventForUpdateByAdmin);
 
-        return eventMapper.toDto(updatedEvent);
+        return eventMapper.toDtoByAdmin(updatedEvent);
     }
 
     @Override
@@ -60,22 +61,15 @@ public class AdminEventServiceImpl implements AdminEventService {
     public EventFullDto updateStateOfEventByAdmin(long eventId, boolean publish) {
         log.info("Получен запрос от администратора на обновление статуса публикации для события: " + eventId);
 
-        Event eventForUpdate = getEvent(eventId);
+        Event eventForUpdate = eventService.getEvent(eventId);
 
         if (publish) {
             eventForUpdate.setState(State.PUBLISHED);
         } else {
-            eventForUpdate.setState(State.NOT_PUBLISHED);
+            eventForUpdate.setState(State.PENDING);
         }
         Event updatedEvent = eventRepository.save(eventForUpdate);
 
         return eventMapper.toFullDto(updatedEvent);
-    }
-
-    private Event getEvent(long eventId) {
-        if (eventRepository.findById(eventId) == null) {
-            throw new NotFoundException("событие не найдено");
-        }
-        return eventRepository.findById(eventId);
     }
 }

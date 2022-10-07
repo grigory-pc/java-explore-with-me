@@ -2,6 +2,7 @@ package ru.practicum.explorewithme.service;
 
 import ru.practicum.explorewithme.dto.EventFullDto;
 import ru.practicum.explorewithme.dto.EventShortDto;
+import ru.practicum.explorewithme.model.Event;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface EventService {
                                                  String rangeEnd, String onlyAvailable, String sort, int from, int size);
 
     EventFullDto getEventById(long id);
+
+    Event getEvent(long eventId);
 }

@@ -10,6 +10,7 @@ import ru.practicum.explorewithme.mapper.CategoryMapper;
 import ru.practicum.explorewithme.model.Category;
 import ru.practicum.explorewithme.repository.CategoryRepository;
 import ru.practicum.explorewithme.service.AdminCategoryService;
+import ru.practicum.explorewithme.service.CategoryService;
 
 /**
  * Класс, ответственный за операции с категориями для Администратора
@@ -21,6 +22,7 @@ import ru.practicum.explorewithme.service.AdminCategoryService;
 public class AdminCategoryServiceImpl implements AdminCategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
+    private final CategoryService categoryService;
 
     /**
      * Обновляет категорию
@@ -30,7 +32,7 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     public CategoryDto updateCategory(CategoryDto categoryDto) {
         log.info("Получен запрос на обновление категории: " + categoryDto.getId());
 
-        Category categoryForUpdate = getCategory(categoryDto.getId());
+        Category categoryForUpdate = categoryService.getCategory(categoryDto.getId());
         categoryMapper.updateCategoryFromDto(categoryDto, categoryForUpdate);
         Category updatedCategory = categoryRepository.save(categoryForUpdate);
 
@@ -51,15 +53,8 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     public void deleteCategoryById(long categoryId) {
         log.info("Получен запрос на удаление категории id = " + categoryId);
 
-        getCategory(categoryId);
+        categoryService.getCategory(categoryId);
 
         categoryRepository.deleteById(categoryId);
-    }
-
-    private Category getCategory(long categoryId) {
-        if (categoryRepository.findById(categoryId) == null) {
-            throw new NotFoundException("категория не найдена");
-        }
-        return categoryRepository.findById(categoryId);
     }
 }
