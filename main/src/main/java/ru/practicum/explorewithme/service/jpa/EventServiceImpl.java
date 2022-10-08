@@ -9,13 +9,16 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.OffsetBasedPageRequest;
 import ru.practicum.explorewithme.dto.EventFullDto;
 import ru.practicum.explorewithme.dto.EventShortDto;
+import ru.practicum.explorewithme.dto.State;
 import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.mapper.EventMapper;
 import ru.practicum.explorewithme.model.Event;
 import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.service.EventService;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Класс, ответственный за операции с событиями
@@ -30,28 +33,49 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventShortDto> getAllEventsByParameters(String text, List<Long> categoryIds, String paid,
-                                                        String rangeStart, String rangeEnd, String onlyAvailable,
+                                                        LocalDateTime rangeStart, LocalDateTime rangeEnd, String onlyAvailable,
                                                         String sort, int from, int size) {
         log.info("Получен запрос на получение списка событий");
+        List<Event> allEvents;
 
         Pageable pageable = OffsetBasedPageRequest.of(from, size, Sort.by(Sort.Direction.ASC, sort));
 
-//        List<Event> allEvents = eventRepository.findAllByAnnotationContainsIgnoreCaseOrAnnotationContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfterAndEventDateIsBeforeAndCoAndConfirmedRequestsIsLessThanParticipantLimit(
-//                text, text, categoryIds, paid, rangeStart, rangeEnd, pageable);
+        if (rangeStart == null || rangeEnd == null) {
+//            List<Event> allEventsWithTextInAnnotation =
+//                    eventRepository.findByAnnotationContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfter(
+//                    text, categoryIds, paid, LocalDateTime.now(), pageable);
 //
-//        return eventMapper.toShortDto(allEvents);
-        return null;
+//            List<Event> allEventsWithTextInDescription =
+//                    eventRepository.findByDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfter(
+//                    text, categoryIds, paid, LocalDateTime.now(), pageable);
+
+            allEvents = eventRepository.findAllByAnnotationContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfter(
+                    text, text, categoryIds, paid, LocalDateTime.now(), State.PUBLISHED, pageable);
+
+        } else {
+            allEvents = eventRepository.findAllByAnnotationContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfterAndEventDateIsBefore(
+                    text, text, categoryIds, paid, rangeStart, rangeEnd, State.PUBLISHED, pageable);
+        }
+
+        allEvents.stream()
+                .filter(event -> event.getParticipantLimit() > event.getConfirmedRequests())
+                .collect(Collectors.toList());
+
+        return eventMapper.toShortDto(allEvents);
     }
 
     @Override
     public EventFullDto getEventById(long id) {
         log.info("Получен запрос на получение события по id: " + id);
-        Event eventForUpdateViews = getEvent(id);
+        getEvent(id);
 
-        int currentCountViews = eventForUpdateViews.getViews();
-        eventForUpdateViews.setViews(currentCountViews++);
+        Event event = eventRepository.findByIdAndState(id, State.PUBLISHED);
 
-        return eventMapper.toFullDto(getEvent(id));
+        int currentCountViews = event.getViews();
+        event.setViews(currentCountViews++);
+        eventRepository.save(event);
+
+        return eventMapper.toFullDto(event);
     }
 
     @Override

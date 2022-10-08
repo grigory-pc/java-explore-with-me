@@ -15,6 +15,7 @@ import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.service.AdminEventService;
 import ru.practicum.explorewithme.service.EventService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public class AdminEventServiceImpl implements AdminEventService {
 
     @Override
     public List<EventFullDto> getAllEventsByParameters(List<Long> userIdList, List<State> states, List<Long> categoryId,
-                                                       String rangeStart, String rangeEnd, int from, int size) {
+                                                       LocalDateTime rangeStart, LocalDateTime rangeEnd, int from, int size) {
         log.info("Получен запрос на получение списка событий");
 
         Pageable pageable = OffsetBasedPageRequest.of(from, size);

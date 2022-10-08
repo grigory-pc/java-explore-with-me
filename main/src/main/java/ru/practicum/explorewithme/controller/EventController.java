@@ -2,10 +2,14 @@ package ru.practicum.explorewithme.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.explorewithme.client.EventClient;
+import ru.practicum.explorewithme.dto.EndpointHit;
 import ru.practicum.explorewithme.dto.EventFullDto;
 import ru.practicum.explorewithme.dto.EventShortDto;
 import ru.practicum.explorewithme.service.EventService;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -16,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EventController {
     private final EventService eventService;
+    private final EventClient eventClient;
 
     /**
      * Возвращает список событий, найденных по переданным параметрам поиска
@@ -35,12 +40,23 @@ public class EventController {
     public List<EventShortDto> getAllEventsByParameters(@RequestParam String text,
                                                         @RequestParam List<Long> categories,
                                                         @RequestParam String paid,
-                                                        @RequestParam String rangeStart,
-                                                        @RequestParam String rangeEnd,
+                                                        @RequestParam LocalDateTime rangeStart,
+                                                        @RequestParam LocalDateTime rangeEnd,
                                                         @RequestParam(defaultValue = "false") String onlyAvailable,
                                                         @RequestParam String sort,
                                                         @RequestParam(defaultValue = "0") int from,
-                                                        @RequestParam(defaultValue = "10") int size) {
+                                                        @RequestParam(defaultValue = "10") int size,
+                                                        HttpServletRequest request) {
+
+        EndpointHit endpointHit = EndpointHit.builder()
+                .app("ewm-main-service")
+                .uri(request.getRequestURI())
+                .ip(request.getRemoteAddr())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        eventClient.postStat(endpointHit);
+
         return eventService.getAllEventsByParameters(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort,
                 from, size);
     }
@@ -52,7 +68,16 @@ public class EventController {
      * @return объект подборки
      */
     @GetMapping("/{id}")
-    public EventFullDto getEventById(@PathVariable long id) {
+    public EventFullDto getEventById(@PathVariable long id, HttpServletRequest request) {
+        EndpointHit endpointHit = EndpointHit.builder()
+                .app("ewm-main-service")
+                .uri(request.getRequestURI())
+                .ip(request.getRemoteAddr())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        eventClient.postStat(endpointHit);
+
         return eventService.getEventById(id);
     }
 }

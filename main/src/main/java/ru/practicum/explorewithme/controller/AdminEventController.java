@@ -7,6 +7,7 @@ import ru.practicum.explorewithme.dto.EventFullDto;
 import ru.practicum.explorewithme.dto.State;
 import ru.practicum.explorewithme.service.AdminEventService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -34,8 +35,8 @@ public class AdminEventController {
     public List<EventFullDto> searchEvents(@RequestParam List<Long> user,
                                            @RequestParam List<State> state,
                                            @RequestParam List<Long> category,
-                                           @RequestParam String rangeStart,
-                                           @RequestParam String rangeEnd,
+                                           @RequestParam LocalDateTime rangeStart,
+                                           @RequestParam LocalDateTime rangeEnd,
                                            @RequestParam(defaultValue = "0") int from,
                                            @RequestParam(defaultValue = "10") int size) {
         return adminEventService.getAllEventsByParameters(user, state, category, rangeStart, rangeEnd, from, size);

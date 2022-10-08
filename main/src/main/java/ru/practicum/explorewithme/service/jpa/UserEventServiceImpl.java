@@ -57,9 +57,8 @@ public class UserEventServiceImpl implements UserEventService {
 
         Event eventForUpdateByUser = eventService.getEvent(updateEventRequestDto.getEventId());
 
-        if (checkEventByInitiator(updateEventRequestDto.getEventId(), userId)) {
-            eventMapper.updateEventFromDto(updateEventRequestDto, eventForUpdateByUser);
-        }
+        checkEventByInitiator(updateEventRequestDto.getEventId(), userId);
+        eventMapper.updateEventFromDto(updateEventRequestDto, eventForUpdateByUser);
 
         Event updatedEvent = eventRepository.save(eventForUpdateByUser);
 

@@ -9,8 +9,12 @@ import ru.practicum.explorewithme.OffsetBasedPageRequest;
 import ru.practicum.explorewithme.dto.CompilationDto;
 import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.mapper.CompilationMapper;
+import ru.practicum.explorewithme.mapper.EventMapper;
 import ru.practicum.explorewithme.model.Compilation;
+import ru.practicum.explorewithme.model.Event;
+import ru.practicum.explorewithme.repository.CompilationEventRepository;
 import ru.practicum.explorewithme.repository.CompilationRepository;
+import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.service.CompilationService;
 
 import java.util.List;
@@ -24,7 +28,10 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class CompilationServiceImpl implements CompilationService {
     private final CompilationRepository compilationRepository;
+    private final CompilationEventRepository compilationEventRepository;
+    private final EventRepository eventRepository;
     private final CompilationMapper compilationMapper;
+    private final EventMapper eventMapper;
 
     @Override
     public List<CompilationDto> getAllPinnedCompilations(String pinned, int from, int size) {
@@ -32,16 +39,33 @@ public class CompilationServiceImpl implements CompilationService {
 
         Pageable pageable = OffsetBasedPageRequest.of(from, size);
 
-        List<Compilation> allCompilations = compilationRepository.findAllByPinned(pinned, pageable);
+        List<CompilationDto> allCompilationsDto = compilationMapper.toDto(compilationRepository.findAllByPinned(pinned,
+                pageable));
 
-        return compilationMapper.toDto(allCompilations);
+        for (CompilationDto compilationDto : allCompilationsDto) {
+            long compId = compilationDto.getId();
+
+            List<Long> allEventsIdOfCompilation = compilationEventRepository.findAllByCompilationId(compId);
+            List<Event> allEventOfCompilation = eventRepository.findAllByIdIn(allEventsIdOfCompilation);
+
+            compilationDto.setEvents(eventMapper.toFullDto(allEventOfCompilation));
+        }
+
+        return allCompilationsDto;
     }
 
     @Override
     public CompilationDto getCompilationById(long id) {
         log.info("Получен запрос на получение подборки по id" + id);
 
-        return compilationMapper.toDto(getCompilation(id));
+        CompilationDto compilationDto = compilationMapper.toDto(getCompilation(id));
+
+        List<Long> allEventsIdOfCompilation = compilationEventRepository.findAllByCompilationId(id);
+        List<Event> allEventOfCompilation = eventRepository.findAllByIdIn(allEventsIdOfCompilation);
+
+        compilationDto.setEvents(eventMapper.toFullDto(allEventOfCompilation));
+
+        return compilationDto;
     }
 
     @Override
