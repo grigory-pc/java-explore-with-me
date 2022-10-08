@@ -6,11 +6,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.dto.CategoryDto;
 import ru.practicum.explorewithme.exception.NotFoundException;
+import ru.practicum.explorewithme.exception.ValidationException;
 import ru.practicum.explorewithme.mapper.CategoryMapper;
 import ru.practicum.explorewithme.model.Category;
+import ru.practicum.explorewithme.model.Event;
 import ru.practicum.explorewithme.repository.CategoryRepository;
+import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.service.AdminCategoryService;
 import ru.practicum.explorewithme.service.CategoryService;
+
+import java.util.List;
 
 /**
  * Класс, ответственный за операции с категориями для Администратора
@@ -21,6 +26,7 @@ import ru.practicum.explorewithme.service.CategoryService;
 @Transactional(readOnly = true)
 public class AdminCategoryServiceImpl implements AdminCategoryService {
     private final CategoryRepository categoryRepository;
+    private final EventRepository eventRepository;
     private final CategoryMapper categoryMapper;
     private final CategoryService categoryService;
 
@@ -55,6 +61,12 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
 
         categoryService.getCategory(categoryId);
 
-        categoryRepository.deleteById(categoryId);
+        List<Event> eventsWithCategory = eventRepository.findAllByCategoryId(categoryId);
+
+        if (eventsWithCategory.size() == 0) {
+            categoryRepository.deleteById(categoryId);
+        } else {
+            throw new ValidationException("с категорией не должно быть связано ни одного события");
+        }
     }
 }

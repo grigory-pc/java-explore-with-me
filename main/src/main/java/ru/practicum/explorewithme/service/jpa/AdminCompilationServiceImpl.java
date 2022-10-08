@@ -5,14 +5,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.dto.CompilationDto;
+import ru.practicum.explorewithme.dto.EventFullDto;
+import ru.practicum.explorewithme.dto.EventShortDto;
 import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.mapper.CategoryMapper;
 import ru.practicum.explorewithme.mapper.CompilationMapper;
+import ru.practicum.explorewithme.mapper.EventMapper;
 import ru.practicum.explorewithme.model.Category;
 import ru.practicum.explorewithme.model.Compilation;
 import ru.practicum.explorewithme.model.CompilationsEvents;
+import ru.practicum.explorewithme.model.Event;
 import ru.practicum.explorewithme.repository.CompilationEventRepository;
 import ru.practicum.explorewithme.repository.CompilationRepository;
+import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.service.AdminCompilationService;
 import ru.practicum.explorewithme.service.CompilationService;
 
@@ -28,7 +33,9 @@ import java.util.List;
 public class AdminCompilationServiceImpl implements AdminCompilationService {
     private final CompilationRepository compilationRepository;
     private final CompilationEventRepository compilationEventRepository;
+    private final EventRepository eventRepository;
     private final CompilationMapper compilationMapper;
+    private final EventMapper eventMapper;
     private final CompilationService compilationService;
 
     @Override
@@ -37,8 +44,26 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
         log.info("Получен запрос на добавление подборки:" + compilationDto.getTitle());
 
         Compilation compilationForSave = compilationMapper.toCompilation(compilationDto);
+        Compilation newCompilation = compilationRepository.save(compilationForSave);
+        long newCompilationId = newCompilation.getId();
 
-        return compilationMapper.toDto(compilationRepository.save(compilationForSave));
+        for (EventFullDto event : compilationDto.getEvents()) {
+            CompilationsEvents newCompilationsEvents = CompilationsEvents.builder()
+                    .compilationId(newCompilationId)
+                    .eventsId(event.getId())
+                    .build();
+            compilationEventRepository.save(newCompilationsEvents);
+        }
+
+        CompilationDto newCompilationDto = compilationMapper.toDto(newCompilation);
+
+        List<Long> allEventsIdOfCompilation = compilationEventRepository.findAllByCompilationId(newCompilationId);
+        List<Event> allEventOfCompilation = eventRepository.findAllByIdIn(allEventsIdOfCompilation);
+
+        newCompilationDto.setEvents(eventMapper.toFullDto(allEventOfCompilation));
+
+
+        return newCompilationDto;
     }
 
     @Override

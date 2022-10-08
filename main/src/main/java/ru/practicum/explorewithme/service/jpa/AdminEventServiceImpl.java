@@ -9,6 +9,7 @@ import ru.practicum.explorewithme.OffsetBasedPageRequest;
 import ru.practicum.explorewithme.dto.AdminUpdateEventRequestDto;
 import ru.practicum.explorewithme.dto.EventFullDto;
 import ru.practicum.explorewithme.dto.State;
+import ru.practicum.explorewithme.exception.ValidationException;
 import ru.practicum.explorewithme.mapper.EventMapper;
 import ru.practicum.explorewithme.model.Event;
 import ru.practicum.explorewithme.repository.EventRepository;
@@ -16,6 +17,7 @@ import ru.practicum.explorewithme.service.AdminEventService;
 import ru.practicum.explorewithme.service.EventService;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
@@ -64,13 +66,23 @@ public class AdminEventServiceImpl implements AdminEventService {
 
         Event eventForUpdate = eventService.getEvent(eventId);
 
-        if (publish) {
+        if (publish && eventForUpdate.getState().equals(State.PENDING)) {
+            checkEventTime(eventForUpdate);
+
             eventForUpdate.setState(State.PUBLISHED);
-        } else {
-            eventForUpdate.setState(State.PENDING);
+        } else if (!eventForUpdate.getState().equals(State.PUBLISHED)) {
+            eventForUpdate.setState(State.CANCELED);
         }
         Event updatedEvent = eventRepository.save(eventForUpdate);
 
         return eventMapper.toFullDto(updatedEvent);
+    }
+
+    private void checkEventTime(Event event) {
+        long hoursOfEventDate = ChronoUnit.HOURS.between(event.getEventDate(), LocalDateTime.now());
+
+        if (hoursOfEventDate < 1) {
+            throw new ValidationException("дата начала события должна быть не ранее чем за час от даты публикации");
+        }
     }
 }

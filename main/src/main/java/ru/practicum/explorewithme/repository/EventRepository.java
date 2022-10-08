@@ -19,7 +19,9 @@ public interface EventRepository extends JpaRepository<Event, Long>, CrudReposit
 
     Event findByIdAndState(long eventId, State state);
 
-    List<Event> findByInitiatorId(long userId, Pageable pageable);
+    List<Event> findAllByInitiatorId(long userId, Pageable pageable);
+
+    List<Event> findAllByCategoryId(long categoryId);
 
     List<Event> findByAnnotationContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfter(
             String text, List<Long> categoryIds, String paid, LocalDateTime CurrentTime, Pageable pageable);

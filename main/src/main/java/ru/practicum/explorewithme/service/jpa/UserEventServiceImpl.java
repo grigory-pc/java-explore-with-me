@@ -16,6 +16,8 @@ import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.repository.RequestRepository;
 import ru.practicum.explorewithme.service.*;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
@@ -42,7 +44,7 @@ public class UserEventServiceImpl implements UserEventService {
 
         adminUserService.getUser(userId);
 
-        List<Event> allEvents = eventRepository.findByInitiatorId(userId, pageable);
+        List<Event> allEvents = eventRepository.findAllByInitiatorId(userId, pageable);
 
         return eventMapper.toShortDto(allEvents);
     }
@@ -57,8 +59,17 @@ public class UserEventServiceImpl implements UserEventService {
 
         Event eventForUpdateByUser = eventService.getEvent(updateEventRequestDto.getEventId());
 
+        checkEventTime(eventForUpdateByUser);
         checkEventByInitiator(updateEventRequestDto.getEventId(), userId);
-        eventMapper.updateEventFromDto(updateEventRequestDto, eventForUpdateByUser);
+
+        if (eventForUpdateByUser.getState().equals(State.CANCELED)) {
+            eventMapper.updateEventFromDto(updateEventRequestDto, eventForUpdateByUser);
+            eventForUpdateByUser.setRequestModeration("true");
+        } else if (eventForUpdateByUser.getRequestModeration().equals("true")) {
+            eventMapper.updateEventFromDto(updateEventRequestDto, eventForUpdateByUser);
+        } else {
+            throw new ValidationException("Событие не отмененное события или в состоянии ожидания модерации");
+        }
 
         Event updatedEvent = eventRepository.save(eventForUpdateByUser);
 
@@ -72,9 +83,10 @@ public class UserEventServiceImpl implements UserEventService {
 
         adminUserService.getUser(userId);
 
-        Event newEvent = eventRepository.save(eventMapper.toEvent(newEventDto));
+        Event eventForSave = eventMapper.toEvent(newEventDto);
+        checkEventTime(eventForSave);
 
-        return eventMapper.toNewEvent(newEvent);
+        return eventMapper.toNewEvent(eventRepository.save(eventForSave));
     }
 
     @Override
@@ -98,6 +110,11 @@ public class UserEventServiceImpl implements UserEventService {
         checkEventByInitiator(eventId, userId);
 
         Event eventForUpdate = eventService.getEvent(eventId);
+
+        if (!eventForUpdate.getRequestModeration().equals("true")) {
+            throw new ValidationException("Отменить можно только событие в состоянии ожидания модерации");
+        }
+
         eventForUpdate.setState(State.CANCELED);
         Event updatedEvent = eventRepository.save(eventForUpdate);
 
@@ -127,21 +144,44 @@ public class UserEventServiceImpl implements UserEventService {
         checkEventByInitiator(eventId, userId);
 
         Request requestForUpdate = userRequestService.getRequest(requestId);
+
         if (confirmation) {
             requestForUpdate.setStatus(Status.CONFIRMED);
+
+            Event event = eventService.getEvent(eventId);
+            event.setConfirmedRequests(event.getConfirmedRequests() + 1);
+            eventRepository.save(event);
         } else {
             requestForUpdate.setStatus(Status.NOT_CONFIRMED);
         }
         Request updatedRequest = requestRepository.save(requestForUpdate);
 
+        Event updatedEvent = eventService.getEvent(eventId);
+
+        if (updatedEvent.getParticipantLimit() == updatedEvent.getConfirmedRequests()) {
+            List<Request> requestToParticipantInEvent = requestRepository.findAllByEventIdAndStatus(eventId,
+                    Status.PENDING);
+            for (Request request : requestToParticipantInEvent) {
+                request.setStatus(Status.NOT_CONFIRMED);
+                requestRepository.save(request);
+            }
+        }
+
         return requestMapper.toDto(updatedRequest);
     }
 
-    private boolean checkEventByInitiator(long eventId, long userId) {
-        if (eventService.getEvent(eventId).getInitiator().getId() == userId) {
-            return true;
-        } else {
+    private void checkEventByInitiator(long eventId, long userId) {
+        if (eventService.getEvent(eventId).getInitiator().getId() != userId) {
             throw new ValidationException("пользователь: " + userId + " не является инициатором события: " + eventId);
+        }
+    }
+
+    private void checkEventTime(Event event) {
+        long hoursOfEventDate = ChronoUnit.HOURS.between(event.getEventDate(), LocalDateTime.now());
+
+        if (hoursOfEventDate < 2) {
+            throw new ValidationException("дата и время на которые намечено событие не может быть раньше, чем через " +
+                    "два часа от текущего момента");
         }
     }
 }
