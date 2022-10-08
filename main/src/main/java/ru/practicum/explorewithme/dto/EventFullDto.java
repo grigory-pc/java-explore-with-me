@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 public class EventFullDto {
     private long id;
     private String annotation;
+    @NotNull
     private Category category;
     private int confirmedRequests;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -33,10 +34,12 @@ public class EventFullDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
+    @NotNull
     private User initiator;
     @NotBlank
     private String paid;
-    private int participantLimit;
+    @Builder.Default
+    private int participantLimit = 0;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime publishedOn;

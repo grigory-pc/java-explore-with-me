@@ -85,6 +85,7 @@ public class UserEventServiceImpl implements UserEventService {
 
         Event eventForSave = eventMapper.toEvent(newEventDto);
         checkEventTime(eventForSave);
+        eventForSave.setCreatedOn(LocalDateTime.now());
 
         return eventMapper.toNewEvent(eventRepository.save(eventForSave));
     }

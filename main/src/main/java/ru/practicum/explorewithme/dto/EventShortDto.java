@@ -22,13 +22,16 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class EventShortDto {
     private long id;
+    @NotBlank
     private String annotation;
+    @NotNull
     private Category category;
     private int confirmedRequests;
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
+    @NotNull
     private User initiator;
     @NotBlank
     private String paid;

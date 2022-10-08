@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * Dto категории
  */
@@ -14,5 +16,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CategoryDto {
     private long id;
+    @NotBlank
     private String name;
 }

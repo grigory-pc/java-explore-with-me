@@ -20,6 +20,7 @@ import ru.practicum.explorewithme.repository.CompilationRepository;
 import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.service.AdminCompilationService;
 import ru.practicum.explorewithme.service.CompilationService;
+import ru.practicum.explorewithme.service.EventService;
 
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
     private final CompilationMapper compilationMapper;
     private final EventMapper eventMapper;
     private final CompilationService compilationService;
+    private final EventService eventService;
 
     @Override
     @Transactional
@@ -52,6 +54,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
                     .compilationId(newCompilationId)
                     .eventsId(event.getId())
                     .build();
+
             compilationEventRepository.save(newCompilationsEvents);
         }
 
@@ -61,7 +64,6 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
         List<Event> allEventOfCompilation = eventRepository.findAllByIdIn(allEventsIdOfCompilation);
 
         newCompilationDto.setEvents(eventMapper.toFullDto(allEventOfCompilation));
-
 
         return newCompilationDto;
     }
@@ -73,6 +75,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
         compilationService.getCompilation(compilationId);
 
         compilationRepository.deleteById(compilationId);
+        compilationEventRepository.deleteAllByCompilationId(compilationId);
     }
 
     @Override
@@ -81,7 +84,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
 
         compilationService.getCompilation(compilationId);
 
-        compilationEventRepository.deleteByIdIn(List.of(compilationId, eventId));
+        compilationEventRepository.deleteByCompilationIdAndAndEventsId(compilationId, eventId);
     }
 
     @Override
@@ -89,7 +92,15 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
     public void addEventIdToCompilation(long compilationId, long eventId) {
         log.info("Получен запрос на добавления события id: " + eventId + " в подборку id: " + compilationId);
 
-//        CompilationsEvents compilationEventsForSave = new CompilationsEvents(compilationId, eventId);
+        compilationService.getCompilation(compilationId);
+        eventService.getEvent(eventId);
+
+        CompilationsEvents newCompilationsEvents = CompilationsEvents.builder()
+                .compilationId(compilationId)
+                .eventsId(eventId)
+                .build();
+
+        compilationEventRepository.save(newCompilationsEvents);
     }
 
     @Override
@@ -102,5 +113,6 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
         } else {
             compilationForSave.setPinned("false");
         }
+        compilationRepository.save(compilationForSave);
     }
 }
