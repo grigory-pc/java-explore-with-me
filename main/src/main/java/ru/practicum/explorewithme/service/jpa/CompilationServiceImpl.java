@@ -11,6 +11,7 @@ import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.mapper.CompilationMapper;
 import ru.practicum.explorewithme.mapper.EventMapper;
 import ru.practicum.explorewithme.model.Compilation;
+import ru.practicum.explorewithme.model.CompilationsEvents;
 import ru.practicum.explorewithme.model.Event;
 import ru.practicum.explorewithme.repository.CompilationEventRepository;
 import ru.practicum.explorewithme.repository.CompilationRepository;
@@ -18,6 +19,7 @@ import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.service.CompilationService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Класс, ответственный за операции с подборками
@@ -45,8 +47,14 @@ public class CompilationServiceImpl implements CompilationService {
         for (CompilationDto compilationDto : allCompilationsDto) {
             long compId = compilationDto.getId();
 
-            List<Long> allEventsIdOfCompilation = compilationEventRepository.findAllByCompilationId(compId);
-            List<Event> allEventOfCompilation = eventRepository.findAllByIdIn(allEventsIdOfCompilation);
+            List<CompilationsEvents> allEventsOfCompilation =
+                    compilationEventRepository.findAllByCompilationId(compId);
+
+            List<Long> eventsIds = allEventsOfCompilation.stream()
+                    .map(event -> event.getEventsId())
+                    .collect(Collectors.toList());
+
+            List<Event> allEventOfCompilation = eventRepository.findAllByIdIn(eventsIds);
 
             compilationDto.setEvents(eventMapper.toShortDto(allEventOfCompilation));
         }
@@ -55,13 +63,19 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
-    public CompilationDto getCompilationById(long id) {
-        log.info("Получен запрос на получение подборки по id" + id);
+    public CompilationDto getCompilationById(long compId) {
+        log.info("Получен запрос на получение подборки по id" + compId);
 
-        CompilationDto compilationDto = compilationMapper.toDto(getCompilation(id));
+        CompilationDto compilationDto = compilationMapper.toDto(getCompilation(compId));
 
-        List<Long> allEventsIdOfCompilation = compilationEventRepository.findAllByCompilationId(id);
-        List<Event> allEventOfCompilation = eventRepository.findAllByIdIn(allEventsIdOfCompilation);
+        List<CompilationsEvents> allEventsOfCompilation =
+                compilationEventRepository.findAllByCompilationId(compId);
+
+        List<Long> eventsIds = allEventsOfCompilation.stream()
+                .map(event -> event.getEventsId())
+                .collect(Collectors.toList());
+
+        List<Event> allEventOfCompilation = eventRepository.findAllByIdIn(eventsIds);
 
         compilationDto.setEvents(eventMapper.toShortDto(allEventOfCompilation));
 

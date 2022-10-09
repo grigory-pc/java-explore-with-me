@@ -178,7 +178,7 @@ public class UserEventServiceImpl implements UserEventService {
     }
 
     private void checkEventTime(Event event) {
-        long hoursOfEventDate = ChronoUnit.HOURS.between(event.getEventDate(), LocalDateTime.now());
+        long hoursOfEventDate = ChronoUnit.HOURS.between(LocalDateTime.now(), event.getEventDate());
 
         if (hoursOfEventDate < 2) {
             throw new ValidationException("дата и время на которые намечено событие не может быть раньше, чем через " +

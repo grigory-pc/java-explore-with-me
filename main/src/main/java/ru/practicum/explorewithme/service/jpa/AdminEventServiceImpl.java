@@ -80,7 +80,7 @@ public class AdminEventServiceImpl implements AdminEventService {
     }
 
     private void checkEventTime(Event event) {
-        long hoursOfEventDate = ChronoUnit.HOURS.between(event.getEventDate(), LocalDateTime.now());
+        long hoursOfEventDate = ChronoUnit.HOURS.between(LocalDateTime.now(), event.getEventDate());
 
         if (hoursOfEventDate < 1) {
             throw new ValidationException("дата начала события должна быть не ранее чем за час от даты публикации");

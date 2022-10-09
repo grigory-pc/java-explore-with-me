@@ -49,5 +49,6 @@ public class EventFullDto {
     @NotBlank
     private String title;
     private int views;
+//    private String location;
     private Point location;
 }

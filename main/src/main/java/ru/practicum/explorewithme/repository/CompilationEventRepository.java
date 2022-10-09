@@ -12,7 +12,10 @@ import java.util.List;
 public interface CompilationEventRepository extends JpaRepository<CompilationsEvents, Long>,
         CrudRepository<CompilationsEvents, Long> {
 
-    List<Long> findAllByCompilationId(long compilationId);
+//    List<Long> findAllByCompilationId(long compilationId);
+
+    List<CompilationsEvents> findAllByCompilationId(long compilationId);
+
     void deleteAllByCompilationId(long compilationId);
 
     void deleteByCompilationIdAndAndEventsId(long compilationId, long eventId);

@@ -1,74 +1,66 @@
-DROP TABLE IF EXISTS USERS, CATEGORIES, EVENTS, COMPILATIONS, REQUESTS;
+DROP TABLE IF EXISTS USERS, CATEGORIES, EVENTS, COMPILATIONS, REQUESTS, COMPILATIONS_EVENTS;
 
-CREATE TABLE IF NOT EXISTS `USERS`
-(
-    `ID`    LONG PRIMARY KEY AUTO_INCREMENT,
-    `NAME`  VARCHAR(50),
-    `EMAIL` VARCHAR(50) UNIQUE
+CREATE EXTENSION IF NOT EXISTS postgis;
+
+CREATE TABLE IF NOT EXISTS "users" (
+                         "id" BIGSERIAL PRIMARY KEY,
+                         "name" varchar(50),
+                         "email" varchar(50) unique
 );
 
-CREATE TABLE IF NOT EXISTS `CATEGORIES`
-(
-    `ID`     LONG PRIMARY KEY AUTO_INCREMENT,
-    `NAME`   VARCHAR(50) UNIQUE ,
-    `PINNED` VARCHAR(10)
+CREATE TABLE IF NOT EXISTS "categories" (
+                              "id" BIGSERIAL PRIMARY KEY,
+                              "name" varchar(50) unique ,
+                              "pinned" varchar(10)
 );
 
-CREATE TABLE IF NOT EXISTS `EVENTS`
-(
-    `ID` LONG PRIMARY KEY AUTO_INCREMENT,
-    `ANNOTATION` VARCHAR(100),
-    `TITLE` VARCHAR(100),
-    `CREATED_ON` DATETIME,
-    `DESCRIPTION` VARCHAR(200),
-    `EVENT_DATE` DATETIME,
-    `PAID` VARCHAR(10),
-    `PARTICIPANT_LIMIT` INT,
-    `PUBLISHED_ON` DATETIME,
-    `REQUEST_MODERATION` VARCHAR(10),
-    `STATE` VARCHAR(20),
-    `CATEGORY_ID` LONG,
-    `INITIATOR_ID` LONG,
-    `VIEWS` INT,
-    `CONFIRMED_REQUESTS` INT,
-    `LOCATION` POINT
-    );
-
-CREATE TABLE IF NOT EXISTS `COMPILATIONS`
-(
-    `ID`     LONG PRIMARY KEY AUTO_INCREMENT,
-    `TITLE`  VARCHAR(100),
-    `PINNED` VARCHAR(10)
+CREATE TABLE IF NOT EXISTS "events" (
+                          "id" BIGSERIAL PRIMARY KEY,
+                          "annotation" varchar(500),
+                          "title" varchar(100),
+                          "created_on" timestamp,
+                          "description" varchar(1000),
+                          "event_date" timestamp,
+                          "paid" varchar(10),
+                          "participant_limit" int,
+                          "published_on" timestamp,
+                          "request_moderation" varchar(10),
+                          "state" varchar(20),
+                          "category_id" bigint,
+                          "initiator_id" bigint,
+                          "views" int,
+                          "confirmed_requests" int,
+                          "location" varchar
 );
 
-CREATE TABLE IF NOT EXISTS `REQUESTS`
-(
-    `ID`           LONG PRIMARY KEY AUTO_INCREMENT,
-    `EVENTS_ID`    LONG,
-    `REQUESTER_ID` LONG,
-    `STATUS`       VARCHAR(20),
-    `CREATED`      DATETIME
+CREATE TABLE IF NOT EXISTS "compilations" (
+                                "id" BIGSERIAL PRIMARY KEY,
+                                "title" varchar(100),
+                                "pinned" varchar(10)
 );
 
-CREATE TABLE `COMPILATIONS_EVENTS`
-(
-    `EVENTS_ID`      LONG,
-    `COMPILATION_ID` LONG,
-    PRIMARY KEY (`EVENTS_ID`, `COMPILATION_ID`)
+CREATE TABLE IF NOT EXISTS "requests" (
+                            "id" BIGSERIAL PRIMARY KEY,
+                            "events_id" bigint,
+                            "requester_id" bigint,
+                            "status" varchar(20),
+                            "created" timestamp
 );
 
-ALTER TABLE `EVENTS`
-    ADD FOREIGN KEY (`CATEGORY_ID`) REFERENCES `CATEGORIES` (`ID`);
+CREATE TABLE IF NOT EXISTS "compilations_events" (
+                                       "events_id" bigint,
+                                       "compilation_id" bigint,
+                                       PRIMARY KEY ("events_id", "compilation_id")
+);
 
-ALTER TABLE `EVENTS`
-    ADD FOREIGN KEY (`INITIATOR_ID`) REFERENCES `USERS` (`ID`);
+ALTER TABLE "events" ADD FOREIGN KEY ("category_id") REFERENCES "categories" ("id") ON DELETE CASCADE;
 
-ALTER TABLE `REQUESTS`
-    ADD FOREIGN KEY (`EVENTS_ID`) REFERENCES `EVENTS` (`ID`);
+ALTER TABLE "events" ADD FOREIGN KEY ("initiator_id") REFERENCES "users" ("id") ON DELETE CASCADE;
 
-ALTER TABLE `REQUESTS`
-    ADD FOREIGN KEY (`REQUESTER_ID`) REFERENCES `USERS` (`ID`);
+ALTER TABLE "requests" ADD FOREIGN KEY ("events_id") REFERENCES "events" ("id") ON DELETE CASCADE;
 
-ALTER TABLE `COMPILATIONS_EVENTS` ADD FOREIGN KEY (`EVENTS_ID`) REFERENCES `EVENTS` (`ID`);
+ALTER TABLE "requests" ADD FOREIGN KEY ("requester_id") REFERENCES "users" ("id") ON DELETE CASCADE;
 
-ALTER TABLE `COMPILATIONS_EVENTS` ADD FOREIGN KEY (`COMPILATION_ID`) REFERENCES `COMPILATIONS` (`ID`);
+ALTER TABLE "compilations_events" ADD FOREIGN KEY ("events_id") REFERENCES "events" ("id") ON DELETE CASCADE;
+
+ALTER TABLE "compilations_events" ADD FOREIGN KEY ("compilation_id") REFERENCES "compilations" ("id") ON DELETE CASCADE;

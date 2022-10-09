@@ -1,12 +1,13 @@
 package ru.practicum.explorewithme.service;
 
 import ru.practicum.explorewithme.dto.CompilationDto;
+import ru.practicum.explorewithme.dto.NewCompilationDto;
 
 /**
  * Интерфейс для сервиса подборок для Администратора
  */
 public interface AdminCompilationService {
-    CompilationDto addNewCompilation(CompilationDto compilationDto);
+    NewCompilationDto addNewCompilation(NewCompilationDto newCompilationDto);
 
     void deleteCompilationById(long compilationId);
 

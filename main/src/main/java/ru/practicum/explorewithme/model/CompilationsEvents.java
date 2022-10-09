@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-@IdClass(CompilationsEvents.class)
+@IdClass(CompilationsEventsKey.class)
 @Table(name = "compilations_events")
 public class CompilationsEvents implements Serializable {
     @Id

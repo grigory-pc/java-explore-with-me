@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.dto.CompilationDto;
 import ru.practicum.explorewithme.dto.EventFullDto;
 import ru.practicum.explorewithme.dto.EventShortDto;
+import ru.practicum.explorewithme.dto.NewCompilationDto;
 import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.mapper.CategoryMapper;
 import ru.practicum.explorewithme.mapper.CompilationMapper;
@@ -23,6 +24,7 @@ import ru.practicum.explorewithme.service.CompilationService;
 import ru.practicum.explorewithme.service.EventService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Класс, ответственный за операции с подборками для Администратора
@@ -42,30 +44,34 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
 
     @Override
     @Transactional
-    public CompilationDto addNewCompilation(CompilationDto compilationDto) {
-        log.info("Получен запрос на добавление подборки:" + compilationDto.getTitle());
+    public NewCompilationDto addNewCompilation(NewCompilationDto newCompilationDto) {
+        log.info("Получен запрос на добавление подборки:" + newCompilationDto.getTitle());
 
-        Compilation compilationForSave = compilationMapper.toCompilation(compilationDto);
+        Compilation compilationForSave = compilationMapper.toCompilation(newCompilationDto);
         Compilation newCompilation = compilationRepository.save(compilationForSave);
         long newCompilationId = newCompilation.getId();
 
-        for (EventShortDto event : compilationDto.getEvents()) {
+        for (Long eventId : newCompilationDto.getEvents()) {
             CompilationsEvents newCompilationsEvents = CompilationsEvents.builder()
                     .compilationId(newCompilationId)
-                    .eventsId(event.getId())
+                    .eventsId(eventId)
                     .build();
 
             compilationEventRepository.save(newCompilationsEvents);
         }
 
-        CompilationDto newCompilationDto = compilationMapper.toDto(newCompilation);
+        NewCompilationDto addedCompilationDto = compilationMapper.toNewCompilationDto(newCompilation);
 
-        List<Long> allEventsIdOfCompilation = compilationEventRepository.findAllByCompilationId(newCompilationId);
-        List<Event> allEventOfCompilation = eventRepository.findAllByIdIn(allEventsIdOfCompilation);
+        List<CompilationsEvents> allEventsOfCompilation =
+                compilationEventRepository.findAllByCompilationId(newCompilationId);
 
-        newCompilationDto.setEvents(eventMapper.toShortDto(allEventOfCompilation));
+        List<Long> eventsIds = allEventsOfCompilation.stream()
+                .map(event -> event.getEventsId())
+                .collect(Collectors.toList());
 
-        return newCompilationDto;
+        addedCompilationDto.setEvents(eventsIds);
+
+        return addedCompilationDto;
     }
 
     @Override

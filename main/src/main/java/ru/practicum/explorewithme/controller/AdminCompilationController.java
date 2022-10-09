@@ -3,6 +3,7 @@ package ru.practicum.explorewithme.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.dto.CompilationDto;
+import ru.practicum.explorewithme.dto.NewCompilationDto;
 import ru.practicum.explorewithme.service.AdminCompilationService;
 
 import javax.validation.Valid;
@@ -22,8 +23,8 @@ public class AdminCompilationController {
      * @return возвращает добавленный объект подборки с id
      */
     @PostMapping
-    public CompilationDto addNewCompilation(@Valid @RequestBody CompilationDto compilationDto) {
-        return adminCompilationService.addNewCompilation(compilationDto);
+    public NewCompilationDto addNewCompilation(@Valid @RequestBody NewCompilationDto newCompilationDto) {
+        return adminCompilationService.addNewCompilation(newCompilationDto);
     }
 
     /**

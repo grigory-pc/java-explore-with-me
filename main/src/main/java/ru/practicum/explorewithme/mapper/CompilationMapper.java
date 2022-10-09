@@ -2,6 +2,7 @@ package ru.practicum.explorewithme.mapper;
 
 import org.mapstruct.Mapper;
 import ru.practicum.explorewithme.dto.CompilationDto;
+import ru.practicum.explorewithme.dto.NewCompilationDto;
 import ru.practicum.explorewithme.model.Compilation;
 
 import java.util.List;
@@ -11,9 +12,11 @@ import java.util.List;
  */
 @Mapper(componentModel = "spring")
 public interface CompilationMapper {
-    Compilation toCompilation(CompilationDto dto);
+    Compilation toCompilation(NewCompilationDto dto);
 
     CompilationDto toDto(Compilation compilation);
+
+    NewCompilationDto toNewCompilationDto(Compilation compilation);
 
     List<CompilationDto> toDto(Iterable<Compilation> compilation);
 }

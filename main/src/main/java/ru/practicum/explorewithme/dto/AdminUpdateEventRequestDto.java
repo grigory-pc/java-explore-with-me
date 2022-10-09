@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.awt.*;
 import java.time.LocalDateTime;
 
 /**
@@ -28,4 +29,6 @@ public class AdminUpdateEventRequestDto {
     private int participantLimit;
     private String requestModeration;
     private String title;
+//    private String location;
+    private Point location;
 }
