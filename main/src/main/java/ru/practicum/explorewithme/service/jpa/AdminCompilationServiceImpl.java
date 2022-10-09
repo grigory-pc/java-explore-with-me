@@ -49,7 +49,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
         Compilation newCompilation = compilationRepository.save(compilationForSave);
         long newCompilationId = newCompilation.getId();
 
-        for (EventFullDto event : compilationDto.getEvents()) {
+        for (EventShortDto event : compilationDto.getEvents()) {
             CompilationsEvents newCompilationsEvents = CompilationsEvents.builder()
                     .compilationId(newCompilationId)
                     .eventsId(event.getId())
@@ -63,7 +63,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
         List<Long> allEventsIdOfCompilation = compilationEventRepository.findAllByCompilationId(newCompilationId);
         List<Event> allEventOfCompilation = eventRepository.findAllByIdIn(allEventsIdOfCompilation);
 
-        newCompilationDto.setEvents(eventMapper.toFullDto(allEventOfCompilation));
+        newCompilationDto.setEvents(eventMapper.toShortDto(allEventOfCompilation));
 
         return newCompilationDto;
     }

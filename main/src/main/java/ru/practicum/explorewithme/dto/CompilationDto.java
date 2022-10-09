@@ -23,5 +23,5 @@ public class CompilationDto {
     private String pinned;
     @NotBlank
     private String title;
-    private List<EventFullDto> events = new ArrayList<>();
+    private List<EventShortDto> events;
 }

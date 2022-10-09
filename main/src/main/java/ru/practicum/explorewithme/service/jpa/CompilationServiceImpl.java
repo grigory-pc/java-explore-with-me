@@ -48,7 +48,7 @@ public class CompilationServiceImpl implements CompilationService {
             List<Long> allEventsIdOfCompilation = compilationEventRepository.findAllByCompilationId(compId);
             List<Event> allEventOfCompilation = eventRepository.findAllByIdIn(allEventsIdOfCompilation);
 
-            compilationDto.setEvents(eventMapper.toFullDto(allEventOfCompilation));
+            compilationDto.setEvents(eventMapper.toShortDto(allEventOfCompilation));
         }
 
         return allCompilationsDto;
@@ -63,7 +63,7 @@ public class CompilationServiceImpl implements CompilationService {
         List<Long> allEventsIdOfCompilation = compilationEventRepository.findAllByCompilationId(id);
         List<Event> allEventOfCompilation = eventRepository.findAllByIdIn(allEventsIdOfCompilation);
 
-        compilationDto.setEvents(eventMapper.toFullDto(allEventOfCompilation));
+        compilationDto.setEvents(eventMapper.toShortDto(allEventOfCompilation));
 
         return compilationDto;
     }

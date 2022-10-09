@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import ru.practicum.explorewithme.dto.State;
 
 import javax.persistence.*;
+import java.awt.*;
 import java.time.LocalDateTime;
 
 /**
@@ -26,6 +27,7 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+    @Column(name = "confirmed_requests")
     private int confirmedRequests;
     @Column(name = "created_on")
     private LocalDateTime createdOn;
@@ -45,4 +47,5 @@ public class Event {
     private State state;
     private String title;
     private int views;
+    private Point location;
 }

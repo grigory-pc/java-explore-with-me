@@ -11,6 +11,7 @@ import ru.practicum.explorewithme.model.User;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.awt.*;
 import java.time.LocalDateTime;
 
 /**
@@ -48,4 +49,5 @@ public class EventFullDto {
     @NotBlank
     private String title;
     private int views;
+    private Point location;
 }
