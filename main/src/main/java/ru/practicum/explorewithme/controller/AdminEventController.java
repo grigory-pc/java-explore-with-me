@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.dto.AdminUpdateEventRequestDto;
 import ru.practicum.explorewithme.dto.EventFullDto;
@@ -22,9 +23,9 @@ public class AdminEventController {
     /**
      * Возвращает список событий, найденных по переданным параметрам поиска
      *
-     * @param user       список пользователей
-     * @param state      список статусов
-     * @param category   список категорий
+     * @param users      список пользователей
+     * @param states     список статусов
+     * @param categories список категорий
      * @param rangeStart нижний диапазон даты поиска
      * @param rangeEnd   верхний диапазон даты поиска
      * @param from       с какого id объекта начинать поиск
@@ -32,14 +33,16 @@ public class AdminEventController {
      * @return список объектов событий
      */
     @GetMapping
-    public List<EventFullDto> searchEvents(@RequestParam List<Long> user,
-                                           @RequestParam List<State> state,
-                                           @RequestParam List<Long> category,
-                                           @RequestParam LocalDateTime rangeStart,
-                                           @RequestParam LocalDateTime rangeEnd,
+    public List<EventFullDto> searchEvents(@RequestParam List<Long> users,
+                                           @RequestParam List<State> states,
+                                           @RequestParam List<Long> categories,
+                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime
+                                                       rangeStart,
+                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime
+                                                       rangeEnd,
                                            @RequestParam(defaultValue = "0") int from,
                                            @RequestParam(defaultValue = "10") int size) {
-        return adminEventService.getAllEventsByParameters(user, state, category, rangeStart, rangeEnd, from, size);
+        return adminEventService.getAllEventsByParameters(users, states, categories, rangeStart, rangeEnd, from, size);
     }
 
     /**

@@ -34,9 +34,10 @@ public class NewEventDto {
     @NotBlank
     private String paid;
     private int participantLimit;
-    private String requestModeration;
+    @Builder.Default
+    private String requestModeration = "true";
     @NotBlank
     private String title;
 //    private String location;
-    private Point location;
+//    private Point location;
 }

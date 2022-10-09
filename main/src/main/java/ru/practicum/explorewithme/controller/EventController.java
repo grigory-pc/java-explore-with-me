@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.client.EventClient;
 import ru.practicum.explorewithme.dto.EndpointHit;
@@ -40,8 +41,10 @@ public class EventController {
     public List<EventShortDto> getAllEventsByParameters(@RequestParam String text,
                                                         @RequestParam List<Long> categories,
                                                         @RequestParam String paid,
-                                                        @RequestParam LocalDateTime rangeStart,
-                                                        @RequestParam LocalDateTime rangeEnd,
+                                                        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime
+                                                                rangeStart,
+                                                        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime
+                                                                rangeEnd,
                                                         @RequestParam(defaultValue = "false") String onlyAvailable,
                                                         @RequestParam String sort,
                                                         @RequestParam(defaultValue = "0") int from,

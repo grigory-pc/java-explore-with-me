@@ -50,5 +50,5 @@ public class EventFullDto {
     private String title;
     private int views;
 //    private String location;
-    private Point location;
+//    private Point location;
 }

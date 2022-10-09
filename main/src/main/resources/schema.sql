@@ -29,8 +29,8 @@ CREATE TABLE IF NOT EXISTS "events" (
                           "category_id" bigint,
                           "initiator_id" bigint,
                           "views" int,
-                          "confirmed_requests" int,
-                          "location" varchar
+                          "confirmed_requests" int
+--                           "location" varchar
 );
 
 CREATE TABLE IF NOT EXISTS "compilations" (

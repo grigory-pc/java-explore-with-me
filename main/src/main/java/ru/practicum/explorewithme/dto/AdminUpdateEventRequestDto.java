@@ -30,5 +30,5 @@ public class AdminUpdateEventRequestDto {
     private String requestModeration;
     private String title;
 //    private String location;
-    private Point location;
+//    private Point location;
 }

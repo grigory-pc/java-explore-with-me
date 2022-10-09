@@ -66,7 +66,7 @@ public class AdminEventServiceImpl implements AdminEventService {
 
         Event eventForUpdate = eventService.getEvent(eventId);
 
-        if (publish && eventForUpdate.getState().equals(State.PENDING)) {
+        if (publish && (eventForUpdate.getState() == null || eventForUpdate.getState().equals(State.PENDING))) {
             checkEventTime(eventForUpdate);
 
             eventForUpdate.setState(State.PUBLISHED);
