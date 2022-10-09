@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,6 +35,7 @@ public class EventShortDto {
     @NotNull
     private User initiator;
     @NotBlank
+    @JsonSerialize(using = StringBooleanSerializer.class)
     private String paid;
     @NotBlank
     private String title;

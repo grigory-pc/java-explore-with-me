@@ -33,15 +33,17 @@ public class AdminEventServiceImpl implements AdminEventService {
     private final EventService eventService;
 
     @Override
-    public List<EventFullDto> getAllEventsByParameters(List<Long> userIdList, List<State> states, List<Long> categoryId,
+    public List<EventFullDto> getAllEventsByParameters(List<Long> userIds, List<State> states, List<Long> categoryIds,
                                                        LocalDateTime rangeStart, LocalDateTime rangeEnd, int from, int size) {
         log.info("Получен запрос на получение списка событий");
 
         Pageable pageable = OffsetBasedPageRequest.of(from, size);
 
+        List<Event> allEventsByUserIds = eventRepository.findAllByInitiatorIdInAndStateIn(userIds, states);
+
         List<Event> allEvents = eventRepository
                 .findAllByInitiatorIdInAndStateInAndAndCategoryIdInAndEventDateIsAfterAndEventDateIsBefore(
-                        userIdList, states, categoryId, rangeStart, rangeEnd, pageable);
+                        userIds, states, categoryIds, rangeStart, rangeEnd, pageable);
 
         return eventMapper.toFullDto(allEvents);
     }
@@ -71,7 +73,7 @@ public class AdminEventServiceImpl implements AdminEventService {
 
             eventForUpdate.setState(State.PUBLISHED);
             eventForUpdate.setPublishedOn(LocalDateTime.now());
-        } else if (!eventForUpdate.getState().equals(State.PUBLISHED)) {
+        } else if (eventForUpdate.getState() == null || !eventForUpdate.getState().equals(State.PUBLISHED)) {
             eventForUpdate.setState(State.CANCELED);
         }
         Event updatedEvent = eventRepository.save(eventForUpdate);

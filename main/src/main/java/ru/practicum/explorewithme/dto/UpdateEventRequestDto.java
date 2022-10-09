@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class UpdateEventRequestDto {
     private LocalDateTime eventDate;
     @NotNull
     private long eventId;
+    @JsonSerialize(using = StringBooleanSerializer.class)
     private String paid;
     private int participantLimit;
     private String title;

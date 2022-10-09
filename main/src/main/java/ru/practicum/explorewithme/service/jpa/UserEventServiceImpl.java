@@ -12,6 +12,7 @@ import ru.practicum.explorewithme.mapper.EventMapper;
 import ru.practicum.explorewithme.mapper.RequestMapper;
 import ru.practicum.explorewithme.model.Event;
 import ru.practicum.explorewithme.model.Request;
+import ru.practicum.explorewithme.model.User;
 import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.repository.RequestRepository;
 import ru.practicum.explorewithme.service.*;
@@ -81,11 +82,12 @@ public class UserEventServiceImpl implements UserEventService {
     public NewEventDto addNewEventByUser(NewEventDto newEventDto, long userId) {
         log.info("Получен запрос на добавление события от пользователя: " + userId);
 
-        adminUserService.getUser(userId);
+        User initiator = adminUserService.getUser(userId);
 
         Event eventForSave = eventMapper.toEvent(newEventDto);
         checkEventTime(eventForSave);
         eventForSave.setCreatedOn(LocalDateTime.now());
+        eventForSave.setInitiator(initiator);
 
         return eventMapper.toNewEvent(eventRepository.save(eventForSave));
     }

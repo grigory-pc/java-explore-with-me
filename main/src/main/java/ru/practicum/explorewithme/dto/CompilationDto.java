@@ -1,5 +1,6 @@
 package ru.practicum.explorewithme.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,7 @@ import java.util.List;
 public class CompilationDto {
     private long id;
     @NotBlank
+    @JsonSerialize(using = StringBooleanSerializer.class)
     private String pinned;
     @NotBlank
     private String title;

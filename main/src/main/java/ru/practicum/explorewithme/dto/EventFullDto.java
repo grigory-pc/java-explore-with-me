@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,12 +39,14 @@ public class EventFullDto {
     @NotNull
     private User initiator;
     @NotBlank
+    @JsonSerialize(using = StringBooleanSerializer.class)
     private String paid;
     @Builder.Default
     private int participantLimit = 0;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime publishedOn;
+    @JsonSerialize(using = StringBooleanSerializer.class)
     private String requestModeration;
     private State state;
     @NotBlank

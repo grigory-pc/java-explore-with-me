@@ -19,16 +19,16 @@ public class AdminUsersController {
     /**
      * Возвращает список событий, найденных по переданным параметрам поиска
      *
-     * @param user список пользователей
+     * @param ids список пользователей
      * @param from с какого id объекта начинать поиск
      * @param size максимальное количество возвращаемых записей
      * @return список объектов пользователей
      */
     @GetMapping
-    public List<UserDto> getUsersByIds(@RequestParam List<Long> user,
+    public List<UserDto> getUsersByIds(@RequestParam List<Long> ids,
                                        @RequestParam(defaultValue = "0") int from,
                                        @RequestParam(defaultValue = "10") int size) {
-        return adminUserService.getUsersByIds(user, from, size);
+        return adminUserService.getUsersByIds(ids, from, size);
     }
 
     /**
