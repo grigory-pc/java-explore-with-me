@@ -16,10 +16,10 @@ CREATE TABLE IF NOT EXISTS "categories" (
 
 CREATE TABLE IF NOT EXISTS "events" (
                           "id" BIGSERIAL PRIMARY KEY,
-                          "annotation" varchar(500),
-                          "title" varchar(100),
+                          "annotation" varchar(2000),
+                          "title" varchar(120),
                           "created_on" timestamp,
-                          "description" varchar(1000),
+                          "description" varchar(7000),
                           "event_date" timestamp,
                           "paid" varchar(10),
                           "participant_limit" int,
@@ -29,8 +29,9 @@ CREATE TABLE IF NOT EXISTS "events" (
                           "category_id" bigint,
                           "initiator_id" bigint,
                           "views" int,
-                          "confirmed_requests" int
---                           "location" varchar
+                          "confirmed_requests" int,
+                          "location_lat" float,
+                          "location_lon" float
 );
 
 CREATE TABLE IF NOT EXISTS "compilations" (

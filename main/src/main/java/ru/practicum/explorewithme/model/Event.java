@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.geolatte.geom.Geometries;
+import org.geolatte.geom.Geometry;
+import ru.practicum.explorewithme.dto.Location;
 import ru.practicum.explorewithme.dto.State;
 
 import javax.persistence.*;
@@ -48,5 +51,8 @@ public class Event {
     private State state;
     private String title;
     private int views;
-//    private Point location;
+    @Column(name = "location_lat")
+    private float locationLat;
+    @Column(name = "location_lon")
+    private float locationLon;
 }

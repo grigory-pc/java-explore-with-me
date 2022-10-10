@@ -33,7 +33,7 @@ public class EventShortDto {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
     @NotNull
-    private User initiator;
+    private UserShortDto initiator;
     @NotBlank
     @JsonSerialize(using = StringBooleanSerializer.class)
     private String paid;

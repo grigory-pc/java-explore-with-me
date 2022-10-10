@@ -31,6 +31,5 @@ public class AdminUpdateEventRequestDto {
     @JsonSerialize(using = StringBooleanSerializer.class)
     private String requestModeration;
     private String title;
-//    private String location;
-//    private Point location;
+    private Location location;
 }

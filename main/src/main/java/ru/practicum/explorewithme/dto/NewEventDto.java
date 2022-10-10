@@ -11,7 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.awt.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 /**
@@ -24,11 +24,15 @@ import java.time.LocalDateTime;
 public class NewEventDto {
     private long id;
     @NotBlank
+    @Size(min = 20, message = "{validation.name.size.too_short}")
+    @Size(max = 2000, message = "{validation.name.size.too_long}")
     private String annotation;
     @NotNull
     @JsonProperty("category")
     private long categoryId;
     @NotBlank
+    @Size(min = 20, message = "{validation.name.size.too_short}")
+    @Size(max = 7000, message = "{validation.name.size.too_long}")
     private String description;
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -42,7 +46,8 @@ public class NewEventDto {
     @Builder.Default
     private String requestModeration = "true";
     @NotBlank
+    @Size(min = 3, message = "{validation.name.size.too_short}")
+    @Size(max = 120, message = "{validation.name.size.too_long}")
     private String title;
-//    private String location;
-//    private Point location;
+    private Location location;
 }

@@ -36,7 +36,7 @@ public class UserEventController {
      * @return возвращает обновленный объект события
      */
     @PatchMapping
-    public UpdateEventRequestDto patchEventByUser(@RequestBody UpdateEventRequestDto updateEventRequestDto,
+    public EventFullDto patchEventByUser(@RequestBody UpdateEventRequestDto updateEventRequestDto,
                                                   @PathVariable long userId) {
         return userEventService.patchEventByUser(updateEventRequestDto, userId);
     }

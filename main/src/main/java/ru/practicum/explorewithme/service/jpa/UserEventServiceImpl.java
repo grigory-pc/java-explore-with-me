@@ -54,16 +54,16 @@ public class UserEventServiceImpl implements UserEventService {
 
     @Override
     @Transactional
-    public UpdateEventRequestDto patchEventByUser(UpdateEventRequestDto updateEventRequestDto, long userId) {
-        log.info("Получен запрос на обновление события: " + updateEventRequestDto.getEventId() + ", добавленного" +
+    public EventFullDto patchEventByUser(UpdateEventRequestDto updateEventRequestDto, long userId) {
+        log.info("Получен запрос на обновление события: " + updateEventRequestDto.getId() + ", добавленного" +
                 " пользователем: " + userId);
 
         adminUserService.getUser(userId);
 
-        Event eventForUpdateByUser = eventService.getEvent(updateEventRequestDto.getEventId());
+        Event eventForUpdateByUser = eventService.getEvent(updateEventRequestDto.getId());
 
         checkEventTime(eventForUpdateByUser);
-        checkEventByInitiator(updateEventRequestDto.getEventId(), userId);
+        checkEventByInitiator(updateEventRequestDto.getId(), userId);
 
         if (eventForUpdateByUser.getState().equals(State.CANCELED)) {
             eventMapper.updateEventFromDto(updateEventRequestDto, eventForUpdateByUser);
@@ -71,12 +71,13 @@ public class UserEventServiceImpl implements UserEventService {
         } else if (eventForUpdateByUser.getRequestModeration().equals("true")) {
             eventMapper.updateEventFromDto(updateEventRequestDto, eventForUpdateByUser);
         } else {
-            throw new ValidationException("Событие не отмененное события или в состоянии ожидания модерации");
+            throw new ValidationException("Изменить можно только отмененные события или события в состоянии ожидания" +
+                    " модерации");
         }
 
         Event updatedEvent = eventRepository.save(eventForUpdateByUser);
 
-        return eventMapper.toDtoByUser(updatedEvent);
+        return eventMapper.toFullDto(updatedEvent);
     }
 
     @Override
@@ -92,6 +93,7 @@ public class UserEventServiceImpl implements UserEventService {
         eventForSave.setCreatedOn(LocalDateTime.now());
         eventForSave.setInitiator(initiator);
         eventForSave.setCategory(category);
+        eventForSave.setState(State.PENDING);
 
         return eventMapper.toNewEventDto(eventRepository.save(eventForSave));
     }
@@ -101,10 +103,10 @@ public class UserEventServiceImpl implements UserEventService {
         log.info("Получен запрос на получение информации о событии: " + eventId + " от пользователя: " + userId);
 
         adminUserService.getUser(userId);
-        eventService.getEvent(eventId);
+        Event event = eventService.getEvent(eventId);
         checkEventByInitiator(eventId, userId);
 
-        return eventMapper.toFullDto(eventService.getEvent(eventId));
+        return eventMapper.toFullDto(event);
     }
 
     @Override

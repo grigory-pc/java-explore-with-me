@@ -23,7 +23,7 @@ public class AdminCompilationController {
      * @return возвращает добавленный объект подборки с id
      */
     @PostMapping
-    public NewCompilationDto addNewCompilation(@Valid @RequestBody NewCompilationDto newCompilationDto) {
+    public CompilationDto addNewCompilation(@Valid @RequestBody NewCompilationDto newCompilationDto) {
         return adminCompilationService.addNewCompilation(newCompilationDto);
     }
 

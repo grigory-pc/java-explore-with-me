@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class UpdateEventRequestDto {
+    @NotNull
+    @JsonProperty("eventId")
     private long id;
     private String annotation;
     private long categoryId;
@@ -26,8 +29,6 @@ public class UpdateEventRequestDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
-    @NotNull
-    private long eventId;
     @JsonSerialize(using = StringBooleanSerializer.class)
     private String paid;
     private int participantLimit;

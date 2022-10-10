@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
- * Серилизатор для поля available объекта ItemDto
+ * Серилизатор для полей boolean
  */
 @Component
 public class StringBooleanSerializer extends JsonSerializer<String> {

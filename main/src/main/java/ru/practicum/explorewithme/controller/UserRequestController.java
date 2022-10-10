@@ -31,15 +31,14 @@ public class UserRequestController {
     /**
      * Добавление запроса на участие в чужом событии от пользователя userId
      *
-     * @param userId пользователя
+     * @param userId  пользователя
      * @param eventId пользователя
      * @return запрос на участие в событии
      */
     @PostMapping
-    public ParticipationRequestDto addNewRequestByUser(@RequestBody ParticipationRequestDto participationRequestDto,
-                                                       @PathVariable long userId,
+    public ParticipationRequestDto addNewRequestByUser(@PathVariable long userId,
                                                        @RequestParam long eventId) {
-        return userRequestService.addNewEventRequest(participationRequestDto, userId, eventId);
+        return userRequestService.addNewEventRequest(userId, eventId);
     }
 
     /**
@@ -49,7 +48,7 @@ public class UserRequestController {
      * @param requestId пользователя
      * @return запрос на участие в событии
      */
-    @PostMapping("/{requestId}/cancel")
+    @PatchMapping("/{requestId}/cancel")
     public ParticipationRequestDto cancelRequestByUser(@PathVariable long userId,
                                                        @PathVariable long requestId) {
         return userRequestService.cancelEventRequest(requestId, userId);

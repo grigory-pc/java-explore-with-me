@@ -12,18 +12,24 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface EventMapper {
 
+    @Mapping(target = "locationLat", source = "location.lat")
+    @Mapping(target = "locationLon", source = "location.lon")
     Event toEvent(NewEventDto dto);
 
     @Mapping(target = "categoryId", source = "category.id")
+    @Mapping(target = "location.lat", source = "locationLat")
+    @Mapping(target = "location.lon", source = "locationLon")
     NewEventDto toNewEventDto(Event event);
 
+    @Mapping(target = "location.lat", source = "locationLat")
+    @Mapping(target = "location.lon", source = "locationLon")
     EventFullDto toFullDto(Event event);
 
     EventShortDto toShortDto(Event event);
 
+    @Mapping(target = "location.lat", source = "locationLat")
+    @Mapping(target = "location.lon", source = "locationLon")
     AdminUpdateEventRequestDto toDtoByAdmin(Event event);
-
-    UpdateEventRequestDto toDtoByUser(Event event);
 
     List<EventShortDto> toShortDto(Iterable<Event> event);
 
@@ -32,6 +38,8 @@ public interface EventMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEventFromDto(UpdateEventRequestDto updateEventRequestDto, @MappingTarget Event event);
 
+    @Mapping(target = "locationLat", source = "location.lat")
+    @Mapping(target = "locationLon", source = "location.lon")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void adminUpdateEventFromDto(AdminUpdateEventRequestDto adminUpdateEventRequestDto, @MappingTarget Event event);
 }

@@ -11,8 +11,7 @@ import java.util.List;
 public interface UserRequestService {
     List<ParticipationRequestDto> getAllRequestsByRequesterId(long userId);
 
-    ParticipationRequestDto addNewEventRequest(ParticipationRequestDto participationRequestDto, long userId,
-                                               long eventId);
+    ParticipationRequestDto addNewEventRequest(long userId, long eventId);
 
     ParticipationRequestDto cancelEventRequest(long reqId, long userId);
 

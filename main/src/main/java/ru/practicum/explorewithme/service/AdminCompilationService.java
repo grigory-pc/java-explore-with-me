@@ -7,7 +7,7 @@ import ru.practicum.explorewithme.dto.NewCompilationDto;
  * Интерфейс для сервиса подборок для Администратора
  */
 public interface AdminCompilationService {
-    NewCompilationDto addNewCompilation(NewCompilationDto newCompilationDto);
+    CompilationDto addNewCompilation(NewCompilationDto newCompilationDto);
 
     void deleteCompilationById(long compilationId);
 

@@ -37,7 +37,7 @@ public class EventFullDto {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
     @NotNull
-    private User initiator;
+    private UserShortDto initiator;
     @NotBlank
     @JsonSerialize(using = StringBooleanSerializer.class)
     private String paid;
@@ -52,6 +52,5 @@ public class EventFullDto {
     @NotBlank
     private String title;
     private int views;
-//    private String location;
-//    private Point location;
+    private Location location;
 }

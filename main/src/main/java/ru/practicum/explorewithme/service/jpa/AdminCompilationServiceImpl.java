@@ -44,7 +44,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
 
     @Override
     @Transactional
-    public NewCompilationDto addNewCompilation(NewCompilationDto newCompilationDto) {
+    public CompilationDto addNewCompilation(NewCompilationDto newCompilationDto) {
         log.info("Получен запрос на добавление подборки:" + newCompilationDto.getTitle());
 
         Compilation compilationForSave = compilationMapper.toCompilation(newCompilationDto);
@@ -60,7 +60,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
             compilationEventRepository.save(newCompilationsEvents);
         }
 
-        NewCompilationDto addedCompilationDto = compilationMapper.toNewCompilationDto(newCompilation);
+        CompilationDto addedCompilationDto = compilationMapper.toDto(newCompilation);
 
         List<CompilationsEvents> allEventsOfCompilation =
                 compilationEventRepository.findAllByCompilationId(newCompilationId);
@@ -69,7 +69,11 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
                 .map(event -> event.getEventsId())
                 .collect(Collectors.toList());
 
-        addedCompilationDto.setEvents(eventsIds);
+        List<Event> allEvents = eventRepository.findAllByIdIn(eventsIds);
+
+        List<EventShortDto> allEventShortDto = eventMapper.toShortDto(allEvents);
+
+        addedCompilationDto.setEvents(allEventShortDto);
 
         return addedCompilationDto;
     }

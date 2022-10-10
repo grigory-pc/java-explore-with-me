@@ -1,6 +1,5 @@
 package ru.practicum.explorewithme.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NewCompilationDto {
     private long id;
-    private String pinned;
+    @Builder.Default
+    private String pinned = "true";
     @NotBlank
     private String title;
     private List<Long> events;

@@ -50,8 +50,7 @@ public class UserRequestServiceImpl implements UserRequestService {
 
     @Override
     @Transactional
-    public ParticipationRequestDto addNewEventRequest(ParticipationRequestDto participationRequestDto, long userId,
-                                                      long eventId) {
+    public ParticipationRequestDto addNewEventRequest(long userId, long eventId) {
         log.info("Получен запрос на добавление запроса от пользователя" + userId + " на участие в событии: " + eventId);
 
         User requester = adminUserService.getUser(userId);
@@ -68,22 +67,22 @@ public class UserRequestServiceImpl implements UserRequestService {
             throw new ValidationException("у события достигнут лимит запросов на участие");
         }
 
+        Request request = Request.builder()
+                .event(event)
+                .requester(requester)
+                .created(LocalDateTime.now())
+                .build();
+
         if (event.getParticipantLimit() == 0 || event.getRequestModeration().equals("false")) {
-            participationRequestDto.setStatus(Status.CONFIRMED);
+            request.setStatus(Status.CONFIRMED);
 
             event.setConfirmedRequests(event.getConfirmedRequests() + 1);
             eventRepository.save(event);
         } else {
-            participationRequestDto.setStatus(Status.PENDING);
+            request.setStatus(Status.PENDING);
         }
 
-        Request requestForSave = requestMapper.toRequest(participationRequestDto);
-
-        requestForSave.setCreated(LocalDateTime.now());
-        requestForSave.setRequester(requester);
-        requestForSave.setEvent(event);
-
-        Request newRequest = requestRepository.save(requestForSave);
+        Request newRequest = requestRepository.save(request);
 
         return requestMapper.toDto(newRequest);
     }
@@ -95,7 +94,7 @@ public class UserRequestServiceImpl implements UserRequestService {
         adminUserService.getUser(userId);
 
         Request requestForCancel = getRequest(reqId);
-        requestForCancel.setStatus(Status.REJECTED);
+        requestForCancel.setStatus(Status.CANCELED);
         Request updateRequest = requestRepository.save(requestForCancel);
 
         return requestMapper.toDto(updateRequest);
