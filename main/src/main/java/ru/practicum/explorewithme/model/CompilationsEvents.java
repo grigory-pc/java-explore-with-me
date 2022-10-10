@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * Объект комбинаций подборки и события
@@ -18,7 +17,7 @@ import java.io.Serializable;
 @RequiredArgsConstructor
 @IdClass(CompilationsEventsKey.class)
 @Table(name = "compilations_events")
-public class CompilationsEvents implements Serializable {
+public class CompilationsEvents {
     @Id
     @Column(name = "events_id")
     private long eventsId;

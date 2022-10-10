@@ -13,7 +13,9 @@ import java.util.List;
 public interface EventMapper {
 
     Event toEvent(NewEventDto dto);
-    NewEventDto toNewEvent(Event event);
+
+    @Mapping(target = "categoryId", source = "category.id")
+    NewEventDto toNewEventDto(Event event);
 
     EventFullDto toFullDto(Event event);
 

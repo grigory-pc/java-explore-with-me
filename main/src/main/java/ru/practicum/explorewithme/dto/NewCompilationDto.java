@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NewCompilationDto {
     private long id;
-    @JsonSerialize(using = StringBooleanSerializer.class)
     private String pinned;
     @NotBlank
     private String title;

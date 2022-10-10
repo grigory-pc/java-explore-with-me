@@ -32,12 +32,13 @@ public class UserRequestController {
      * Добавление запроса на участие в чужом событии от пользователя userId
      *
      * @param userId пользователя
+     * @param eventId пользователя
      * @return запрос на участие в событии
      */
     @PostMapping
     public ParticipationRequestDto addNewRequestByUser(@RequestBody ParticipationRequestDto participationRequestDto,
                                                        @PathVariable long userId,
-                                                       @PathVariable long eventId) {
+                                                       @RequestParam long eventId) {
         return userRequestService.addNewEventRequest(participationRequestDto, userId, eventId);
     }
 

@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import ru.practicum.explorewithme.dto.ParticipationRequestDto;
 import ru.practicum.explorewithme.model.Request;
 
@@ -13,7 +14,11 @@ import java.util.List;
 public interface RequestMapper {
     Request toRequest(ParticipationRequestDto dto);
 
+    @Mapping(target = "eventId", source = "event.id")
+    @Mapping(target = "requesterId", source = "requester.id")
     ParticipationRequestDto toDto(Request request);
 
     List<ParticipationRequestDto> toDto(Iterable<Request> request);
+
+
 }

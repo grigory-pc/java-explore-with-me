@@ -13,12 +13,14 @@ import ru.practicum.explorewithme.exception.ValidationException;
 import ru.practicum.explorewithme.mapper.RequestMapper;
 import ru.practicum.explorewithme.model.Event;
 import ru.practicum.explorewithme.model.Request;
+import ru.practicum.explorewithme.model.User;
 import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.repository.RequestRepository;
 import ru.practicum.explorewithme.service.AdminUserService;
 import ru.practicum.explorewithme.service.EventService;
 import ru.practicum.explorewithme.service.UserRequestService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -52,10 +54,9 @@ public class UserRequestServiceImpl implements UserRequestService {
                                                       long eventId) {
         log.info("Получен запрос на добавление запроса от пользователя" + userId + " на участие в событии: " + eventId);
 
-        adminUserService.getUser(userId);
+        User requester = adminUserService.getUser(userId);
 
         Event event = eventService.getEvent(eventId);
-
 
         if (requestRepository.findByEventIdAndRequesterId(eventId, userId) != null) {
             throw new ValidationException("нельзя добавить повторный запрос");
@@ -63,7 +64,7 @@ public class UserRequestServiceImpl implements UserRequestService {
             throw new ValidationException("нельзя добавить запрос на участие в своём событии");
         } else if (!event.getState().equals(State.PUBLISHED)) {
             throw new ValidationException("нельзя участвовать в неопубликованном событии");
-        } else if (event.getParticipantLimit() == event.getConfirmedRequests()) {
+        } else if (event.getParticipantLimit() != 0 && event.getParticipantLimit() == event.getConfirmedRequests()) {
             throw new ValidationException("у события достигнут лимит запросов на участие");
         }
 
@@ -76,7 +77,13 @@ public class UserRequestServiceImpl implements UserRequestService {
             participationRequestDto.setStatus(Status.PENDING);
         }
 
-        Request newRequest = requestRepository.save(requestMapper.toRequest(participationRequestDto));
+        Request requestForSave = requestMapper.toRequest(participationRequestDto);
+
+        requestForSave.setCreated(LocalDateTime.now());
+        requestForSave.setRequester(requester);
+        requestForSave.setEvent(event);
+
+        Request newRequest = requestRepository.save(requestForSave);
 
         return requestMapper.toDto(newRequest);
     }
@@ -88,7 +95,7 @@ public class UserRequestServiceImpl implements UserRequestService {
         adminUserService.getUser(userId);
 
         Request requestForCancel = getRequest(reqId);
-        requestForCancel.setStatus(Status.PENDING);
+        requestForCancel.setStatus(Status.REJECTED);
         Request updateRequest = requestRepository.save(requestForCancel);
 
         return requestMapper.toDto(updateRequest);

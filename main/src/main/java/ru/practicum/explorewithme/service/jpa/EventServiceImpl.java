@@ -33,27 +33,24 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventShortDto> getAllEventsByParameters(String text, List<Long> categoryIds, String paid,
-                                                        LocalDateTime rangeStart, LocalDateTime rangeEnd, String onlyAvailable,
-                                                        String sort, int from, int size) {
+                                                        LocalDateTime rangeStart, LocalDateTime rangeEnd,
+                                                        String onlyAvailable, SortVariant sort, int from, int size) {
         log.info("Получен запрос на получение списка событий");
-        List<Event> allEvents;
 
-        Pageable pageable = OffsetBasedPageRequest.of(from, size, Sort.by(Sort.Direction.ASC, sort));
+        List<Event> allEvents;
+        Pageable pageable = OffsetBasedPageRequest.of(from, size);
+
+        if (sort.equals(SortVariant.EVENT_DATE)) {
+            pageable = OffsetBasedPageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "eventDate"));
+        } else if (sort.equals(SortVariant.VIEWS)) {
+            pageable = OffsetBasedPageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "views"));
+        }
 
         if (rangeStart == null || rangeEnd == null) {
-//            List<Event> allEventsWithTextInAnnotation =
-//                    eventRepository.findByAnnotationContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfter(
-//                    text, categoryIds, paid, LocalDateTime.now(), pageable);
-//
-//            List<Event> allEventsWithTextInDescription =
-//                    eventRepository.findByDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfter(
-//                    text, categoryIds, paid, LocalDateTime.now(), pageable);
-
             allEvents = eventRepository.findAllByAnnotationContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfter(
                     text, text, categoryIds, paid, LocalDateTime.now(), State.PUBLISHED, pageable);
-
         } else {
-            allEvents = eventRepository.findAllByAnnotationContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfterAndEventDateIsBefore(
+            allEvents = eventRepository.findAllByAnnotationContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfterAndEventDateIsBeforeAndState(
                     text, text, categoryIds, paid, rangeStart, rangeEnd, State.PUBLISHED, pageable);
         }
 

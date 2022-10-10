@@ -39,8 +39,6 @@ public class AdminEventServiceImpl implements AdminEventService {
 
         Pageable pageable = OffsetBasedPageRequest.of(from, size);
 
-        List<Event> allEventsByUserIds = eventRepository.findAllByInitiatorIdInAndStateIn(userIds, states);
-
         List<Event> allEvents = eventRepository
                 .findAllByInitiatorIdInAndStateInAndAndCategoryIdInAndEventDateIsAfterAndEventDateIsBefore(
                         userIds, states, categoryIds, rangeStart, rangeEnd, pageable);

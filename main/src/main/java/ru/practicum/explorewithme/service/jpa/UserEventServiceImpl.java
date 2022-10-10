@@ -10,6 +10,7 @@ import ru.practicum.explorewithme.dto.*;
 import ru.practicum.explorewithme.exception.ValidationException;
 import ru.practicum.explorewithme.mapper.EventMapper;
 import ru.practicum.explorewithme.mapper.RequestMapper;
+import ru.practicum.explorewithme.model.Category;
 import ru.practicum.explorewithme.model.Event;
 import ru.practicum.explorewithme.model.Request;
 import ru.practicum.explorewithme.model.User;
@@ -36,6 +37,7 @@ public class UserEventServiceImpl implements UserEventService {
     private final AdminUserService adminUserService;
     private final EventService eventService;
     private final UserRequestService userRequestService;
+    private final CategoryService categoryService;
 
     @Override
     public List<EventShortDto> getAllEventsByUserId(long userId, int from, int size) {
@@ -83,13 +85,15 @@ public class UserEventServiceImpl implements UserEventService {
         log.info("Получен запрос на добавление события от пользователя: " + userId);
 
         User initiator = adminUserService.getUser(userId);
+        Category category = categoryService.getCategory(newEventDto.getCategoryId());
 
         Event eventForSave = eventMapper.toEvent(newEventDto);
         checkEventTime(eventForSave);
         eventForSave.setCreatedOn(LocalDateTime.now());
         eventForSave.setInitiator(initiator);
+        eventForSave.setCategory(category);
 
-        return eventMapper.toNewEvent(eventRepository.save(eventForSave));
+        return eventMapper.toNewEventDto(eventRepository.save(eventForSave));
     }
 
     @Override
@@ -155,7 +159,7 @@ public class UserEventServiceImpl implements UserEventService {
             event.setConfirmedRequests(event.getConfirmedRequests() + 1);
             eventRepository.save(event);
         } else {
-            requestForUpdate.setStatus(Status.NOT_CONFIRMED);
+            requestForUpdate.setStatus(Status.REJECTED);
         }
         Request updatedRequest = requestRepository.save(requestForUpdate);
 
@@ -165,7 +169,7 @@ public class UserEventServiceImpl implements UserEventService {
             List<Request> requestToParticipantInEvent = requestRepository.findAllByEventIdAndStatus(eventId,
                     Status.PENDING);
             for (Request request : requestToParticipantInEvent) {
-                request.setStatus(Status.NOT_CONFIRMED);
+                request.setStatus(Status.REJECTED);
                 requestRepository.save(request);
             }
         }

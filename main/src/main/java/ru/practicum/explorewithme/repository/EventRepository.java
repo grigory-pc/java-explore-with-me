@@ -17,8 +17,6 @@ public interface EventRepository extends JpaRepository<Event, Long>, CrudReposit
 
     List<Event> findAllByIdIn(List<Long> eventIds);
 
-    List<Event> findAllByInitiatorIdInAndStateIn(List<Long> userId, List<State> states);
-
     Event findByIdAndState(long eventId, State state);
 
     List<Event> findAllByInitiatorId(long userId, Pageable pageable);
@@ -32,11 +30,16 @@ public interface EventRepository extends JpaRepository<Event, Long>, CrudReposit
             String text, List<Long> categoryIds, String paid, LocalDateTime CurrentTime, Pageable pageable);
 
 
+    List<Event> findAllByAnnotationContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfterAndEventDateIsBeforeAndState
+            (String text, String repeatText, List<Long> categoryIds, String paid, LocalDateTime rangeStart,
+             LocalDateTime rangeEnd, State state);
+
+
     List<Event> findAllByAnnotationContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfter(
             String text, String repeatText, List<Long> categoryIds, String paid, LocalDateTime CurrentTime, State state,
             Pageable pageable);
 
-    List<Event> findAllByAnnotationContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfterAndEventDateIsBefore(
+    List<Event> findAllByAnnotationContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfterAndEventDateIsBeforeAndState(
             String text, String repeatText, List<Long> categoryIds, String paid, LocalDateTime rangeStart,
             LocalDateTime rangeEnd, State state, Pageable pageable);
 

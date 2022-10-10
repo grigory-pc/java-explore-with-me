@@ -21,7 +21,6 @@ import java.util.List;
 public class CompilationDto {
     private long id;
     @NotBlank
-    @JsonSerialize(using = StringBooleanSerializer.class)
     private String pinned;
     @NotBlank
     private String title;

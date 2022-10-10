@@ -8,6 +8,7 @@ import ru.practicum.explorewithme.dto.EndpointHit;
 import ru.practicum.explorewithme.dto.EventFullDto;
 import ru.practicum.explorewithme.dto.EventShortDto;
 import ru.practicum.explorewithme.service.EventService;
+import ru.practicum.explorewithme.service.jpa.SortVariant;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -46,7 +47,7 @@ public class EventController {
                                                         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime
                                                                 rangeEnd,
                                                         @RequestParam(defaultValue = "false") String onlyAvailable,
-                                                        @RequestParam String sort,
+                                                        @RequestParam SortVariant sort,
                                                         @RequestParam(defaultValue = "0") int from,
                                                         @RequestParam(defaultValue = "10") int size,
                                                         HttpServletRequest request) {
@@ -58,7 +59,7 @@ public class EventController {
                 .timestamp(LocalDateTime.now())
                 .build();
 
-        eventClient.postStat(endpointHit);
+//        eventClient.postStat(endpointHit);
 
         return eventService.getAllEventsByParameters(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort,
                 from, size);
@@ -79,7 +80,7 @@ public class EventController {
                 .timestamp(LocalDateTime.now())
                 .build();
 
-        eventClient.postStat(endpointHit);
+//        eventClient.postStat(endpointHit);
 
         return eventService.getEventById(id);
     }
