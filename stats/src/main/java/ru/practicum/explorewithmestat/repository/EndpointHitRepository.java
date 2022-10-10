@@ -5,14 +5,12 @@ import org.springframework.data.repository.CrudRepository;
 import ru.practicum.explorewithmestat.model.EndpointHit;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Интерфейс для хранения объектов статистики
  */
 public interface EndpointHitRepository extends JpaRepository<EndpointHit, Long>, CrudRepository<EndpointHit, Long> {
+    Long countByUriAndTimestampIsAfterAndTimestampIsBefore(LocalDateTime start, LocalDateTime end, String uri);
 
-    List<EndpointHit> findAllByTimestampAfterAndTimestampBeforeAndUriIn(LocalDateTime start, LocalDateTime end,
-                                                                        List<Long> uris, String unique);
-
+    EndpointHit findByUri(String uri);
 }

@@ -13,6 +13,4 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface EndpointHitMapper {
     EndpointHit toEndpointHit(EndpointHitDto dto);
-
-    List<ViewStatsDto> toViewStatsDto(Iterable<EndpointHit> endpointHit);
 }

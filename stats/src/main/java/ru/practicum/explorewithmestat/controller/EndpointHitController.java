@@ -35,12 +35,12 @@ public class EndpointHitController {
      * @param unique Нужно ли учитывать только уникальные посещения (только с уникальным ip)
      * @return возвращает список статистики
      */
-    @GetMapping
+    @GetMapping("/stats")
     public List<ViewStatsDto> getStats(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime
                                                start,
                                        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime
                                                end,
-                                       @RequestParam List<Long> uris,
+                                       @RequestParam List<String> uris,
                                        @RequestParam(defaultValue = "false") String unique) {
         return endpointHitService.getStats(start, end, uris, unique);
     }

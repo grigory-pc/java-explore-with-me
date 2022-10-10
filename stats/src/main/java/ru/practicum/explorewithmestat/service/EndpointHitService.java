@@ -13,5 +13,5 @@ import java.util.List;
 public interface EndpointHitService {
     void addStats (EndpointHitDto endpointHitDto);
 
-    List<ViewStatsDto> getStats (LocalDateTime start, LocalDateTime end, List<Long> uris, String unique);
+    List<ViewStatsDto> getStats (LocalDateTime start, LocalDateTime end, List<String> uris, String unique);
 }

@@ -59,7 +59,7 @@ public class EventController {
                 .timestamp(LocalDateTime.now())
                 .build();
 
-//        eventClient.postStat(endpointHit);
+        eventClient.postStat(endpointHit);
 
         return eventService.getAllEventsByParameters(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort,
                 from, size);
@@ -80,7 +80,7 @@ public class EventController {
                 .timestamp(LocalDateTime.now())
                 .build();
 
-//        eventClient.postStat(endpointHit);
+        eventClient.postStat(endpointHit);
 
         return eventService.getEventById(id);
     }

@@ -10,6 +10,7 @@ import ru.practicum.explorewithmestat.mapper.EndpointHitMapper;
 import ru.practicum.explorewithmestat.repository.EndpointHitRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +25,7 @@ public class EndpointHitServiceImpl implements EndpointHitService {
     private final EndpointHitMapper endpointHitMapper;
 
     @Override
+    @Transactional
     public void addStats(EndpointHitDto endpointHitDto) {
         log.info("Получен запрос на добавление статистики для uri: " + endpointHitDto.getUri());
 
@@ -31,10 +33,21 @@ public class EndpointHitServiceImpl implements EndpointHitService {
     }
 
     @Override
-    public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<Long> uris, String unique) {
+    public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, String unique) {
         log.info("Получен запрос на получение статистики");
 
+        List<ViewStatsDto> viewStatsDtoList = new ArrayList<>();
 
-        return null;
+        for (String uri : uris) {
+            ViewStatsDto viewStatsDto = ViewStatsDto.builder()
+                    .app(endpointHitRepository.findByUri(uri).getApp())
+                    .uri(uri)
+                    .hits(endpointHitRepository.countByUriAndTimestampIsAfterAndTimestampIsBefore(start, end, uri))
+                    .build();
+
+            viewStatsDtoList.add(viewStatsDto);
+        }
+
+        return viewStatsDtoList;
     }
 }
