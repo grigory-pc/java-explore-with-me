@@ -23,32 +23,15 @@ public interface EventRepository extends JpaRepository<Event, Long>, CrudReposit
 
     List<Event> findAllByCategoryId(long categoryId);
 
-    List<Event> findByAnnotationContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfter(
-            String text, List<Long> categoryIds, String paid, LocalDateTime CurrentTime, Pageable pageable);
-
-    List<Event> findByDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfter(
-            String text, List<Long> categoryIds, String paid, LocalDateTime CurrentTime, Pageable pageable);
-
-
-    List<Event> findAllByAnnotationContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfterAndEventDateIsBeforeAndState
-            (String text, String repeatText, List<Long> categoryIds, String paid, LocalDateTime rangeStart,
-             LocalDateTime rangeEnd, State state);
-
-
     List<Event> findAllByAnnotationContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfter(
-            String text, String repeatText, List<Long> categoryIds, String paid, LocalDateTime CurrentTime, State state,
+            String text, String repeatText, List<Long> categoryIds, String paid, LocalDateTime timeNow, State state,
             Pageable pageable);
 
     List<Event> findAllByAnnotationContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfterAndEventDateIsBeforeAndState(
             String text, String repeatText, List<Long> categoryIds, String paid, LocalDateTime rangeStart,
             LocalDateTime rangeEnd, State state, Pageable pageable);
 
-
     List<Event> findAllByInitiatorIdInAndStateInAndAndCategoryIdInAndEventDateIsAfterAndEventDateIsBefore(
             List<Long> userId, List<State> states, List<Long> categoryIds, LocalDateTime rangeStart, LocalDateTime rangeEnd,
             Pageable pageable);
-
-
-//    List<Event> findAllByAnnotationContainsIgnoreCaseOrAnnotationContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfterAndEventDateIsBeforeAndCoAndConfirmedRequestsIsLessThanParticipantLimit(
-//            String text, String textRepeat, List<Long> categoryId, String paid, String rangeStart, String rangeEnd, Pageable pageable);
 }

@@ -10,7 +10,7 @@ import java.util.List;
  * Интерфейс для сервиса статистики
  */
 public interface EndpointHitService {
-    void addStats (EndpointHitDto endpointHitDto);
+    void addStats(EndpointHitDto endpointHitDto);
 
-    List<ViewStatsDto> getStats (LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique);
+    List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique);
 }
