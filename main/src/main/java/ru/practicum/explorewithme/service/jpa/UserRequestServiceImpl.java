@@ -59,18 +59,9 @@ public class UserRequestServiceImpl implements UserRequestService {
         log.info("Получен запрос на добавление запроса от пользователя" + userId + " на участие в событии: " + eventId);
 
         User requester = adminUserService.getUser(userId);
-
         Event event = eventService.getEvent(eventId);
 
-        if (requestRepository.findByEventIdAndRequesterId(eventId, userId) != null) {
-            throw new ValidationException("нельзя добавить повторный запрос");
-        } else if (event.getInitiator().getId() == userId) {
-            throw new ValidationException("нельзя добавить запрос на участие в своём событии");
-        } else if (!event.getState().equals(State.PUBLISHED)) {
-            throw new ValidationException("нельзя участвовать в неопубликованном событии");
-        } else if (event.getParticipantLimit() != 0 && event.getParticipantLimit() == event.getConfirmedRequests()) {
-            throw new ValidationException("у события достигнут лимит запросов на участие");
-        }
+        checkUserRequest(event, eventId, userId);
 
         Request request = Request.builder()
                 .event(event)
@@ -114,5 +105,17 @@ public class UserRequestServiceImpl implements UserRequestService {
             throw new NotFoundException("запрос не найден");
         }
         return requestRepository.findById(requestId);
+    }
+
+    private void checkUserRequest(Event event, long eventId, long userId) {
+        if (requestRepository.findByEventIdAndRequesterId(eventId, userId) != null) {
+            throw new ValidationException("нельзя добавить повторный запрос");
+        } else if (event.getInitiator().getId() == userId) {
+            throw new ValidationException("нельзя добавить запрос на участие в своём событии");
+        } else if (!event.getState().equals(State.PUBLISHED)) {
+            throw new ValidationException("нельзя участвовать в неопубликованном событии");
+        } else if (event.getParticipantLimit() != 0 && event.getParticipantLimit() == event.getConfirmedRequests()) {
+            throw new ValidationException("у события достигнут лимит запросов на участие");
+        }
     }
 }
