@@ -12,7 +12,7 @@ public interface UserEventService {
 
     EventFullDto patchEventByUser(UpdateEventRequestDto updateEventRequestDto, long userId);
 
-    NewEventDto addNewEventByUser(NewEventDto newEventDto, long userId);
+    EventFullDto addNewEventByUser(NewEventDto newEventDto, long userId);
 
     EventFullDto getEventByEventIdAndUserId(long userId, long eventId);
 

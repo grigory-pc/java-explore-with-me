@@ -91,7 +91,7 @@ public class UserEventServiceImpl implements UserEventService {
      */
     @Override
     @Transactional
-    public NewEventDto addNewEventByUser(NewEventDto newEventDto, long userId) {
+    public EventFullDto addNewEventByUser(NewEventDto newEventDto, long userId) {
         log.info("Получен запрос на добавление события от пользователя: " + userId);
 
         User initiator = adminUserService.getUser(userId);
@@ -104,7 +104,11 @@ public class UserEventServiceImpl implements UserEventService {
         eventForSave.setCategory(category);
         eventForSave.setState(State.PENDING);
 
-        return eventMapper.toNewEventDto(eventRepository.save(eventForSave));
+
+
+
+
+        return eventMapper.toFullDto(eventRepository.save(eventForSave));
     }
 
     /**

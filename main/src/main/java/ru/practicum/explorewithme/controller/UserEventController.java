@@ -48,7 +48,7 @@ public class UserEventController {
      * @return возвращает добавленный объект события с id
      */
     @PostMapping
-    public NewEventDto addNewEventByUser(@RequestBody NewEventDto newEventDto,
+    public EventFullDto addNewEventByUser(@RequestBody NewEventDto newEventDto,
                                          @PathVariable long userId) {
         return userEventService.addNewEventByUser(newEventDto, userId);
     }
