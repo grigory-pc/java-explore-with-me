@@ -1,3 +1,5 @@
+https://github.com/grigory-pc/java-explore-with-me/pull/1
+
 # java-explore-with-me
 Данный проект представляет сервис Афиши.
 Приложение позволяет:
@@ -39,6 +41,7 @@
 ![Схема БД сервиса java-explore-with-me main](https://github.com/grigory-pc/java-explore-with-me/blob/develop/Scheme_DB_Main_03.jpg?raw=true)
 
 <b>Схема (БД) сервиса статистики:</b>
+
 ![Схема БД сервиса java-explore-with-me stats](https://github.com/grigory-pc/java-explore-with-me/blob/develop/Scheme_DB_Stat_02.jpg?raw=true)
 
 ---
