@@ -46,7 +46,7 @@ public class EventServiceImpl implements EventService {
         if (sort.equals(SortVariant.EVENT_DATE)) {
             pageable = OffsetBasedPageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "eventDate"));
         } else if (sort.equals(SortVariant.VIEWS)) {
-            pageable = OffsetBasedPageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "views"));
+            pageable = OffsetBasedPageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "views"));
         }
 
         if (rangeStart == null || rangeEnd == null) {
