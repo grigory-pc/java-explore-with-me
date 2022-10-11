@@ -1,6 +1,5 @@
 package ru.practicum.explorewithme.controller;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.dto.ParticipationRequestDto;

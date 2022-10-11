@@ -5,14 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.dto.CompilationDto;
-import ru.practicum.explorewithme.dto.EventFullDto;
 import ru.practicum.explorewithme.dto.EventShortDto;
 import ru.practicum.explorewithme.dto.NewCompilationDto;
-import ru.practicum.explorewithme.exception.NotFoundException;
-import ru.practicum.explorewithme.mapper.CategoryMapper;
 import ru.practicum.explorewithme.mapper.CompilationMapper;
 import ru.practicum.explorewithme.mapper.EventMapper;
-import ru.practicum.explorewithme.model.Category;
 import ru.practicum.explorewithme.model.Compilation;
 import ru.practicum.explorewithme.model.CompilationsEvents;
 import ru.practicum.explorewithme.model.Event;
@@ -42,6 +38,9 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
     private final CompilationService compilationService;
     private final EventService eventService;
 
+    /**
+     * Добавляет новую подборку событий
+     */
     @Override
     @Transactional
     public CompilationDto addNewCompilation(NewCompilationDto newCompilationDto) {
@@ -78,6 +77,9 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
         return addedCompilationDto;
     }
 
+    /**
+     * Удаляет подборку событий
+     */
     @Override
     public void deleteCompilationById(long compilationId) {
         log.info("Получен запрос на удаление подборки id = " + compilationId);
@@ -88,6 +90,9 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
         compilationEventRepository.deleteAllByCompilationId(compilationId);
     }
 
+    /**
+     * Удаляет событие из подборки
+     */
     @Override
     public void deleteEventByIdFromCompilation(long compilationId, long eventId) {
         log.info("Получен запрос на удаление события id: " + eventId + " в подборке id: " + compilationId);
@@ -97,6 +102,9 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
         compilationEventRepository.deleteByCompilationIdAndAndEventsId(compilationId, eventId);
     }
 
+    /**
+     * Добавляет событие в подборку
+     */
     @Override
     @Transactional
     public void addEventIdToCompilation(long compilationId, long eventId) {
@@ -113,6 +121,9 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
         compilationEventRepository.save(newCompilationsEvents);
     }
 
+    /**
+     * Прикрепляет или открепляет подборку событий
+     */
     @Override
     @Transactional
     public void updatePinnedOfCompilation(long compilationId, boolean pinned) {

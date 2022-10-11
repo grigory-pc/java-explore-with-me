@@ -54,7 +54,6 @@ public class AdminCompilationController {
      *
      * @param compId  объекта подборки
      * @param eventId объекта события
-     * @return возвращает обновленный объект категории
      */
     @PatchMapping("/{compId}/events/{eventId}")
     public void addEventToCompilation(@PathVariable long compId,

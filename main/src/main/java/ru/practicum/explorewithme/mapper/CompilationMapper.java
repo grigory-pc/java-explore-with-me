@@ -16,7 +16,5 @@ public interface CompilationMapper {
 
     CompilationDto toDto(Compilation compilation);
 
-    NewCompilationDto toNewCompilationDto(Compilation compilation);
-
     List<CompilationDto> toDto(Iterable<Compilation> compilation);
 }

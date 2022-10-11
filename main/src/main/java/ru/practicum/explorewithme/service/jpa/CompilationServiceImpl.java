@@ -35,6 +35,9 @@ public class CompilationServiceImpl implements CompilationService {
     private final CompilationMapper compilationMapper;
     private final EventMapper eventMapper;
 
+    /**
+     * Возвращает список подборок событий
+     */
     @Override
     public List<CompilationDto> getAllPinnedCompilations(String pinned, int from, int size) {
         log.info("Получен запрос на получение списка подборок");
@@ -45,39 +48,20 @@ public class CompilationServiceImpl implements CompilationService {
                 pageable));
 
         for (CompilationDto compilationDto : allCompilationsDto) {
-            long compId = compilationDto.getId();
-
-            List<CompilationsEvents> allEventsOfCompilation =
-                    compilationEventRepository.findAllByCompilationId(compId);
-
-            List<Long> eventsIds = allEventsOfCompilation.stream()
-                    .map(event -> event.getEventsId())
-                    .collect(Collectors.toList());
-
-            List<Event> allEventOfCompilation = eventRepository.findAllByIdIn(eventsIds);
-
-            compilationDto.setEvents(eventMapper.toShortDto(allEventOfCompilation));
+            compilationDto.setEvents(eventMapper.toShortDto(getEvents(compilationDto.getId())));
         }
-
         return allCompilationsDto;
     }
 
+    /**
+     * Возвращает подборку по id
+     */
     @Override
     public CompilationDto getCompilationById(long compId) {
         log.info("Получен запрос на получение подборки по id" + compId);
 
         CompilationDto compilationDto = compilationMapper.toDto(getCompilation(compId));
-
-        List<CompilationsEvents> allEventsOfCompilation =
-                compilationEventRepository.findAllByCompilationId(compId);
-
-        List<Long> eventsIds = allEventsOfCompilation.stream()
-                .map(event -> event.getEventsId())
-                .collect(Collectors.toList());
-
-        List<Event> allEventOfCompilation = eventRepository.findAllByIdIn(eventsIds);
-
-        compilationDto.setEvents(eventMapper.toShortDto(allEventOfCompilation));
+        compilationDto.setEvents(eventMapper.toShortDto(getEvents(compId)));
 
         return compilationDto;
     }
@@ -88,5 +72,15 @@ public class CompilationServiceImpl implements CompilationService {
             throw new NotFoundException("подборка не найдена");
         }
         return compilationRepository.findById(compilationId);
+    }
+
+    private List<Event> getEvents(long compId) {
+        List<CompilationsEvents> allEventsOfCompilation = compilationEventRepository.findAllByCompilationId(compId);
+
+        List<Long> eventsIds = allEventsOfCompilation.stream()
+                .map(event -> event.getEventsId())
+                .collect(Collectors.toList());
+
+        return eventRepository.findAllByIdIn(eventsIds);
     }
 }

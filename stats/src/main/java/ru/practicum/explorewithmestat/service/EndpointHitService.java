@@ -2,7 +2,6 @@ package ru.practicum.explorewithmestat.service;
 
 import ru.practicum.explorewithmestat.dto.EndpointHitDto;
 import ru.practicum.explorewithmestat.dto.ViewStatsDto;
-import ru.practicum.explorewithmestat.model.EndpointHit;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,5 +12,5 @@ import java.util.List;
 public interface EndpointHitService {
     void addStats (EndpointHitDto endpointHitDto);
 
-    List<ViewStatsDto> getStats (LocalDateTime start, LocalDateTime end, List<String> uris, String unique);
+    List<ViewStatsDto> getStats (LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique);
 }

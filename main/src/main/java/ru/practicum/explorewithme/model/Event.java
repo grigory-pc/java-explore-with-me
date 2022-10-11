@@ -4,13 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.geolatte.geom.Geometries;
-import org.geolatte.geom.Geometry;
-import ru.practicum.explorewithme.dto.Location;
 import ru.practicum.explorewithme.dto.State;
 
 import javax.persistence.*;
-import java.awt.*;
 import java.time.LocalDateTime;
 
 /**

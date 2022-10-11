@@ -12,13 +12,9 @@ import java.util.List;
  */
 @Mapper(componentModel = "spring")
 public interface RequestMapper {
-    Request toRequest(ParticipationRequestDto dto);
-
     @Mapping(target = "eventId", source = "event.id")
     @Mapping(target = "requesterId", source = "requester.id")
     ParticipationRequestDto toDto(Request request);
 
     List<ParticipationRequestDto> toDto(Iterable<Request> request);
-
-
 }

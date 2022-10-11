@@ -33,21 +33,32 @@ public class EndpointHitServiceImpl implements EndpointHitService {
     }
 
     @Override
-    public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, String unique) {
+    public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
         log.info("Получен запрос на получение статистики");
 
         List<ViewStatsDto> viewStatsDtoList = new ArrayList<>();
 
-        for (String uri : uris) {
-            ViewStatsDto viewStatsDto = ViewStatsDto.builder()
-                    .app(endpointHitRepository.findByUri(uri).getApp())
-                    .uri(uri)
-                    .hits(endpointHitRepository.countByUriAndTimestampIsAfterAndTimestampIsBefore(start, end, uri))
-                    .build();
+        if (unique) {
+            for (String uri : uris) {
+                ViewStatsDto viewStatsDto = ViewStatsDto.builder()
+                        .app(endpointHitRepository.findByUri(uri).getApp())
+                        .uri(uri)
+                        .hits(endpointHitRepository.countByUniqueIp(uri, start, end))
+                        .build();
 
-            viewStatsDtoList.add(viewStatsDto);
+                viewStatsDtoList.add(viewStatsDto);
+            }
+        } else {
+            for (String uri : uris) {
+                ViewStatsDto viewStatsDto = ViewStatsDto.builder()
+                        .app(endpointHitRepository.findByUri(uri).getApp())
+                        .uri(uri)
+                        .hits(endpointHitRepository.countByUriAndTimestampIsAfterAndTimestampIsBefore(uri, start, end))
+                        .build();
+
+                viewStatsDtoList.add(viewStatsDto);
+            }
         }
-
         return viewStatsDtoList;
     }
 }

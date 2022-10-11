@@ -39,6 +39,9 @@ public class UserEventServiceImpl implements UserEventService {
     private final UserRequestService userRequestService;
     private final CategoryService categoryService;
 
+    /**
+     * Возвращает список событий, добавленных пользователем
+     */
     @Override
     public List<EventShortDto> getAllEventsByUserId(long userId, int from, int size) {
         log.info("Получен запрос на получение списка событий, добавленных пользователем: " + userId);
@@ -52,6 +55,9 @@ public class UserEventServiceImpl implements UserEventService {
         return eventMapper.toShortDto(allEvents);
     }
 
+    /**
+     * Обновляет событие, добавленное пользователем
+     */
     @Override
     @Transactional
     public EventFullDto patchEventByUser(UpdateEventRequestDto updateEventRequestDto, long userId) {
@@ -80,6 +86,9 @@ public class UserEventServiceImpl implements UserEventService {
         return eventMapper.toFullDto(updatedEvent);
     }
 
+    /**
+     * Добавляет новое событие
+     */
     @Override
     @Transactional
     public NewEventDto addNewEventByUser(NewEventDto newEventDto, long userId) {
@@ -98,6 +107,9 @@ public class UserEventServiceImpl implements UserEventService {
         return eventMapper.toNewEventDto(eventRepository.save(eventForSave));
     }
 
+    /**
+     * Возвращает полную информацию о событии по id, которое было добавлено пользователем
+     */
     @Override
     public EventFullDto getEventByEventIdAndUserId(long userId, long eventId) {
         log.info("Получен запрос на получение информации о событии: " + eventId + " от пользователя: " + userId);
@@ -109,6 +121,9 @@ public class UserEventServiceImpl implements UserEventService {
         return eventMapper.toFullDto(event);
     }
 
+    /**
+     * Отменяет событие, добавленное пользователем
+     */
     @Override
     @Transactional
     public EventFullDto cancelEventByEventIdAndUserId(long userId, long eventId) {
@@ -130,6 +145,9 @@ public class UserEventServiceImpl implements UserEventService {
         return eventMapper.toFullDto(updatedEvent);
     }
 
+    /**
+     * Возвращает список запросов на событие пользователя
+     */
     @Override
     @Transactional
     public List<ParticipationRequestDto> getAllParticipationRequestByUserIdAndEventId(long userId, long eventId) {
@@ -144,6 +162,9 @@ public class UserEventServiceImpl implements UserEventService {
         return requestMapper.toDto(allRequests);
     }
 
+    /**
+     * Подтверждает или отклоняет запрос на участие в событии пользователя
+     */
     @Override
     @Transactional
     public ParticipationRequestDto confirmationParticipationRequest(long userId, long eventId, long requestId,

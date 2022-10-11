@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.explorewithme.dto.EventFullDto;
 import ru.practicum.explorewithme.dto.ParticipationRequestDto;
 import ru.practicum.explorewithme.dto.State;
 import ru.practicum.explorewithme.dto.Status;
@@ -37,6 +36,9 @@ public class UserRequestServiceImpl implements UserRequestService {
     private final EventService eventService;
     private final AdminUserService adminUserService;
 
+    /**
+     * Возвращает список запросов отправленных пользователем на участие в событиях
+     */
     @Override
     public List<ParticipationRequestDto> getAllRequestsByRequesterId(long userId) {
         log.info("Получен запрос на получение списка запросов");
@@ -48,6 +50,9 @@ public class UserRequestServiceImpl implements UserRequestService {
         return requestMapper.toDto(allRequestsByRequesterId);
     }
 
+    /**
+     * Добавляет новый запрос пользователя на участие в событии
+     */
     @Override
     @Transactional
     public ParticipationRequestDto addNewEventRequest(long userId, long eventId) {
@@ -87,6 +92,9 @@ public class UserRequestServiceImpl implements UserRequestService {
         return requestMapper.toDto(newRequest);
     }
 
+    /**
+     * Отменяет запрос пользователя на участие в событии
+     */
     @Override
     public ParticipationRequestDto cancelEventRequest(long reqId, long userId) {
         log.info("Получен запрос на отмену запроса" + reqId + " от пользователя" + userId);

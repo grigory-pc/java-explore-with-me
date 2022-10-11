@@ -26,6 +26,9 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
+    /**
+     * Возвращает список категорий
+     */
     @Override
     public List<CategoryDto> getAllCategories(int from, int size) {
         Pageable pageable = OffsetBasedPageRequest.of(from, size);
@@ -35,6 +38,9 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.toDto(allCategories);
     }
 
+    /**
+     * Возвращает категорию по id
+     */
     @Override
     public CategoryDto getCategoryById(long id) {
         return categoryMapper.toDto(getCategory(id));

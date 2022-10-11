@@ -41,7 +41,7 @@ public class EndpointHitController {
                                        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime
                                                end,
                                        @RequestParam List<String> uris,
-                                       @RequestParam(defaultValue = "false") String unique) {
+                                       @RequestParam(defaultValue = "false") boolean unique) {
         return endpointHitService.getStats(start, end, uris, unique);
     }
 }

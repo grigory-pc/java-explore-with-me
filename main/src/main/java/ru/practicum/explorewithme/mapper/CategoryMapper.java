@@ -5,9 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import ru.practicum.explorewithme.dto.CategoryDto;
-import ru.practicum.explorewithme.dto.UpdateEventRequestDto;
 import ru.practicum.explorewithme.model.Category;
-import ru.practicum.explorewithme.model.Event;
 
 import java.util.List;
 

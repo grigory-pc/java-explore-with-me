@@ -12,16 +12,9 @@ import java.util.List;
 public interface CompilationEventRepository extends JpaRepository<CompilationsEvents, Long>,
         CrudRepository<CompilationsEvents, Long> {
 
-//    List<Long> findAllByCompilationId(long compilationId);
-
     List<CompilationsEvents> findAllByCompilationId(long compilationId);
 
     void deleteAllByCompilationId(long compilationId);
 
     void deleteByCompilationIdAndAndEventsId(long compilationId, long eventId);
-
-
-//    @Modifying
-//    @Query("DELETE FROM CompilationsEvents ce WHERE CONCAT(ce.eventsId, '~', ce.compilationId) IN :ids")
-//    void deleteByIdIn(@Param("ids") Collection<Long> ids);
 }

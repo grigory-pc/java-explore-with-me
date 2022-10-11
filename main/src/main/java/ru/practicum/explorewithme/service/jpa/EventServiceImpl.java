@@ -31,6 +31,9 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
 
+    /**
+     * Возвращает список событий, найденных по параметрам запроса
+     */
     @Override
     public List<EventShortDto> getAllEventsByParameters(String text, List<Long> categoryIds, String paid,
                                                         LocalDateTime rangeStart, LocalDateTime rangeEnd,
@@ -61,6 +64,9 @@ public class EventServiceImpl implements EventService {
         return eventMapper.toShortDto(allEvents);
     }
 
+    /**
+     * Возвращает событие, найденное по id
+     */
     @Override
     public EventFullDto getEventById(long id) {
         log.info("Получен запрос на получение события по id: " + id);
@@ -68,8 +74,7 @@ public class EventServiceImpl implements EventService {
 
         Event event = eventRepository.findByIdAndState(id, State.PUBLISHED);
 
-        int currentCountViews = event.getViews();
-        event.setViews(currentCountViews++);
+        event.setViews(event.getViews() + 1);
         eventRepository.save(event);
 
         return eventMapper.toFullDto(event);

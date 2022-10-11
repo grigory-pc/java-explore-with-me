@@ -26,6 +26,9 @@ public class AdminUserServiceImpl implements AdminUserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+    /**
+     * Возвращает список пользователей по списку их id
+     */
     @Override
     public List<UserDto> getUsersByIds(List<Long> userIds, int from, int size) {
         log.info("Получен запрос на получение списка пользователей");
@@ -37,6 +40,9 @@ public class AdminUserServiceImpl implements AdminUserService {
         return userMapper.toDto(users);
     }
 
+    /**
+     * Добавляет нового пользователя
+     */
     @Override
     @Transactional
     public UserDto addNewUser(UserDto userDto) {
@@ -47,6 +53,9 @@ public class AdminUserServiceImpl implements AdminUserService {
         return userMapper.toDto(newUser);
     }
 
+    /**
+     * Удаляет пользователя
+     */
     @Override
     public void deleteUserById(long userId) {
         log.info("Получен запрос на удаление пользователя c id = " + userId);

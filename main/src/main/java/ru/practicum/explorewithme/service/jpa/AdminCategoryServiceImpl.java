@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.dto.CategoryDto;
-import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.exception.ValidationException;
 import ru.practicum.explorewithme.mapper.CategoryMapper;
 import ru.practicum.explorewithme.model.Category;
@@ -45,6 +44,9 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
         return categoryMapper.toDto(updatedCategory);
     }
 
+    /**
+     * Добавляет новую категорию
+     */
     @Override
     @Transactional
     public CategoryDto addNewCategory(CategoryDto categoryDto) {
@@ -55,6 +57,9 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
         return categoryMapper.toDto(categoryRepository.save(categoryForSave));
     }
 
+    /**
+     * Удаляет категорию
+     */
     @Override
     public void deleteCategoryById(long categoryId) {
         log.info("Получен запрос на удаление категории id = " + categoryId);

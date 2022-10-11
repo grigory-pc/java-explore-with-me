@@ -32,6 +32,9 @@ public class AdminEventServiceImpl implements AdminEventService {
     private final EventMapper eventMapper;
     private final EventService eventService;
 
+    /**
+     * Возвращает список событий, найденных по параметрам запроса
+     */
     @Override
     public List<EventFullDto> getAllEventsByParameters(List<Long> userIds, List<State> states, List<Long> categoryIds,
                                                        LocalDateTime rangeStart, LocalDateTime rangeEnd, int from, int size) {
@@ -46,6 +49,9 @@ public class AdminEventServiceImpl implements AdminEventService {
         return eventMapper.toFullDto(allEvents);
     }
 
+    /**
+     * Обновляет событие по запросу от Администратора
+     */
     @Override
     @Transactional
     public AdminUpdateEventRequestDto updateEventByAdmin(AdminUpdateEventRequestDto adminUpdateEventRequestDto,
@@ -59,6 +65,9 @@ public class AdminEventServiceImpl implements AdminEventService {
         return eventMapper.toDtoByAdmin(updatedEvent);
     }
 
+    /**
+     * Обновляет статус публикации события
+     */
     @Override
     @Transactional
     public EventFullDto updateStateOfEventByAdmin(long eventId, boolean publish) {
