@@ -45,7 +45,7 @@ https://github.com/grigory-pc/java-explore-with-me/pull/1
 
 <b>Схема базы данных (БД) основного сервиса:</b>
 
-![Схема БД сервиса java-explore-with-me main](https://github.com/grigory-pc/java-explore-with-me/blob/develop/Scheme_DB_Main_04.png?raw=true)
+![Схема БД сервиса java-explore-with-me main](https://github.com/grigory-pc/java-explore-with-me/blob/develop/Scheme_DB_Main_03.png?raw=true)
 
 <b>Схема (БД) сервиса статистики:</b>
 
