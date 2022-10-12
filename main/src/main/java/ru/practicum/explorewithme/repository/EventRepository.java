@@ -2,6 +2,7 @@ package ru.practicum.explorewithme.repository;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import ru.practicum.explorewithme.dto.State;
 import ru.practicum.explorewithme.model.Event;
@@ -23,11 +24,18 @@ public interface EventRepository extends JpaRepository<Event, Long>, CrudReposit
 
     List<Event> findAllByCategoryId(long categoryId);
 
-    List<Event> findAllByAnnotationContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfter(
+    @Query("select e from Event e " +
+            "where (upper(e.annotation) like upper(concat('%', ?1, '%')) or upper(e.description) like upper(concat('%'," +
+            " ?2, '%'))) and e.category.id in ?3 and e.paid = ?4 and e.eventDate > ?5")
+    List<Event> findAllByTextAndParametersWithoutTime(
             String text, String repeatText, List<Long> categoryIds, String paid, LocalDateTime timeNow, State state,
             Pageable pageable);
 
-    List<Event> findAllByAnnotationContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfterAndEventDateIsBeforeAndState(
+    @Query("select e from Event e " +
+            "where (upper(e.annotation) like upper(concat('%', ?1, '%')) or upper(e.description) like upper(concat('%'," +
+            " ?2, '%'))) and e.category.id in ?3 and e.paid = ?4 and e.eventDate > ?5 and e.eventDate < ?6 and " +
+            "e.state = ?7")
+    List<Event> findAllByTextAndParameters(
             String text, String repeatText, List<Long> categoryIds, String paid, LocalDateTime rangeStart,
             LocalDateTime rangeEnd, State state, Pageable pageable);
 

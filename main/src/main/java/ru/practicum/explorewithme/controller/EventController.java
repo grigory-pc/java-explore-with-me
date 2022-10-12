@@ -46,7 +46,7 @@ public class EventController {
                                                                 rangeStart,
                                                         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime
                                                                 rangeEnd,
-                                                        @RequestParam(defaultValue = "false") String onlyAvailable,
+                                                        @RequestParam(defaultValue = "false") boolean onlyAvailable,
                                                         @RequestParam SortVariant sort,
                                                         @RequestParam(defaultValue = "0") int from,
                                                         @RequestParam(defaultValue = "10") int size,

@@ -37,7 +37,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventShortDto> getAllEventsByParameters(String text, List<Long> categoryIds, String paid,
                                                         LocalDateTime rangeStart, LocalDateTime rangeEnd,
-                                                        String onlyAvailable, SortVariant sort, int from, int size) {
+                                                        boolean onlyAvailable, SortVariant sort, int from, int size) {
         log.info("Получен запрос на получение списка событий");
 
         List<Event> allEvents;
@@ -50,16 +50,18 @@ public class EventServiceImpl implements EventService {
         }
 
         if (rangeStart == null || rangeEnd == null) {
-            allEvents = eventRepository.findAllByAnnotationContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfter(
-                    text, text, categoryIds, paid, LocalDateTime.now(), State.PUBLISHED, pageable);
+            allEvents = eventRepository.findAllByTextAndParametersWithoutTime(text, text, categoryIds, paid,
+                    LocalDateTime.now(), State.PUBLISHED, pageable);
         } else {
-            allEvents = eventRepository.findAllByAnnotationContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndCategoryIdInAndPaidAndEventDateIsAfterAndEventDateIsBeforeAndState(
-                    text, text, categoryIds, paid, rangeStart, rangeEnd, State.PUBLISHED, pageable);
+            allEvents = eventRepository.findAllByTextAndParameters(text, text, categoryIds, paid, rangeStart, rangeEnd,
+                    State.PUBLISHED, pageable);
         }
 
-        allEvents.stream()
-                .filter(event -> event.getParticipantLimit() > event.getConfirmedRequests())
-                .collect(Collectors.toList());
+        if (onlyAvailable) {
+            allEvents.stream()
+                    .filter(event -> event.getParticipantLimit() > event.getConfirmedRequests())
+                    .collect(Collectors.toList());
+        }
 
         return eventMapper.toShortDto(allEvents);
     }
