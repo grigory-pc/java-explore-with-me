@@ -25,5 +25,6 @@ public class User {
     @Email
     @Size(max = 512)
     private String email;
+    @Size(max = 255)
     private String name;
 }
