@@ -1,14 +1,14 @@
 DROP TABLE IF EXISTS USERS, CATEGORIES, EVENTS, COMPILATIONS, REQUESTS, COMPILATIONS_EVENTS;
 
 CREATE TABLE IF NOT EXISTS users (
-                         id BIGSERIAL PRIMARY KEY,
-                         name varchar(50),
-                         email varchar(50) unique
+                         id BIGSERIAL PRIMARY KEY NOT NULL,
+                         name varchar(100) NOT NULL,
+                         email varchar(320) unique NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS categories (
-                              id BIGSERIAL PRIMARY KEY,
-                              name varchar(50) unique ,
+                              id BIGSERIAL PRIMARY KEY NOT NULL,
+                              name varchar(50) unique  NOT NULL,
                               pinned varchar(10)
 );
 

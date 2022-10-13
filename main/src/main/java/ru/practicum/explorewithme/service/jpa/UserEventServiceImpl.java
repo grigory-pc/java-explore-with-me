@@ -98,15 +98,13 @@ public class UserEventServiceImpl implements UserEventService {
         Category category = categoryService.getCategory(newEventDto.getCategoryId());
 
         Event eventForSave = eventMapper.toEvent(newEventDto);
+
         checkEventTime(eventForSave);
+
         eventForSave.setCreatedOn(LocalDateTime.now());
         eventForSave.setInitiator(initiator);
         eventForSave.setCategory(category);
         eventForSave.setState(State.PENDING);
-
-
-
-
 
         return eventMapper.toFullDto(eventRepository.save(eventForSave));
     }
