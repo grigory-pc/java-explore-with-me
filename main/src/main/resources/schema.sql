@@ -19,12 +19,12 @@ CREATE TABLE IF NOT EXISTS events (
                           created_on timestamp,
                           description varchar(7000) NOT NULL,
                           event_date timestamp NOT NULL,
-                          paid boolean,
+                          paid boolean default false,
                           participant_limit int,
                           published_on timestamp,
-                          request_moderation boolean,
+                          request_moderation boolean default false,
                           state varchar(20),
-                          category_id bigint,
+                          category_id bigint NOT NULL,
                           initiator_id bigint,
                           confirmed_requests int,
                           location_lat float NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS events (
 CREATE TABLE IF NOT EXISTS compilations (
                                 id BIGSERIAL PRIMARY KEY NOT NULL,
                                 title varchar(100) NOT NULL,
-                                pinned varchar(10)
+                                pinned boolean default false
 );
 
 CREATE TABLE IF NOT EXISTS requests (

@@ -130,9 +130,9 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
         Compilation compilationForSave = compilationService.getCompilation(compilationId);
 
         if (pinned) {
-            compilationForSave.setPinned("true");
+            compilationForSave.setPinned(true);
         } else {
-            compilationForSave.setPinned("false");
+            compilationForSave.setPinned(false);
         }
         compilationRepository.save(compilationForSave);
     }

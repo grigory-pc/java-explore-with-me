@@ -42,7 +42,7 @@ public class CompilationServiceImpl implements CompilationService {
      * Возвращает список подборок событий
      */
     @Override
-    public List<CompilationDto> getAllPinnedCompilations(String pinned, int from, int size) {
+    public List<CompilationDto> getAllPinnedCompilations(boolean pinned, int from, int size) {
         log.info("Получен запрос на получение списка подборок");
 
         Pageable pageable = OffsetBasedPageRequest.of(from, size);

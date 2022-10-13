@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 /**
@@ -22,13 +22,24 @@ public class UpdateEventRequestDto {
     @NotNull
     @JsonProperty("eventId")
     private long id;
+    @NotBlank
+    @Size(min = 20, message = "{validation.name.size.too_short}")
+    @Size(max = 2000, message = "{validation.name.size.too_long}")
     private String annotation;
     private long categoryId;
+    @NotBlank
+    @Size(min = 20, message = "{validation.name.size.too_short}")
+    @Size(max = 7000, message = "{validation.name.size.too_long}")
     private String description;
+    @Future
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
     private boolean paid;
+    @Positive
     private int participantLimit;
+    @NotBlank
+    @Size(min = 3, message = "{validation.name.size.too_short}")
+    @Size(max = 120, message = "{validation.name.size.too_long}")
     private String title;
 }

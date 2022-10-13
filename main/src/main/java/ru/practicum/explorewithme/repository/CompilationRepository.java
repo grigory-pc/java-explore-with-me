@@ -13,5 +13,5 @@ import java.util.List;
 public interface CompilationRepository extends JpaRepository<Compilation, Long>, CrudRepository<Compilation, Long> {
     Compilation findById(long compId);
 
-    List<Compilation> findAllByPinned(String pinned, Pageable pageable);
+    List<Compilation> findAllByPinned(boolean pinned, Pageable pageable);
 }

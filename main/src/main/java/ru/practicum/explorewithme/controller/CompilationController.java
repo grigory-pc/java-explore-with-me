@@ -25,7 +25,7 @@ public class CompilationController {
      * @return список объектов подборок
      */
     @GetMapping
-    public List<CompilationDto> getAllCompilations(@RequestParam String pinned,
+    public List<CompilationDto> getAllCompilations(@RequestParam boolean pinned,
                                                    @RequestParam(defaultValue = "0") int from,
                                                    @RequestParam(defaultValue = "10") int size) {
         return compilationService.getAllPinnedCompilations(pinned, from, size);

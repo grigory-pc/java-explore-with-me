@@ -9,7 +9,7 @@ import java.util.List;
  * Интерфейс для сервисов подборок
  */
 public interface CompilationService {
-    List<CompilationDto> getAllPinnedCompilations(String pinned, int from, int size);
+    List<CompilationDto> getAllPinnedCompilations(boolean pinned, int from, int size);
 
     CompilationDto getCompilationById(long id);
 

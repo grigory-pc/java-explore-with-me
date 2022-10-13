@@ -18,7 +18,7 @@ import java.util.List;
 public class NewCompilationDto {
     private long id;
     @Builder.Default
-    private String pinned = "true";
+    private boolean pinned = true;
     @NotBlank
     private String title;
     private List<Long> events;
