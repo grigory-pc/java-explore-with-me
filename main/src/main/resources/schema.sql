@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS events (
                           paid boolean,
                           participant_limit int,
                           published_on timestamp,
-                          request_moderation varchar(10),
+                          request_moderation boolean,
                           state varchar(20),
                           category_id bigint,
                           initiator_id bigint,

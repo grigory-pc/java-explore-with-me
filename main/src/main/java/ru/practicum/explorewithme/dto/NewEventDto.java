@@ -43,7 +43,7 @@ public class NewEventDto {
     private boolean paid = false;
     private int participantLimit;
     @Builder.Default
-    private String requestModeration = "true";
+    private boolean requestModeration = true;
     @NotBlank
     @Size(min = 3, message = "{validation.name.size.too_short}")
     @Size(max = 120, message = "{validation.name.size.too_long}")

@@ -26,8 +26,7 @@ public class AdminUpdateEventRequestDto {
     private LocalDateTime eventDate;
     private boolean paid;
     private int participantLimit;
-    @JsonSerialize(using = StringBooleanSerializer.class)
-    private String requestModeration;
+    private boolean requestModeration;
     private String title;
     private Location location;
 }

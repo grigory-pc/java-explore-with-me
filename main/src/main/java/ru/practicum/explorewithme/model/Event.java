@@ -42,7 +42,7 @@ public class Event {
     @Column(name = "published_on")
     private LocalDateTime publishedOn;
     @Column(name = "request_moderation")
-    private String requestModeration;
+    private boolean requestModeration;
     @Enumerated(EnumType.STRING)
     private State state;
     private String title;

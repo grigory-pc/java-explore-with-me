@@ -73,8 +73,8 @@ public class UserEventServiceImpl implements UserEventService {
 
         if (eventForUpdateByUser.getState().equals(State.CANCELED)) {
             eventMapper.updateEventFromDto(updateEventRequestDto, eventForUpdateByUser);
-            eventForUpdateByUser.setRequestModeration("true");
-        } else if (eventForUpdateByUser.getRequestModeration().equals("true")) {
+            eventForUpdateByUser.setRequestModeration(true);
+        } else if (eventForUpdateByUser.isRequestModeration()) {
             eventMapper.updateEventFromDto(updateEventRequestDto, eventForUpdateByUser);
         } else {
             throw new ValidationException("Изменить можно только отмененные события или события в состоянии ожидания" +
@@ -137,7 +137,8 @@ public class UserEventServiceImpl implements UserEventService {
 
         Event eventForUpdate = eventService.getEvent(eventId);
 
-        if (!eventForUpdate.getRequestModeration().equals("true")) {
+
+        if (!eventForUpdate.isRequestModeration()) {
             throw new ValidationException("Отменить можно только событие в состоянии ожидания модерации");
         }
 

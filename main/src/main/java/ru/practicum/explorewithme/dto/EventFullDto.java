@@ -43,8 +43,7 @@ public class EventFullDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime publishedOn;
-    @JsonSerialize(using = StringBooleanSerializer.class)
-    private String requestModeration;
+    private boolean requestModeration;
     private State state;
     @NotBlank
     private String title;
