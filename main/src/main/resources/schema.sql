@@ -2,8 +2,8 @@ DROP TABLE IF EXISTS USERS, CATEGORIES, EVENTS, COMPILATIONS, REQUESTS, COMPILAT
 
 CREATE TABLE IF NOT EXISTS users (
                          id BIGSERIAL PRIMARY KEY NOT NULL,
-                         name varchar(100) NOT NULL,
-                         email varchar(320) unique NOT NULL
+                         name varchar(255) NOT NULL,
+                         email varchar(512) unique NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS categories (
