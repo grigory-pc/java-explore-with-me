@@ -40,8 +40,7 @@ public class NewEventDto {
     private LocalDateTime eventDate;
     @NotBlank
     @Builder.Default
-    @JsonSerialize(using = StringBooleanSerializer.class)
-    private String paid = "false";
+    private boolean paid = false;
     private int participantLimit;
     @Builder.Default
     private String requestModeration = "true";

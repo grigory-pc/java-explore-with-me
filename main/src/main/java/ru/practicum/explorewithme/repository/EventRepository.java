@@ -28,7 +28,7 @@ public interface EventRepository extends JpaRepository<Event, Long>, CrudReposit
             "where (upper(e.annotation) like upper(concat('%', ?1, '%')) or upper(e.description) like upper(concat('%'," +
             " ?2, '%'))) and e.category.id in ?3 and e.paid = ?4 and e.eventDate > ?5")
     List<Event> findAllByTextAndParametersWithoutTime(
-            String text, String repeatText, List<Long> categoryIds, String paid, LocalDateTime timeNow, State state,
+            String text, String repeatText, List<Long> categoryIds, boolean paid, LocalDateTime timeNow, State state,
             Pageable pageable);
 
     @Query("select e from Event e " +
@@ -36,7 +36,7 @@ public interface EventRepository extends JpaRepository<Event, Long>, CrudReposit
             " ?2, '%'))) and e.category.id in ?3 and e.paid = ?4 and e.eventDate > ?5 and e.eventDate < ?6 and " +
             "e.state = ?7")
     List<Event> findAllByTextAndParameters(
-            String text, String repeatText, List<Long> categoryIds, String paid, LocalDateTime rangeStart,
+            String text, String repeatText, List<Long> categoryIds, boolean paid, LocalDateTime rangeStart,
             LocalDateTime rangeEnd, State state, Pageable pageable);
 
     List<Event> findAllByInitiatorIdInAndStateInAndAndCategoryIdInAndEventDateIsAfterAndEventDateIsBefore(

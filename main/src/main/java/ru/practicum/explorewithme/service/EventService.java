@@ -12,7 +12,7 @@ import java.util.List;
  * Интерфейс для сервисов событий
  */
 public interface EventService {
-    List<EventShortDto> getAllEventsByParameters(String text, List<Long> categoryId, String paid,
+    List<EventShortDto> getAllEventsByParameters(String text, List<Long> categoryId, boolean paid,
                                                  LocalDateTime rangeStart, LocalDateTime rangeEnd, boolean onlyAvailable,
                                                  SortVariant sort, int from, int size);
 

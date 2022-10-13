@@ -24,8 +24,7 @@ public class AdminUpdateEventRequestDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
-    @JsonSerialize(using = StringBooleanSerializer.class)
-    private String paid;
+    private boolean paid;
     private int participantLimit;
     @JsonSerialize(using = StringBooleanSerializer.class)
     private String requestModeration;

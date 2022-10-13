@@ -14,12 +14,12 @@ CREATE TABLE IF NOT EXISTS categories (
 
 CREATE TABLE IF NOT EXISTS events (
                           id BIGSERIAL PRIMARY KEY,
-                          annotation varchar(2000),
-                          title varchar(120),
+                          annotation varchar(2000) NOT NULL,
+                          title varchar(120) NOT NULL,
                           created_on timestamp,
-                          description varchar(7000),
-                          event_date timestamp,
-                          paid varchar(10),
+                          description varchar(7000) NOT NULL,
+                          event_date timestamp NOT NULL,
+                          paid boolean,
                           participant_limit int,
                           published_on timestamp,
                           request_moderation varchar(10),
@@ -28,13 +28,13 @@ CREATE TABLE IF NOT EXISTS events (
                           initiator_id bigint,
                           views int,
                           confirmed_requests int,
-                          location_lat float,
-                          location_lon float
+                          location_lat float NOT NULL,
+                          location_lon float NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS compilations (
-                                id BIGSERIAL PRIMARY KEY,
-                                title varchar(100),
+                                id BIGSERIAL PRIMARY KEY NOT NULL,
+                                title varchar(100) NOT NULL,
                                 pinned varchar(10)
 );
 

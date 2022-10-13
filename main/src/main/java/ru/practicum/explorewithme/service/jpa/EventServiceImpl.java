@@ -35,7 +35,7 @@ public class EventServiceImpl implements EventService {
      * Возвращает список событий, найденных по параметрам запроса
      */
     @Override
-    public List<EventShortDto> getAllEventsByParameters(String text, List<Long> categoryIds, String paid,
+    public List<EventShortDto> getAllEventsByParameters(String text, List<Long> categoryIds, boolean paid,
                                                         LocalDateTime rangeStart, LocalDateTime rangeEnd,
                                                         boolean onlyAvailable, SortVariant sort, int from, int size) {
         log.info("Получен запрос на получение списка событий");

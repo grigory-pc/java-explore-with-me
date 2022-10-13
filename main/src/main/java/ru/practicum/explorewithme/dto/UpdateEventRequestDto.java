@@ -29,8 +29,7 @@ public class UpdateEventRequestDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
-    @JsonSerialize(using = StringBooleanSerializer.class)
-    private String paid;
+    private boolean paid;
     private int participantLimit;
     private String title;
 }

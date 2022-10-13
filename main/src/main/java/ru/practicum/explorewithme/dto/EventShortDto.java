@@ -34,8 +34,7 @@ public class EventShortDto {
     @NotNull
     private UserShortDto initiator;
     @NotBlank
-    @JsonSerialize(using = StringBooleanSerializer.class)
-    private String paid;
+    private boolean paid;
     @NotBlank
     private String title;
     private int views;

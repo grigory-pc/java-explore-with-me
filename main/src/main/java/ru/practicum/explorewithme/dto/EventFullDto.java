@@ -37,8 +37,7 @@ public class EventFullDto {
     @NotNull
     private UserShortDto initiator;
     @NotBlank
-    @JsonSerialize(using = StringBooleanSerializer.class)
-    private String paid;
+    private boolean paid;
     @Builder.Default
     private int participantLimit = 0;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

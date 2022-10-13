@@ -36,7 +36,7 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "initiator_id")
     private User initiator;
-    private String paid;
+    private boolean paid;
     @Column(name = "participant_limit")
     private int participantLimit;
     @Column(name = "published_on")
