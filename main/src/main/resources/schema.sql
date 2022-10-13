@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS events (
                           state varchar(20),
                           category_id bigint,
                           initiator_id bigint,
-                          views int,
                           confirmed_requests int,
                           location_lat float NOT NULL,
                           location_lon float NOT NULL

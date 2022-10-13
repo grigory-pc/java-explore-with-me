@@ -46,7 +46,6 @@ public class Event {
     @Enumerated(EnumType.STRING)
     private State state;
     private String title;
-    private int views;
     @Column(name = "location_lat")
     private float locationLat;
     @Column(name = "location_lon")

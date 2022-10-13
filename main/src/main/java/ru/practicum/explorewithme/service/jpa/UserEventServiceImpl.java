@@ -120,7 +120,11 @@ public class UserEventServiceImpl implements UserEventService {
         Event event = eventService.getEvent(eventId);
         checkEventByInitiator(eventId, userId);
 
-        return eventMapper.toFullDto(event);
+        EventFullDto eventFullDto = eventMapper.toFullDto(event);
+        int views = eventService.getEventViews(eventId);
+        eventFullDto.setViews(views);
+
+        return eventFullDto;
     }
 
     /**
@@ -145,7 +149,11 @@ public class UserEventServiceImpl implements UserEventService {
         eventForUpdate.setState(State.CANCELED);
         Event updatedEvent = eventRepository.save(eventForUpdate);
 
-        return eventMapper.toFullDto(updatedEvent);
+        EventFullDto eventFullDto = eventMapper.toFullDto(updatedEvent);
+        int views = eventService.getEventViews(eventId);
+        eventFullDto.setViews(views);
+
+        return eventFullDto;
     }
 
     /**

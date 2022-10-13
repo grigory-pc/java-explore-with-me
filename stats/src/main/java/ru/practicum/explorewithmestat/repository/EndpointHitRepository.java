@@ -11,10 +11,12 @@ import java.time.LocalDateTime;
  * Интерфейс для хранения объектов статистики
  */
 public interface EndpointHitRepository extends JpaRepository<EndpointHit, Long>, CrudRepository<EndpointHit, Long> {
-    Long countByUriAndTimestampIsAfterAndTimestampIsBefore(String uri, LocalDateTime start, LocalDateTime end);
+    int countByUriAndTimestampIsAfterAndTimestampIsBefore(String uri, LocalDateTime start, LocalDateTime end);
 
     @Query("select count(e) from EndpointHit e where e.uri = ?1 and e.timestamp > ?2 and e.timestamp < ?3 group by e.ip")
-    Long countByUniqueIp(String uri, LocalDateTime start, LocalDateTime end);
+    int countByUniqueIp(String uri, LocalDateTime start, LocalDateTime end);
 
     EndpointHit findByUri(String uri);
+
+    int countAllByUri(String uri);
 }

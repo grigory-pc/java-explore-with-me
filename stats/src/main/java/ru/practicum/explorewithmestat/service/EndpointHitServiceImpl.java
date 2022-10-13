@@ -61,4 +61,9 @@ public class EndpointHitServiceImpl implements EndpointHitService {
         }
         return viewStatsDtoList;
     }
+
+    @Override
+    public int getStatsByUri(String uri) {
+        return endpointHitRepository.countAllByUri(uri);
+    }
 }

@@ -23,13 +23,17 @@ public class BaseClient {
         return get(path, userId, null);
     }
 
-    //new get for item client
+    //new get
     protected ResponseEntity<Object> get(String path, @Nullable Map<String, Object> parameters) {
-        return get(path, null, parameters);
+        return getNoUserIdNoBody(path, parameters);
     }
 
     protected ResponseEntity<Object> get(String path, Long userId, @Nullable Map<String, Object> parameters) {
         return makeAndSendRequest(HttpMethod.GET, path, userId, parameters, null);
+    }
+
+    protected ResponseEntity<Object> getNoUserIdNoBody(String path, @Nullable Map<String, Object> parameters) {
+        return makeAndSendRequest(HttpMethod.GET, path, null, parameters, null);
     }
 
     protected <T> ResponseEntity<Object> post(String path, T body) {
@@ -91,17 +95,17 @@ public class BaseClient {
     private <T> ResponseEntity<Object> makeAndSendRequest(HttpMethod method, String path, Long userId, @Nullable Map<String, Object> parameters, @Nullable T body) {
         HttpEntity<T> requestEntity = new HttpEntity<>(body, defaultHeaders(userId));
 
-        ResponseEntity<Object> shareitServerResponse;
+        ResponseEntity<Object> remoteServerResponse;
         try {
             if (parameters != null) {
-                shareitServerResponse = rest.exchange(path, method, requestEntity, Object.class, parameters);
+                remoteServerResponse = rest.exchange(path, method, requestEntity, Object.class, parameters);
             } else {
-                shareitServerResponse = rest.exchange(path, method, requestEntity, Object.class);
+                remoteServerResponse = rest.exchange(path, method, requestEntity, Object.class);
             }
         } catch (HttpStatusCodeException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsByteArray());
         }
-        return prepareGatewayResponse(shareitServerResponse);
+        return prepareGatewayResponse(remoteServerResponse);
     }
 
     private HttpHeaders defaultHeaders(Long userId) {

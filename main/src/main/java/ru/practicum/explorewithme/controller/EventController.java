@@ -3,7 +3,7 @@ package ru.practicum.explorewithme.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explorewithme.client.EventClient;
+import ru.practicum.explorewithme.client.StatsClient;
 import ru.practicum.explorewithme.dto.EndpointHit;
 import ru.practicum.explorewithme.dto.EventFullDto;
 import ru.practicum.explorewithme.dto.EventShortDto;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EventController {
     private final EventService eventService;
-    private final EventClient eventClient;
+    private final StatsClient statsClient;
 
     /**
      * Возвращает список событий, найденных по переданным параметрам поиска
@@ -59,7 +59,7 @@ public class EventController {
                 .timestamp(LocalDateTime.now())
                 .build();
 
-        eventClient.postStat(endpointHit);
+        statsClient.postStat(endpointHit);
 
         return eventService.getAllEventsByParameters(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort,
                 from, size);
@@ -80,7 +80,7 @@ public class EventController {
                 .timestamp(LocalDateTime.now())
                 .build();
 
-        eventClient.postStat(endpointHit);
+        statsClient.postStat(endpointHit);
 
         return eventService.getEventById(id);
     }

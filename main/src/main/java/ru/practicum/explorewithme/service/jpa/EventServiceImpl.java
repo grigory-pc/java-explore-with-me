@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.OffsetBasedPageRequest;
+import ru.practicum.explorewithme.client.StatsClient;
 import ru.practicum.explorewithme.dto.EventFullDto;
 import ru.practicum.explorewithme.dto.EventShortDto;
 import ru.practicum.explorewithme.dto.State;
@@ -17,6 +18,7 @@ import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.service.EventService;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
 public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
+    private final StatsClient statsClient;
 
     /**
      * Возвращает список событий, найденных по параметрам запроса
@@ -45,8 +48,6 @@ public class EventServiceImpl implements EventService {
 
         if (sort.equals(SortVariant.EVENT_DATE)) {
             pageable = OffsetBasedPageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "eventDate"));
-        } else if (sort.equals(SortVariant.VIEWS)) {
-            pageable = OffsetBasedPageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "views"));
         }
 
         if (rangeStart == null || rangeEnd == null) {
@@ -63,7 +64,20 @@ public class EventServiceImpl implements EventService {
                     .collect(Collectors.toList());
         }
 
-        return eventMapper.toShortDto(allEvents);
+        List<EventShortDto> eventShortDtos = eventMapper.toShortDto(allEvents);
+
+        for (EventShortDto eventShortDto : eventShortDtos) {
+            int views = getEventViews(eventShortDto.getId());
+            eventShortDto.setViews(views);
+        }
+
+        if (sort.equals(SortVariant.VIEWS)) {
+            eventShortDtos.stream()
+                    .sorted(Comparator.comparingInt(EventShortDto::getViews))
+                    .collect(Collectors.toList());
+        }
+
+        return eventShortDtos;
     }
 
     /**
@@ -76,10 +90,11 @@ public class EventServiceImpl implements EventService {
 
         Event event = eventRepository.findByIdAndState(id, State.PUBLISHED);
 
-        event.setViews(event.getViews() + 1);
-        eventRepository.save(event);
+        EventFullDto eventFullDto = eventMapper.toFullDto(event);
+        int views = getEventViews(id);
+        eventFullDto.setViews(views);
 
-        return eventMapper.toFullDto(event);
+        return eventFullDto;
     }
 
     @Override
@@ -88,5 +103,12 @@ public class EventServiceImpl implements EventService {
             throw new NotFoundException("событие не найдено");
         }
         return eventRepository.findById(eventId);
+    }
+
+    @Override
+    public int getEventViews(long eventId) {
+        String uri = "/events/" + eventId;
+
+        return statsClient.getStatsByUri(uri);
     }
 }

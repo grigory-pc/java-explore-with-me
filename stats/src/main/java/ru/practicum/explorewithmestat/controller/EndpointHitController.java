@@ -44,4 +44,15 @@ public class EndpointHitController {
                                        @RequestParam(defaultValue = "false") boolean unique) {
         return endpointHitService.getStats(start, end, uris, unique);
     }
+
+    /**
+     * Возвращает статистику, найденную для определенного события
+     *
+     * @param uri для которого нужно выгрузить статистику
+     * @return возвращает количество просмотров
+     */
+    @GetMapping("/stats/hits")
+    public int getStatsByUri(@RequestParam String uri) {
+        return endpointHitService.getStatsByUri(uri);
+    }
 }

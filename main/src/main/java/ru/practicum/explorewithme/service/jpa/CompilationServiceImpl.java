@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.OffsetBasedPageRequest;
 import ru.practicum.explorewithme.dto.CompilationDto;
+import ru.practicum.explorewithme.dto.EventShortDto;
 import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.mapper.CompilationMapper;
 import ru.practicum.explorewithme.mapper.EventMapper;
@@ -17,6 +18,7 @@ import ru.practicum.explorewithme.repository.CompilationEventRepository;
 import ru.practicum.explorewithme.repository.CompilationRepository;
 import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.service.CompilationService;
+import ru.practicum.explorewithme.service.EventService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +36,7 @@ public class CompilationServiceImpl implements CompilationService {
     private final EventRepository eventRepository;
     private final CompilationMapper compilationMapper;
     private final EventMapper eventMapper;
+    private final EventService eventService;
 
     /**
      * Возвращает список подборок событий
@@ -48,8 +51,15 @@ public class CompilationServiceImpl implements CompilationService {
                 pageable));
 
         for (CompilationDto compilationDto : allCompilationsDto) {
-            compilationDto.setEvents(eventMapper.toShortDto(getEvents(compilationDto.getId())));
+            List<EventShortDto> eventShortDtos = eventMapper.toShortDto(getEvents(compilationDto.getId()));
+
+            for (EventShortDto eventShortDto : eventShortDtos) {
+                int views = eventService.getEventViews(eventShortDto.getId());
+                eventShortDto.setViews(views);
+            }
+            compilationDto.setEvents(eventShortDtos);
         }
+
         return allCompilationsDto;
     }
 
@@ -61,7 +71,14 @@ public class CompilationServiceImpl implements CompilationService {
         log.info("Получен запрос на получение подборки по id" + compId);
 
         CompilationDto compilationDto = compilationMapper.toDto(getCompilation(compId));
-        compilationDto.setEvents(eventMapper.toShortDto(getEvents(compId)));
+        List<EventShortDto> eventShortDtos = eventMapper.toShortDto(getEvents(compId));
+
+        for (EventShortDto eventShortDto : eventShortDtos) {
+            int views = eventService.getEventViews(eventShortDto.getId());
+            eventShortDto.setViews(views);
+        }
+
+        compilationDto.setEvents(eventShortDtos);
 
         return compilationDto;
     }

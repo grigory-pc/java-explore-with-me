@@ -19,4 +19,6 @@ public interface EventService {
     EventFullDto getEventById(long id);
 
     Event getEvent(long eventId);
+
+    int getEventViews(long eventId);
 }

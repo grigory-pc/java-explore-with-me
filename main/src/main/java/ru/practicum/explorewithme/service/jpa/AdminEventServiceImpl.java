@@ -46,7 +46,14 @@ public class AdminEventServiceImpl implements AdminEventService {
                 .findAllByInitiatorIdInAndStateInAndAndCategoryIdInAndEventDateIsAfterAndEventDateIsBefore(
                         userIds, states, categoryIds, rangeStart, rangeEnd, pageable);
 
-        return eventMapper.toFullDto(allEvents);
+        List<EventFullDto> allEventsFullDto = eventMapper.toFullDto(allEvents);
+
+        for (EventFullDto eventFullDto : allEventsFullDto) {
+            int views = eventService.getEventViews(eventFullDto.getId());
+            eventFullDto.setViews(views);
+        }
+
+        return allEventsFullDto;
     }
 
     /**
@@ -85,7 +92,11 @@ public class AdminEventServiceImpl implements AdminEventService {
         }
         Event updatedEvent = eventRepository.save(eventForUpdate);
 
-        return eventMapper.toFullDto(updatedEvent);
+        EventFullDto updatedEventFullDto = eventMapper.toFullDto(updatedEvent);
+        int views = eventService.getEventViews(eventId);
+        updatedEventFullDto.setViews(views);
+
+        return updatedEventFullDto;
     }
 
     private void checkEventTime(Event event) {
