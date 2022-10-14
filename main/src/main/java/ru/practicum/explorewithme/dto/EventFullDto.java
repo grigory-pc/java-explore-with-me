@@ -11,6 +11,7 @@ import ru.practicum.explorewithme.model.Category;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Dto события
@@ -48,4 +49,5 @@ public class EventFullDto {
     private String title;
     private int views;
     private Location location;
+    private List<CommentDto> comments;
 }

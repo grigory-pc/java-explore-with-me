@@ -7,9 +7,9 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS categories (
-                              id BIGSERIAL PRIMARY KEY NOT NULL,
-                              name varchar(50) unique  NOT NULL,
-                              pinned varchar(10)
+                          id BIGSERIAL PRIMARY KEY NOT NULL,
+                          name varchar(50) unique  NOT NULL,
+                          pinned varchar(10)
 );
 
 CREATE TABLE IF NOT EXISTS events (
@@ -32,23 +32,31 @@ CREATE TABLE IF NOT EXISTS events (
 );
 
 CREATE TABLE IF NOT EXISTS compilations (
-                                id BIGSERIAL PRIMARY KEY NOT NULL,
-                                title varchar(100) NOT NULL,
-                                pinned boolean default false
+                          id BIGSERIAL PRIMARY KEY NOT NULL,
+                          title varchar(100) NOT NULL,
+                          pinned boolean default false
 );
 
 CREATE TABLE IF NOT EXISTS requests (
-                            id BIGSERIAL PRIMARY KEY,
-                            events_id bigint,
-                            requester_id bigint,
-                            status varchar(20),
-                            created timestamp
+                          id BIGSERIAL PRIMARY KEY,
+                          events_id bigint,
+                          requester_id bigint,
+                          status varchar(20),
+                          created timestamp
 );
 
 CREATE TABLE IF NOT EXISTS compilations_events (
-                                       events_id bigint,
-                                       compilation_id bigint,
-                                       PRIMARY KEY (events_id, compilation_id)
+                           events_id bigint,
+                           compilation_id bigint,
+                           PRIMARY KEY (events_id, compilation_id)
+);
+
+CREATE TABLE IF NOT EXISTS comments (
+                           id long PRIMARY KEY AUTO_INCREMENT,
+                           text varchar(200),
+                           event_id long,
+                           author_id long,
+                           created date
 );
 
 ALTER TABLE events ADD FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE;
@@ -62,3 +70,7 @@ ALTER TABLE requests ADD FOREIGN KEY (requester_id) REFERENCES users (id) ON DEL
 ALTER TABLE compilations_events ADD FOREIGN KEY (events_id) REFERENCES events (id) ON DELETE CASCADE;
 
 ALTER TABLE compilations_events ADD FOREIGN KEY (compilation_id) REFERENCES compilations (id) ON DELETE CASCADE;
+
+ALTER TABLE comments ADD FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE;
+
+ALTER TABLE comments ADD FOREIGN KEY (author_id) REFERENCES users (id) ON DELETE CASCADE;

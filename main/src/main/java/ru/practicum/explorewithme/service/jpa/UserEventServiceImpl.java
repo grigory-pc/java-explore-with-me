@@ -8,12 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.OffsetBasedPageRequest;
 import ru.practicum.explorewithme.dto.*;
 import ru.practicum.explorewithme.exception.ValidationException;
+import ru.practicum.explorewithme.mapper.CommentMapper;
 import ru.practicum.explorewithme.mapper.EventMapper;
 import ru.practicum.explorewithme.mapper.RequestMapper;
-import ru.practicum.explorewithme.model.Category;
-import ru.practicum.explorewithme.model.Event;
-import ru.practicum.explorewithme.model.Request;
-import ru.practicum.explorewithme.model.User;
+import ru.practicum.explorewithme.model.*;
+import ru.practicum.explorewithme.repository.CommentRepository;
 import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.repository.RequestRepository;
 import ru.practicum.explorewithme.service.*;
@@ -32,8 +31,10 @@ import java.util.List;
 public class UserEventServiceImpl implements UserEventService {
     private final EventRepository eventRepository;
     private final RequestRepository requestRepository;
+    private final CommentRepository commentRepository;
     private final EventMapper eventMapper;
     private final RequestMapper requestMapper;
+    private final CommentMapper commentMapper;
     private final AdminUserService adminUserService;
     private final EventService eventService;
     private final UserRequestService userRequestService;
@@ -65,8 +66,9 @@ public class UserEventServiceImpl implements UserEventService {
                 " пользователем: " + userId);
 
         adminUserService.getUser(userId);
+        long eventId = updateEventRequestDto.getId();
 
-        Event eventForUpdateByUser = eventService.getEvent(updateEventRequestDto.getId());
+        Event eventForUpdateByUser = eventService.getEvent(eventId);
 
         checkEventTime(eventForUpdateByUser);
         checkEventByInitiator(updateEventRequestDto.getId(), userId);
@@ -82,8 +84,12 @@ public class UserEventServiceImpl implements UserEventService {
         }
 
         Event updatedEvent = eventRepository.save(eventForUpdateByUser);
+        EventFullDto eventFullDto = eventMapper.toFullDto(updatedEvent);
 
-        return eventMapper.toFullDto(updatedEvent);
+        List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.findAllByEventId(eventId));
+        eventFullDto.setComments(existEventComments);
+
+        return eventFullDto;
     }
 
     /**
@@ -124,6 +130,9 @@ public class UserEventServiceImpl implements UserEventService {
         int views = eventService.getEventViews(eventId);
         eventFullDto.setViews(views);
 
+        List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.findAllByEventId(eventId));
+        eventFullDto.setComments(existEventComments);
+
         return eventFullDto;
     }
 
@@ -152,6 +161,10 @@ public class UserEventServiceImpl implements UserEventService {
         EventFullDto eventFullDto = eventMapper.toFullDto(updatedEvent);
         int views = eventService.getEventViews(eventId);
         eventFullDto.setViews(views);
+
+        List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.findAllByEventId(eventId));
+        eventFullDto.setComments(existEventComments);
+
 
         return eventFullDto;
     }

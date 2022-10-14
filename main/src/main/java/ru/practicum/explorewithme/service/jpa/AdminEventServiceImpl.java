@@ -7,11 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.OffsetBasedPageRequest;
 import ru.practicum.explorewithme.dto.AdminUpdateEventRequestDto;
+import ru.practicum.explorewithme.dto.CommentDto;
 import ru.practicum.explorewithme.dto.EventFullDto;
 import ru.practicum.explorewithme.dto.State;
 import ru.practicum.explorewithme.exception.ValidationException;
+import ru.practicum.explorewithme.mapper.CommentMapper;
 import ru.practicum.explorewithme.mapper.EventMapper;
 import ru.practicum.explorewithme.model.Event;
+import ru.practicum.explorewithme.repository.CommentRepository;
 import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.service.AdminEventService;
 import ru.practicum.explorewithme.service.EventService;
@@ -29,7 +32,9 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class AdminEventServiceImpl implements AdminEventService {
     private final EventRepository eventRepository;
+    private final CommentRepository commentRepository;
     private final EventMapper eventMapper;
+    private final CommentMapper commentMapper;
     private final EventService eventService;
 
     /**
@@ -37,7 +42,8 @@ public class AdminEventServiceImpl implements AdminEventService {
      */
     @Override
     public List<EventFullDto> getAllEventsByParameters(List<Long> userIds, List<State> states, List<Long> categoryIds,
-                                                       LocalDateTime rangeStart, LocalDateTime rangeEnd, int from, int size) {
+                                                       LocalDateTime rangeStart, LocalDateTime rangeEnd, int from,
+                                                       int size) {
         log.info("Получен запрос на получение списка событий");
 
         Pageable pageable = OffsetBasedPageRequest.of(from, size);
@@ -51,6 +57,10 @@ public class AdminEventServiceImpl implements AdminEventService {
         for (EventFullDto eventFullDto : allEventsFullDto) {
             int views = eventService.getEventViews(eventFullDto.getId());
             eventFullDto.setViews(views);
+
+            List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.
+                    findAllByEventId(eventFullDto.getId()));
+            eventFullDto.setComments(existEventComments);
         }
 
         return allEventsFullDto;
@@ -95,6 +105,9 @@ public class AdminEventServiceImpl implements AdminEventService {
         EventFullDto updatedEventFullDto = eventMapper.toFullDto(updatedEvent);
         int views = eventService.getEventViews(eventId);
         updatedEventFullDto.setViews(views);
+
+        List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.findAllByEventId(eventId));
+        updatedEventFullDto.setComments(existEventComments);
 
         return updatedEventFullDto;
     }
