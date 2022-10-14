@@ -1,5 +1,3 @@
-https://github.com/grigory-pc/java-explore-with-me/pull/1
-
 # java-explore-with-me
 Данный проект представляет сервис Афиши.
 Приложение позволяет:
