@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.dto.CommentDto;
 import ru.practicum.explorewithme.dto.State;
+import ru.practicum.explorewithme.dto.UpdateCommentDto;
 import ru.practicum.explorewithme.exception.ValidationException;
 import ru.practicum.explorewithme.mapper.CommentMapper;
 import ru.practicum.explorewithme.model.Comment;
@@ -55,7 +56,7 @@ public class UserCommentServiceImpl implements UserCommentService {
 
     @Override
     @Transactional
-    public CommentDto updateComment(long userId, long commentId, CommentDto commentDto) {
+    public CommentDto updateComment(long userId, long commentId, UpdateCommentDto updateCommentDto) {
         log.info("Получен запрос на обновление комментария: " + commentId + ", добавленного" +
                 " пользователем: " + userId);
 
@@ -63,7 +64,7 @@ public class UserCommentServiceImpl implements UserCommentService {
 
         checkUser(commentForUpdate.getUser().getId(), userId);
 
-        commentMapper.updateCommentFromDto(commentDto, commentForUpdate);
+        commentMapper.updateCommentFromDto(updateCommentDto, commentForUpdate);
 
         commentForUpdate.setState(State.PENDING);
 
@@ -73,13 +74,17 @@ public class UserCommentServiceImpl implements UserCommentService {
     }
 
     @Override
-    public void deleteComment(long commentId) {
+    public void deleteComment(long userId, long commentId) {
+        Comment commentForDelete = commentRepository.findById(commentId);
+
+        checkUser(commentForDelete.getUser().getId(), userId);
+
         commentRepository.deleteById(commentId);
     }
 
     private void checkUser(long authorId, long userId) {
         if (authorId != userId) {
-            throw new ValidationException("Комментарий может изменять только его автор");
+            throw new ValidationException("Комментарий может изменять или удалять только его автор");
         }
     }
 }

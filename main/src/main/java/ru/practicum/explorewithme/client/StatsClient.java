@@ -39,8 +39,3 @@ public class StatsClient extends BaseClient {
         return (int) responseEntity.getBody();
     }
 }
-
-
-
-
-

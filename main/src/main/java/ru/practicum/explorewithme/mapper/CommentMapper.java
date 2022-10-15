@@ -2,6 +2,7 @@ package ru.practicum.explorewithme.mapper;
 
 import org.mapstruct.*;
 import ru.practicum.explorewithme.dto.CommentDto;
+import ru.practicum.explorewithme.dto.UpdateCommentDto;
 import ru.practicum.explorewithme.model.Comment;
 
 import java.util.List;
@@ -19,5 +20,5 @@ public interface CommentMapper {
     List<CommentDto> toDto(Iterable<Comment> comments);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateCommentFromDto(CommentDto commentDto, @MappingTarget Comment comment);
+    void updateCommentFromDto(UpdateCommentDto updateCommentDto, @MappingTarget Comment comment);
 }
