@@ -50,10 +50,8 @@ public class UserCommentController {
      * @return событие
      */
     @DeleteMapping("/{commentId}")
-    public void cancelEventById(@PathVariable long userId,
+    public void deleteCommentById(@PathVariable long userId,
                                 @PathVariable long commentId) {
         userCommentService.deleteComment(userId, commentId);
     }
-
-
 }

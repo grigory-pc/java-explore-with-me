@@ -6,7 +6,7 @@ import ru.practicum.explorewithme.dto.CommentDto;
 import ru.practicum.explorewithme.service.AdminCommentService;
 
 /**
- * Основной контроллер для работы Администратора с категориями
+ * Основной контроллер для работы Администратора с комментариями
  */
 @RestController
 @RequestMapping("/admin/comments")

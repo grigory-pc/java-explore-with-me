@@ -99,7 +99,8 @@ public class EventServiceImpl implements EventService {
         int views = getEventViews(id);
         eventFullDto.setViews(views);
 
-        List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.findAllByEventId(id));
+        List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.findAllByEventIdAndState(id,
+                State.PUBLISHED));
         eventFullDto.setComments(existEventComments);
 
         return eventFullDto;

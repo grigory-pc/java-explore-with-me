@@ -28,7 +28,6 @@ public class EventShortDto {
     private int confirmedRequests;
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
     @NotNull
     private UserShortDto initiator;

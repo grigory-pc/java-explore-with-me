@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 public class UpdateCommentDto {
     private String text;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updated;
     private State state;
 }

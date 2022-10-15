@@ -86,7 +86,8 @@ public class UserEventServiceImpl implements UserEventService {
         Event updatedEvent = eventRepository.save(eventForUpdateByUser);
         EventFullDto eventFullDto = eventMapper.toFullDto(updatedEvent);
 
-        List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.findAllByEventId(eventId));
+        List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.findAllByEventIdAndState(eventId,
+                State.PUBLISHED));
         eventFullDto.setComments(existEventComments);
 
         return eventFullDto;
@@ -130,7 +131,8 @@ public class UserEventServiceImpl implements UserEventService {
         int views = eventService.getEventViews(eventId);
         eventFullDto.setViews(views);
 
-        List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.findAllByEventId(eventId));
+        List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.findAllByEventIdAndState(eventId,
+                State.PUBLISHED));
         eventFullDto.setComments(existEventComments);
 
         return eventFullDto;
@@ -162,7 +164,8 @@ public class UserEventServiceImpl implements UserEventService {
         int views = eventService.getEventViews(eventId);
         eventFullDto.setViews(views);
 
-        List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.findAllByEventId(eventId));
+        List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.findAllByEventIdAndState(eventId,
+                State.PUBLISHED));
         eventFullDto.setComments(existEventComments);
 
 

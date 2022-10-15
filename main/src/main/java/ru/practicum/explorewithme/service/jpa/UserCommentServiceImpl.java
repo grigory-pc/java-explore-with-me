@@ -48,7 +48,6 @@ public class UserCommentServiceImpl implements UserCommentService {
             commentForSave.setEvent(event);
             commentForSave.setUser(user);
             commentForSave.setState(State.PENDING);
-            commentForSave.setCreated(LocalDateTime.now());
 
             return commentMapper.toDto(commentRepository.save(commentForSave));
         }

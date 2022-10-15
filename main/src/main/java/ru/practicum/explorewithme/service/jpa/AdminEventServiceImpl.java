@@ -59,7 +59,7 @@ public class AdminEventServiceImpl implements AdminEventService {
             eventFullDto.setViews(views);
 
             List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.
-                    findAllByEventId(eventFullDto.getId()));
+                    findAllByEventIdAndState(eventFullDto.getId(), State.PUBLISHED));
             eventFullDto.setComments(existEventComments);
         }
 
@@ -106,7 +106,8 @@ public class AdminEventServiceImpl implements AdminEventService {
         int views = eventService.getEventViews(eventId);
         updatedEventFullDto.setViews(views);
 
-        List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.findAllByEventId(eventId));
+        List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.findAllByEventIdAndState(eventId,
+                State.PUBLISHED));
         updatedEventFullDto.setComments(existEventComments);
 
         return updatedEventFullDto;
