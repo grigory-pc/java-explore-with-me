@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String text;
     @ManyToOne

@@ -53,7 +53,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
         for (Long eventId : newCompilationDto.getEvents()) {
             CompilationsEvents newCompilationsEvents = CompilationsEvents.builder()
                     .compilationId(newCompilationId)
-                    .eventsId(eventId)
+                    .eventId(eventId)
                     .build();
 
             compilationEventRepository.save(newCompilationsEvents);
@@ -65,7 +65,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
                 compilationEventRepository.findAllByCompilationId(newCompilationId);
 
         List<Long> eventsIds = allEventsOfCompilation.stream()
-                .map(event -> event.getEventsId())
+                .map(event -> event.getEventId())
                 .collect(Collectors.toList());
 
         List<Event> allEvents = eventRepository.findAllByIdIn(eventsIds);
@@ -99,7 +99,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
 
         compilationService.getCompilation(compilationId);
 
-        compilationEventRepository.deleteByCompilationIdAndAndEventsId(compilationId, eventId);
+        compilationEventRepository.deleteByCompilationIdAndAndEventId(compilationId, eventId);
     }
 
     /**
@@ -115,7 +115,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
 
         CompilationsEvents newCompilationsEvents = CompilationsEvents.builder()
                 .compilationId(compilationId)
-                .eventsId(eventId)
+                .eventId(eventId)
                 .build();
 
         compilationEventRepository.save(newCompilationsEvents);

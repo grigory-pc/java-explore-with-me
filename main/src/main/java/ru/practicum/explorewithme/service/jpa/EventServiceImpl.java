@@ -8,15 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.OffsetBasedPageRequest;
 import ru.practicum.explorewithme.client.StatsClient;
-import ru.practicum.explorewithme.dto.CommentDto;
 import ru.practicum.explorewithme.dto.EventFullDto;
 import ru.practicum.explorewithme.dto.EventShortDto;
 import ru.practicum.explorewithme.dto.State;
 import ru.practicum.explorewithme.exception.NotFoundException;
-import ru.practicum.explorewithme.mapper.CommentMapper;
 import ru.practicum.explorewithme.mapper.EventMapper;
 import ru.practicum.explorewithme.model.Event;
-import ru.practicum.explorewithme.repository.CommentRepository;
 import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.service.EventService;
 
@@ -34,9 +31,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
-    private final CommentRepository commentRepository;
     private final EventMapper eventMapper;
-    private final CommentMapper commentMapper;
     private final StatsClient statsClient;
 
     /**
@@ -98,10 +93,6 @@ public class EventServiceImpl implements EventService {
         EventFullDto eventFullDto = eventMapper.toFullDto(event);
         int views = getEventViews(id);
         eventFullDto.setViews(views);
-
-        List<CommentDto> existEventComments = commentMapper.toDto(commentRepository.findAllByEventIdAndState(id,
-                State.PUBLISHED));
-        eventFullDto.setComments(existEventComments);
 
         return eventFullDto;
     }

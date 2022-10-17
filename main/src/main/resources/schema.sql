@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS USERS, CATEGORIES, EVENTS, COMPILATIONS, REQUESTS, COMPILATIONS_EVENTS;
+DROP TABLE IF EXISTS USERS, CATEGORIES, EVENTS, COMPILATIONS, REQUESTS, COMPILATIONS_EVENTS CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
                          id BIGSERIAL PRIMARY KEY NOT NULL,
@@ -39,36 +39,36 @@ CREATE TABLE IF NOT EXISTS compilations (
 
 CREATE TABLE IF NOT EXISTS requests (
                           id BIGSERIAL PRIMARY KEY,
-                          events_id bigint,
+                          event_id bigint,
                           requester_id bigint,
                           status varchar(20),
                           created timestamp
 );
 
 CREATE TABLE IF NOT EXISTS compilations_events (
-                           events_id bigint,
+                           event_id bigint,
                            compilation_id bigint,
-                           PRIMARY KEY (events_id, compilation_id)
+                           PRIMARY KEY (event_id, compilation_id)
 );
 
 CREATE TABLE IF NOT EXISTS comments (
-                           id long PRIMARY KEY AUTO_INCREMENT,
+                           id BIGSERIAL PRIMARY KEY,
                            text varchar(200),
-                           event_id long,
-                           author_id long,
+                           event_id bigint,
+                           author_id bigint,
                            state_comment varchar(20),
-                           created date
+                           created timestamp
 );
 
 ALTER TABLE events ADD FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE;
 
 ALTER TABLE events ADD FOREIGN KEY (initiator_id) REFERENCES users (id) ON DELETE CASCADE;
 
-ALTER TABLE requests ADD FOREIGN KEY (events_id) REFERENCES events (id) ON DELETE CASCADE;
+ALTER TABLE requests ADD FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE;
 
 ALTER TABLE requests ADD FOREIGN KEY (requester_id) REFERENCES users (id) ON DELETE CASCADE;
 
-ALTER TABLE compilations_events ADD FOREIGN KEY (events_id) REFERENCES events (id) ON DELETE CASCADE;
+ALTER TABLE compilations_events ADD FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE;
 
 ALTER TABLE compilations_events ADD FOREIGN KEY (compilation_id) REFERENCES compilations (id) ON DELETE CASCADE;
 

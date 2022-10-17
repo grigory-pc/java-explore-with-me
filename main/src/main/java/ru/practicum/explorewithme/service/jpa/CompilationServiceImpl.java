@@ -95,7 +95,7 @@ public class CompilationServiceImpl implements CompilationService {
         List<CompilationsEvents> allEventsOfCompilation = compilationEventRepository.findAllByCompilationId(compId);
 
         List<Long> eventsIds = allEventsOfCompilation.stream()
-                .map(event -> event.getEventsId())
+                .map(event -> event.getEventId())
                 .collect(Collectors.toList());
 
         return eventRepository.findAllByIdIn(eventsIds);

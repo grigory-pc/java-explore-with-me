@@ -20,10 +20,10 @@ import java.time.LocalDateTime;
 @Table(name = "requests")
 public class Request {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne
-    @JoinColumn(name = "events_id")
+    @JoinColumn(name = "event_id")
     private Event event;
     @ManyToOne
     @JoinColumn(name = "requester_id")

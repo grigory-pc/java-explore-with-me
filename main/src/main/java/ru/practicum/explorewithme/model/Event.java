@@ -4,10 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import ru.practicum.explorewithme.dto.CommentDto;
 import ru.practicum.explorewithme.dto.State;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Объект событий
@@ -20,7 +22,7 @@ import java.time.LocalDateTime;
 @Table(name = "events")
 public class Event {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String annotation;
     @ManyToOne
@@ -50,4 +52,7 @@ public class Event {
     private float locationLat;
     @Column(name = "location_lon")
     private float locationLon;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "event_id")
+    private List<Comment> comments;
 }
