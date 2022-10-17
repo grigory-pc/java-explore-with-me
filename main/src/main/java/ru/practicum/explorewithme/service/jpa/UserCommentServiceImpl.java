@@ -48,7 +48,7 @@ public class UserCommentServiceImpl implements UserCommentService {
 
         commentForSave.setEvent(event);
         commentForSave.setUser(user);
-        commentForSave.setState(StateComment.PENDING);
+        commentForSave.setStateComment(StateComment.PENDING);
 
         return commentMapper.toDto(commentRepository.save(commentForSave));
     }
@@ -65,7 +65,7 @@ public class UserCommentServiceImpl implements UserCommentService {
 
         commentMapper.updateCommentFromDto(updateCommentDto, commentForUpdate);
 
-        commentForUpdate.setState(StateComment.PENDING);
+        commentForUpdate.setStateComment(StateComment.PENDING);
 
         Comment commentUpdated = commentRepository.save(commentForUpdate);
 

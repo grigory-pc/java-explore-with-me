@@ -32,9 +32,9 @@ public class AdminCommentServiceImpl implements AdminCommentService {
         Comment commentForPublish = getComment(commentId);
 
         if (publish) {
-            commentForPublish.setState(StateComment.PUBLISHED);
+            commentForPublish.setStateComment(StateComment.PUBLISHED);
         } else {
-            commentForPublish.setState(StateComment.CANCELED);
+            commentForPublish.setStateComment(StateComment.CANCELED);
         }
 
         Comment updatedComment = commentRepository.save(commentForPublish);

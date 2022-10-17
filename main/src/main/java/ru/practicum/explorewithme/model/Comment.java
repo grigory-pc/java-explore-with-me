@@ -32,7 +32,7 @@ public class Comment {
     @JoinColumn(name = "author_id")
     private User user;
     @Column(name = "state_comment")
-    private StateComment state;
+    private StateComment stateComment;
     @CreationTimestamp
     private LocalDateTime created;
 }
