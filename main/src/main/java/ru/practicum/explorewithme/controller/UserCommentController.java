@@ -9,7 +9,7 @@ import ru.practicum.explorewithme.service.UserCommentService;
  * Основной контроллер для работы пользователя с событиями
  */
 @RestController
-@RequestMapping("/users/{userId}/comments")
+@RequestMapping("/users/{userId}/event/{eventId}/comments")
 @RequiredArgsConstructor
 public class UserCommentController {
     private final UserCommentService userCommentService;
@@ -21,7 +21,7 @@ public class UserCommentController {
      * @param eventId события
      * @return возвращает добавленный объект комментария с id
      */
-    @PostMapping("/event/{eventId}")
+    @PostMapping
     public CommentDto addNewCommentByUser(@RequestBody CommentDto commentDto,
                                           @PathVariable long userId,
                                           @PathVariable long eventId) {

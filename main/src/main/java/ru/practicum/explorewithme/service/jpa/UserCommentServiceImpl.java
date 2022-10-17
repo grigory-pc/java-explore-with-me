@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.dto.CommentDto;
 import ru.practicum.explorewithme.dto.State;
+import ru.practicum.explorewithme.dto.StateComment;
 import ru.practicum.explorewithme.dto.UpdateCommentDto;
 import ru.practicum.explorewithme.exception.ValidationException;
 import ru.practicum.explorewithme.mapper.CommentMapper;
@@ -42,15 +43,14 @@ public class UserCommentServiceImpl implements UserCommentService {
 
         if (event.getInitiator().getId() == userId) {
             throw new ValidationException("Комментарий не может оставлять инициатор события");
-        } else {
-            Comment commentForSave = commentMapper.toComment(commentDto);
-
-            commentForSave.setEvent(event);
-            commentForSave.setUser(user);
-            commentForSave.setState(State.PENDING);
-
-            return commentMapper.toDto(commentRepository.save(commentForSave));
         }
+        Comment commentForSave = commentMapper.toComment(commentDto);
+
+        commentForSave.setEvent(event);
+        commentForSave.setUser(user);
+        commentForSave.setState(StateComment.PENDING);
+
+        return commentMapper.toDto(commentRepository.save(commentForSave));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class UserCommentServiceImpl implements UserCommentService {
 
         commentMapper.updateCommentFromDto(updateCommentDto, commentForUpdate);
 
-        commentForUpdate.setState(State.PENDING);
+        commentForUpdate.setState(StateComment.PENDING);
 
         Comment commentUpdated = commentRepository.save(commentForUpdate);
 

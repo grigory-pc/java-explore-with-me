@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 @RequiredArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
     @Email
     @Size(max = 512)

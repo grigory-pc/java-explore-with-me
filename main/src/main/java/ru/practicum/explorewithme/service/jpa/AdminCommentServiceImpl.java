@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.dto.CommentDto;
 import ru.practicum.explorewithme.dto.State;
+import ru.practicum.explorewithme.dto.StateComment;
 import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.mapper.CommentMapper;
 import ru.practicum.explorewithme.model.Comment;
@@ -31,9 +32,9 @@ public class AdminCommentServiceImpl implements AdminCommentService {
         Comment commentForPublish = getComment(commentId);
 
         if (publish) {
-            commentForPublish.setState(State.PUBLISHED);
+            commentForPublish.setState(StateComment.PUBLISHED);
         } else {
-            commentForPublish.setState(State.CANCELED);
+            commentForPublish.setState(StateComment.CANCELED);
         }
 
         Comment updatedComment = commentRepository.save(commentForPublish);

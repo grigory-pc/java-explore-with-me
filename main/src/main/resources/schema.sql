@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS comments (
                            text varchar(200),
                            event_id long,
                            author_id long,
-                           State state,
+                           state_comment varchar(20),
                            created date
 );
 

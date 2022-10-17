@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Table(name = "requests")
 public class Request {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
     @ManyToOne
     @JoinColumn(name = "events_id")

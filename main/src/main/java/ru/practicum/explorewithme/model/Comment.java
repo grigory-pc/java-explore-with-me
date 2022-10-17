@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import ru.practicum.explorewithme.dto.State;
+import ru.practicum.explorewithme.dto.StateComment;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,7 +22,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
     private String text;
     @ManyToOne
@@ -29,6 +31,8 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "author_id")
     private User user;
-    private State state;
+    @Column(name = "state_comment")
+    private StateComment state;
+    @CreationTimestamp
     private LocalDateTime created;
 }
