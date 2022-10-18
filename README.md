@@ -41,16 +41,16 @@
 
 <b>Архитектура приложения:</b>
 
-![Архитектура приложения java-explore-with-me](https://github.com/grigory-pc/java-explore-with-me/blob/develop/explore-with-me_design_03.png?raw=true)
+![Архитектура приложения java-explore-with-me](https://github.com/grigory-pc/java-explore-with-me/blob/main/explore-with-me_design_03.png?raw=true)
 
 
 <b>Схема базы данных (БД) основного сервиса:</b>
 
-![Схема БД сервиса java-explore-with-me main](https://github.com/grigory-pc/java-explore-with-me/blob/add-comment/Scheme_DB_Main_04.png?raw=true)
+![Схема БД сервиса java-explore-with-me main](https://github.com/grigory-pc/java-explore-with-me/blob/main/Scheme_DB_Main_04.png?raw=true)
 
 <b>Схема (БД) сервиса статистики:</b>
 
-![Схема БД сервиса java-explore-with-me stats](https://github.com/grigory-pc/java-explore-with-me/blob/develop/Scheme_DB_Stat_03.png?raw=true)
+![Схема БД сервиса java-explore-with-me stats](https://github.com/grigory-pc/java-explore-with-me/blob/main/Scheme_DB_Stat_03.png?raw=true)
 
 ---
 Приложение написано на Java.
@@ -59,9 +59,9 @@
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 
 --- 
-Тесты будут разработаны на базе JUnit 5.
+Тесты разработаны на базе JUnit 5 при использовании mockito.
 
-![JUnit5](https://github.com/grigory-pc/java-explore-with-me/blob/develop/junit5-logo_1.png?raw=true)
+![JUnit5](https://github.com/grigory-pc/java-explore-with-me/blob/main/mockito-junit5-logo3.png?raw=true)
 
 
 
