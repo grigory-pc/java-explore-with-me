@@ -61,7 +61,7 @@
 --- 
 Тесты разработаны на базе JUnit 5 при использовании mockito.
 
-![JUnit5](https://github.com/grigory-pc/java-explore-with-me/blob/main/mockito-junit5-logo3.png?raw=true)
+![JUnit5](https://github.com/grigory-pc/java-explore-with-me/blob/main/mockito-junit5-logo.png?raw=true)
 
 
 
