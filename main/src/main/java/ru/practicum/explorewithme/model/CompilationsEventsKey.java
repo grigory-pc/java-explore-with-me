@@ -6,6 +6,6 @@ import java.io.Serializable;
 
 @Data
 public class CompilationsEventsKey implements Serializable {
-    private long eventsId;
+    private long eventId;
     private long compilationId;
 }

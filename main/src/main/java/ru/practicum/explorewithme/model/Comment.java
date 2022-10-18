@@ -4,31 +4,35 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import ru.practicum.explorewithme.dto.Status;
+import org.hibernate.annotations.CreationTimestamp;
+import ru.practicum.explorewithme.dto.State;
+import ru.practicum.explorewithme.dto.StateComment;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * Объект событий
+ * Объект комментариев
  */
 @Data
 @Entity
 @Builder
 @AllArgsConstructor
+@Table(name = "comments")
 @RequiredArgsConstructor
-@Table(name = "requests")
-public class Request {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private String text;
     @ManyToOne
     @JoinColumn(name = "event_id")
     private Event event;
     @ManyToOne
-    @JoinColumn(name = "requester_id")
-    private User requester;
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    @JoinColumn(name = "author_id")
+    private User user;
+    @Column(name = "state_comment")
+    private StateComment stateComment;
+    @CreationTimestamp
     private LocalDateTime created;
 }

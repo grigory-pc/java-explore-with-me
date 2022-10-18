@@ -29,7 +29,6 @@ public class AdminUpdateEventRequestDto {
     private String description;
     @Future
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
     private boolean paid;
     @Positive

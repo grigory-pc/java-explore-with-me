@@ -37,7 +37,8 @@ public class AdminEventServiceImpl implements AdminEventService {
      */
     @Override
     public List<EventFullDto> getAllEventsByParameters(List<Long> userIds, List<State> states, List<Long> categoryIds,
-                                                       LocalDateTime rangeStart, LocalDateTime rangeEnd, int from, int size) {
+                                                       LocalDateTime rangeStart, LocalDateTime rangeEnd, int from,
+                                                       int size) {
         log.info("Получен запрос на получение списка событий");
 
         Pageable pageable = OffsetBasedPageRequest.of(from, size);

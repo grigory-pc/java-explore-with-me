@@ -10,10 +10,7 @@ import ru.practicum.explorewithme.dto.*;
 import ru.practicum.explorewithme.exception.ValidationException;
 import ru.practicum.explorewithme.mapper.EventMapper;
 import ru.practicum.explorewithme.mapper.RequestMapper;
-import ru.practicum.explorewithme.model.Category;
-import ru.practicum.explorewithme.model.Event;
-import ru.practicum.explorewithme.model.Request;
-import ru.practicum.explorewithme.model.User;
+import ru.practicum.explorewithme.model.*;
 import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.repository.RequestRepository;
 import ru.practicum.explorewithme.service.*;
@@ -65,8 +62,9 @@ public class UserEventServiceImpl implements UserEventService {
                 " пользователем: " + userId);
 
         adminUserService.getUser(userId);
+        long eventId = updateEventRequestDto.getId();
 
-        Event eventForUpdateByUser = eventService.getEvent(updateEventRequestDto.getId());
+        Event eventForUpdateByUser = eventService.getEvent(eventId);
 
         checkEventTime(eventForUpdateByUser);
         checkEventByInitiator(updateEventRequestDto.getId(), userId);
@@ -82,8 +80,9 @@ public class UserEventServiceImpl implements UserEventService {
         }
 
         Event updatedEvent = eventRepository.save(eventForUpdateByUser);
+        EventFullDto eventFullDto = eventMapper.toFullDto(updatedEvent);
 
-        return eventMapper.toFullDto(updatedEvent);
+        return eventFullDto;
     }
 
     /**

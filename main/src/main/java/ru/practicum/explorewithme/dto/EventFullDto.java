@@ -11,6 +11,7 @@ import ru.practicum.explorewithme.model.Category;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Dto события
@@ -26,12 +27,10 @@ public class EventFullDto {
     private Category category;
     private int confirmedRequests;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdOn;
     private String description;
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
     @NotNull
     private UserShortDto initiator;
@@ -40,7 +39,6 @@ public class EventFullDto {
     @Builder.Default
     private int participantLimit = 0;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime publishedOn;
     private boolean requestModeration;
     private State state;
@@ -48,4 +46,5 @@ public class EventFullDto {
     private String title;
     private int views;
     private Location location;
+    private List<CommentDto> comments;
 }

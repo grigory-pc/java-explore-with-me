@@ -1,5 +1,3 @@
-https://github.com/grigory-pc/java-explore-with-me/pull/1
-
 # java-explore-with-me
 Данный проект представляет сервис Афиши.
 Приложение позволяет:
@@ -31,6 +29,9 @@ https://github.com/grigory-pc/java-explore-with-me/pull/1
 26. Добавить пользователя сервиса.
 27. Удалить пользователя сервиса.
 28. Получить список всех пользователей сервиса.
+29. Оставить комментарий к событию.
+30. Отредактировать комментарий.
+31. Опубликовать или отклонить публикацию комментария.
 
 ---
 Приложение состоит из двух микросервисов:
@@ -45,7 +46,7 @@ https://github.com/grigory-pc/java-explore-with-me/pull/1
 
 <b>Схема базы данных (БД) основного сервиса:</b>
 
-![Схема БД сервиса java-explore-with-me main](https://github.com/grigory-pc/java-explore-with-me/blob/develop/Scheme_DB_Main_03.png?raw=true)
+![Схема БД сервиса java-explore-with-me main](https://github.com/grigory-pc/java-explore-with-me/blob/add-comment/Scheme_DB_Main_04.png?raw=true)
 
 <b>Схема (БД) сервиса статистики:</b>
 

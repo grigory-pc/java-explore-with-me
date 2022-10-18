@@ -16,10 +16,6 @@ public interface EventMapper {
     @Mapping(target = "locationLon", source = "location.lon")
     Event toEvent(NewEventDto dto);
 
-    @Mapping(target = "categoryId", source = "category.id")
-    @Mapping(target = "location.lat", source = "locationLat")
-    @Mapping(target = "location.lon", source = "locationLon")
-    NewEventDto toNewEventDto(Event event);
 
     @Mapping(target = "location.lat", source = "locationLat")
     @Mapping(target = "location.lon", source = "locationLon")
