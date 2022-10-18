@@ -41,7 +41,7 @@
 
 <b>Архитектура приложения:</b>
 
-![Архитектура приложения java-explore-with-me](https://github.com/grigory-pc/java-explore-with-me/blob/main/explore-with-me_design_03.png?raw=true)
+![Архитектура приложения java-explore-with-me](https://github.com/grigory-pc/java-explore-with-me/blob/main/explore-with-me_design_04.png?raw=true)
 
 
 <b>Схема базы данных (БД) основного сервиса:</b>
