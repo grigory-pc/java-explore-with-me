@@ -50,7 +50,7 @@
 
 <b>Схема (БД) сервиса статистики:</b>
 
-![Схема БД сервиса java-explore-with-me stats](https://github.com/grigory-pc/java-explore-with-me/blob/main/Scheme_DB_Stat_03.png?raw=true)
+![Схема БД сервиса java-explore-with-me stats](https://github.com/grigory-pc/java-explore-with-me/blob/main/Scheme_DB_Stat_04.png?raw=true)
 
 ---
 Приложение написано на Java.
